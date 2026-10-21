@@ -1,0 +1,42 @@
+---
+alwaysApply: true
+---
+# Arctic AI Association ry - Project Development Rules (Astro + Tailwind v4)
+
+## Project Overview
+- **Organization:** Arctic AI Association ry (Always use the full official name "Arctic AI Association ry" in page titles, headers, footers, metadata, and formal contexts).
+- **Site URL:** `https://arctic-ai-ry.github.io`
+- **Language:** All user-facing content, UI elements, metadata, and routes MUST be in Finnish (`lang="fi"`). Code, variables, and comments should be in English.
+- **Maintenance:** 100% AI-maintained directly via repository files. Do NOT introduce any external CMS.
+
+## Tech Stack & Strict Rules
+
+1. **Astro (Latest / v5+):**
+   - Use the Content Layer API: define collections in `src/content.config.ts` using the `glob` loader from `astro/loaders`. Do NOT use the legacy `src/content/config.ts` structure.
+   - Zero/minimal client-side JavaScript by default. Do NOT install React, Vue, or Svelte. Build everything using native `.astro` components and lightweight vanilla `<script>` tags when interactivity (like mobile menus) is needed.
+   - Use Astro's built-in `<Image />` component (`astro:assets`) for optimized images.
+
+2. **Tailwind CSS v4 (`@tailwindcss/vite`):**
+   - There is NO `tailwind.config.mjs` file in this project. Do not create one.
+   - Configure everything in `src/styles/global.css` using `@import "tailwindcss";` and `@plugin "@tailwindcss/typography";`.
+   - Always style rendered MDX/Markdown content using Tailwind Typography classes (e.g., `prose prose-slate dark:prose-invert max-w-none`).
+
+3. **Icons (`astro-icon` + `@iconify-json/lucide`):**
+   - Always import the icon component from `astro-icon/components`:
+     `import { Icon } from 'astro-icon/components';`
+   - Exclusively use the `lucide:` icon pack (e.g., `<Icon name="lucide:sparkles" class="w-5 h-5" />`, `lucide:calendar`, `lucide:users`, `lucide:arrow-right`).
+
+4. **Content (`@astrojs/mdx`):**
+   - Store news, articles, and events as `.mdx` files inside `src/content/` (e.g., `src/content/uutiset/`, `src/content/tapahtumat/`).
+
+## Directory Structure
+- `src/styles/global.css` – Global Tailwind v4 imports, plugins, and custom theme variables.
+- `src/layouts/Layout.astro` – Base HTML layout (includes `<head>`, SEO meta tags, responsive Header/Navigation, and Footer for Arctic AI Association ry).
+- `src/pages/` – Page routes (in Finnish, e.g., `index.astro`, `tapahtumat.astro`, `yhdistys.astro`, `jasenyys.astro`).
+- `src/components/` – Reusable `.astro` UI components.
+- `src/content/` – MDX content collections.
+- `src/content.config.ts` – Zod schemas for content collections.
+
+## Design & Theme Guidelines (Arctic AI Association ry)
+- **Aesthetic:** Modern, clean Nordic tech look. Deep slate/navy backgrounds (`slate-900` / `slate-950`) or crisp light mode with icy cyan/sky-blue accents (`cyan-400`, `sky-500`) representing "Arctic" and "AI".
+- **Accessibility & UX:** Ensure high contrast, semantic HTML5 (`<header>`, `<main>`, `<nav>`, `<footer>`), and full mobile responsiveness on every component.

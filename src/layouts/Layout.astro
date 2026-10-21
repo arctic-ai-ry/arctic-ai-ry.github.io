@@ -1,0 +1,46 @@
+---
+import '../styles/global.css';
+
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const siteName = 'Arctic AI Association ry';
+
+const {
+	title = 'Etusivu',
+	description = 'Testisivu – Arctic AI Association ry -sivuston kehitysversio.',
+} = Astro.props;
+
+const pageTitle = title === 'Etusivu' ? siteName : `${title} · ${siteName}`;
+---
+
+<!doctype html>
+<html lang="fi">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<meta name="description" content={description} />
+		<title>{pageTitle}</title>
+	</head>
+	<body class="min-h-screen bg-slate-950 text-slate-100 antialiased">
+		<header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur">
+			<div class="mx-auto flex max-w-3xl items-center px-4 py-4 sm:px-6">
+				<a href="/" class="font-semibold tracking-tight text-cyan-400 hover:text-cyan-300">
+					{siteName}
+				</a>
+			</div>
+		</header>
+		<main class="mx-auto max-w-3xl px-4 py-10 sm:px-6">
+			<slot />
+		</main>
+		<footer class="border-t border-slate-800">
+			<div class="mx-auto max-w-3xl px-4 py-6 text-sm text-slate-400 sm:px-6">
+				<p>© {new Date().getFullYear()} {siteName}</p>
+			</div>
+		</footer>
+	</body>
+</html>
