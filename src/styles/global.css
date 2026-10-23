@@ -1,2 +1,54 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+
+@theme {
+	--color-arctic-night: #060a12;
+}
+
+@layer base {
+	body {
+		@apply m-0 min-h-screen bg-arctic-night text-slate-100 antialiased;
+	}
+}
+
+/* Revontulitausta — asettelu ja animaatio (värit canvas-skriptissä) */
+#aurora-root {
+	position: fixed;
+	inset: 0;
+	z-index: 0;
+	pointer-events: none;
+}
+
+#aurora-veils {
+	position: absolute;
+	top: -6%;
+	left: -2%;
+	width: 104%;
+	height: 118%;
+	display: block;
+	transform-origin: 50% 22%;
+	filter: blur(10px);
+	will-change: transform;
+}
+
+#aurora-stars {
+	position: absolute;
+	inset: -280px -48px;
+	background-repeat: no-repeat;
+	will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	#aurora-stars {
+		animation: aurora-stars 5.5s ease-in-out infinite alternate;
+	}
+}
+
+@keyframes aurora-stars {
+	from {
+		opacity: 0.55;
+	}
+	to {
+		opacity: 1;
+	}
+}

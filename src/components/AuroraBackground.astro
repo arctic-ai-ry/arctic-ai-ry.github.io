@@ -1,0 +1,293 @@
+<div id="aurora-root" aria-hidden="true">
+	<div id="aurora-stars"></div>
+	<canvas id="aurora-veils"></canvas>
+</div>
+
+<script>
+	const stars = document.getElementById('aurora-stars');
+	const canvas = document.getElementById('aurora-veils');
+	if (!(stars instanceof HTMLElement) || !(canvas instanceof HTMLCanvasElement)) {
+		throw new Error('Aurora canvas missing');
+	}
+
+	const ctx = canvas.getContext('2d', { alpha: true, desynchronized: true });
+	if (!ctx) {
+		throw new Error('Canvas 2D context unavailable');
+	}
+
+	/** Hiiren vaakasiirron vaikutus sävyyn (±28° kun 0.5 * 56). */
+	const hueShift = 56;
+
+	const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	const frameInterval = 1000 / 10;
+
+	let width = 1;
+	let height = 1;
+	type StrandTone = 'soft' | 'bright' | 'dark';
+	let strands: { x: number; width: number; top: number; span: number; tone: StrandTone }[] = [];
+	const strandLiftMask = document.createElement('canvas');
+	const strandShadeMask = document.createElement('canvas');
+	const strandLiftCtx = strandLiftMask.getContext('2d');
+	const strandShadeCtx = strandShadeMask.getContext('2d');
+	let strandHue = -1;
+	let targetX = 0.5;
+	let targetY = 0.32;
+	let mouseX = 0.5;
+	let mouseY = 0.32;
+	let frame = 0;
+	let timer = 0;
+	let running = false;
+	let scrollY = 0;
+
+	const veilScaleY = 0.72;
+	const curtains: { hue: number; y: number; speed: number; alpha: number; depth?: number }[] = [
+		{ hue: 142, y: 0.24, speed: 0.22, alpha: 0.42, depth: 0.17 },
+		{ hue: 164, y: 0.3, speed: 0.16, alpha: 0.32, depth: 0.15 },
+		{ hue: 286, y: 0.27, speed: 0.13, alpha: 0.28, depth: 0.16 },
+	];
+
+	function paintStars() {
+		const dots = Array.from({ length: 36 }, () => {
+			const x = Math.random() * 100;
+			const y = 12 + Math.random() * 56;
+			const radius = (Math.random() * 1.1 + 0.4).toFixed(2);
+			const alpha = (0.35 + Math.random() * 0.55).toFixed(2);
+			return `radial-gradient(circle at ${x.toFixed(2)}% ${y.toFixed(2)}%, rgba(230,242,255,${alpha}) 0 ${radius}px, transparent ${Number(radius) + 0.8}px)`;
+		});
+		stars.style.backgroundImage = dots.join(',');
+	}
+
+	function resize() {
+		const viewW = window.innerWidth;
+		const viewH = window.innerHeight;
+		const maxPixels = 420_000;
+		const widthFactor = viewW >= 1400 ? 0.5 : viewW >= 900 ? 0.42 : 0.34;
+		let targetW = Math.round(Math.min(viewW * widthFactor, 880));
+		targetW = Math.max(260, targetW);
+		let targetH = Math.round(targetW * (viewH / Math.max(viewW, 1)) * 1.12);
+		const pixels = targetW * targetH;
+		if (pixels > maxPixels) {
+			const scale = Math.sqrt(maxPixels / pixels);
+			targetW = Math.round(targetW * scale);
+			targetH = Math.round(targetH * scale);
+		}
+		width = targetW;
+		height = targetH;
+		canvas.width = width;
+		canvas.height = height;
+		const strandCount = Math.round(Math.min(72, Math.max(12, viewW / 16)));
+		strands = Array.from({ length: strandCount }, (_, index) => {
+			const span = 0.28 + Math.random() * 0.72;
+			const roll = Math.random();
+			const tone: StrandTone = roll < 0.2 ? 'bright' : roll < 0.62 ? 'soft' : 'dark';
+			return {
+				x: ((index + Math.random() * 0.85) / strandCount) * width,
+				width: 1.5 + Math.random() * 2.5,
+				top: Math.random() * (1 - span),
+				span,
+				tone,
+			};
+		});
+		strandHue = -1;
+	}
+
+	function paintStrandMasks(hue: number) {
+		if (!strandLiftCtx || !strandShadeCtx) return;
+		for (const mask of [strandLiftMask, strandShadeMask]) {
+			if (mask.width !== width || mask.height !== height) {
+				mask.width = width;
+				mask.height = height;
+			}
+		}
+		strandLiftCtx.clearRect(0, 0, width, height);
+		strandShadeCtx.clearRect(0, 0, width, height);
+
+		const soft = `hsla(${hue}, 72%, 70%, 0.03)`;
+		const bright = `hsla(${hue}, 78%, 76%, 0.058)`;
+		const shade = `hsla(${(hue + 40) % 360}, 32%, 5%, 0.3)`;
+
+		for (const strand of strands) {
+			const y = strand.top * height;
+			const h = strand.span * height;
+			if (strand.tone === 'dark') {
+				strandShadeCtx.fillStyle = shade;
+				strandShadeCtx.fillRect(strand.x, y, strand.width, h);
+				continue;
+			}
+			strandLiftCtx.fillStyle = strand.tone === 'bright' ? bright : soft;
+			strandLiftCtx.fillRect(strand.x, y, strand.width, h);
+		}
+		strandHue = hue;
+	}
+
+	function onPointer(event: PointerEvent) {
+		targetX = event.clientX / Math.max(window.innerWidth, 1);
+		targetY = event.clientY / Math.max(window.innerHeight, 1);
+	}
+
+	function veilPoint(nx: number, time: number, layer: (typeof curtains)[number], index: number) {
+		const cursor = Math.exp(-((nx - mouseX) ** 2) * 6);
+		const drift = (mouseX - 0.5) * 0.08;
+		const wave =
+			Math.sin(nx * 3.2 + time * layer.speed + index) * 0.035 +
+			Math.sin(nx * 1.3 - time * layer.speed * 0.65 + index) * 0.055;
+		const y = layer.y + drift + (0.42 - mouseY) * 0.16 + cursor * 0.07 + wave;
+		const depth = (layer.depth ?? 0.17) + cursor * 0.07 + (1 - mouseY) * 0.035;
+		return { top: y * height, bottom: (y + depth) * height };
+	}
+
+	function traceVeil(time: number, layer: (typeof curtains)[number], index: number) {
+		const step = Math.max(4, width / 36);
+		const points: { x: number; top: number; bottom: number }[] = [];
+		for (let x = -step; x <= width + step; x += step) {
+			const point = veilPoint(x / width, time, layer, index);
+			points.push({ x, top: point.top, bottom: point.bottom });
+		}
+
+		ctx.beginPath();
+		points.forEach((point, i) => {
+			if (i === 0) {
+				ctx.moveTo(point.x, point.top);
+				return;
+			}
+			const prev = points[i - 1];
+			const midX = (prev.x + point.x) / 2;
+			ctx.quadraticCurveTo(prev.x, prev.top, midX, (prev.top + point.top) / 2);
+		});
+		const last = points[points.length - 1];
+		ctx.lineTo(last.x, last.top);
+		for (let i = points.length - 1; i >= 0; i--) {
+			const point = points[i];
+			if (i === points.length - 1) {
+				ctx.lineTo(point.x, point.bottom);
+				continue;
+			}
+			const next = points[i + 1];
+			const midX = (next.x + point.x) / 2;
+			ctx.quadraticCurveTo(next.x, next.bottom, midX, (next.bottom + point.bottom) / 2);
+		}
+		ctx.closePath();
+		return points;
+	}
+
+	function drawCurtain(time: number, layer: (typeof curtains)[number], index: number) {
+		const hue = (((layer.hue + (mouseX - 0.5) * hueShift) % 360) + 360) % 360;
+		const points = traceVeil(time, layer, index);
+		let crest = points[0].top;
+		let foot = points[0].bottom;
+		for (const point of points) {
+			if (point.top < crest) crest = point.top;
+			if (point.bottom > foot) foot = point.bottom;
+		}
+
+		const glow = ctx.createLinearGradient(0, crest, 0, foot);
+		const strength = layer.alpha * (0.4 + (1 - mouseY) * 0.22);
+		glow.addColorStop(0, `hsla(${hue}, 90%, 58%, 0)`);
+		glow.addColorStop(0.22, `hsla(${hue}, 85%, 52%, ${strength * 0.7})`);
+		glow.addColorStop(0.62, `hsla(${(hue + 24) % 360}, 75%, 38%, ${strength * 0.22})`);
+		glow.addColorStop(1, `hsla(${hue}, 70%, 24%, 0)`);
+		ctx.fillStyle = glow;
+		ctx.fill();
+	}
+
+	function drawStrands(time: number) {
+		const hue = Math.round((((148 + (mouseX - 0.5) * hueShift) % 360) + 360) % 360 / 18) * 18;
+		if (hue !== strandHue) paintStrandMasks(hue);
+
+		const points = traceVeil(time, { hue, y: 0.25, speed: 0.18, alpha: 0, depth: 0.32 }, 0);
+		let crest = points[0].top;
+		let foot = points[0].bottom;
+		for (const point of points) {
+			if (point.top < crest) crest = point.top;
+			if (point.bottom > foot) foot = point.bottom;
+		}
+		ctx.save();
+		ctx.clip();
+		const sway = Math.sin(time * 0.35) * width * 0.012;
+		const bandTop = crest;
+		const bandH = foot - crest;
+
+		ctx.globalCompositeOperation = 'screen';
+		ctx.globalAlpha = 0.7 + 0.24 * Math.sin(time * 0.6);
+		ctx.drawImage(strandLiftMask, sway, bandTop, width, bandH);
+
+		ctx.globalCompositeOperation = 'multiply';
+		ctx.globalAlpha = 0.52 + 0.16 * Math.sin(time * 0.45 + 1.2);
+		ctx.drawImage(strandShadeMask, sway, bandTop, width, bandH);
+		ctx.globalCompositeOperation = 'source-over';
+		ctx.restore();
+	}
+
+	function applyParallax() {
+		const depth = reducedMotion ? 0 : Math.min(scrollY, 1200);
+		const starX = (0.5 - mouseX) * 22;
+		const starY = (0.38 - mouseY) * 12 - depth * 0.22;
+		const veilY = -depth * 0.06;
+		stars.style.transform = `translate3d(${starX.toFixed(1)}px, ${starY.toFixed(1)}px, 0)`;
+		canvas.style.transform = `translate3d(0, ${veilY.toFixed(1)}px, 0) scale(1, ${veilScaleY})`;
+	}
+
+	function schedule() {
+		timer = window.setTimeout(() => {
+			timer = 0;
+			frame = requestAnimationFrame(draw);
+		}, frameInterval);
+	}
+
+	function draw(now: number) {
+		if (document.hidden) {
+			running = false;
+			return;
+		}
+
+		const time = reducedMotion ? 1.4 : now * 0.001;
+		mouseX += (targetX - mouseX) * (reducedMotion ? 1 : 0.25);
+		mouseY += (targetY - mouseY) * (reducedMotion ? 1 : 0.25);
+		applyParallax();
+
+		ctx.clearRect(0, 0, width, height);
+		ctx.globalCompositeOperation = 'screen';
+		for (let index = 0; index < curtains.length; index++) {
+			drawCurtain(time, curtains[index], index);
+		}
+		drawStrands(time);
+		ctx.globalCompositeOperation = 'source-over';
+		if (!reducedMotion) schedule();
+	}
+
+	function start() {
+		if (running || reducedMotion) return;
+		running = true;
+		frame = requestAnimationFrame(draw);
+	}
+
+	function stop() {
+		running = false;
+		cancelAnimationFrame(frame);
+		clearTimeout(timer);
+	}
+
+	paintStars();
+	resize();
+	let resizeTimer = 0;
+	window.addEventListener('resize', () => {
+		clearTimeout(resizeTimer);
+		resizeTimer = window.setTimeout(resize, 150);
+	});
+	window.addEventListener('pointermove', onPointer, { passive: true });
+	window.addEventListener(
+		'scroll',
+		() => {
+			scrollY = window.scrollY;
+			applyParallax();
+		},
+		{ passive: true },
+	);
+	document.addEventListener('visibilitychange', () => {
+		if (document.hidden) stop();
+		else start();
+	});
+
+	if (reducedMotion) draw(performance.now());
+	else start();
+</script>
