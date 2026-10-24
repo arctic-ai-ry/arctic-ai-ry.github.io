@@ -11,6 +11,6 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()]
   },
-  site: 'https://arctic-ai-ry.github.io',
+  site: 'https://arcai.fi',
   integrations: [mdx(), icon(), sitemap()]
 });

@@ -5,7 +5,7 @@ alwaysApply: true
 
 ## Project Overview
 - **Organization:** Arctic AI Association ry (Always use the full official name "Arctic AI Association ry" in page titles, headers, footers, metadata, and formal contexts).
-- **Site URL:** `https://arctic-ai-ry.github.io`
+- **Site URL:** `https://arcai.fi` (canonical; `astro.config.mjs` → `site`)
 - **Language:** All user-facing content, UI elements, metadata, and routes MUST be in Finnish (`lang="fi"`). Code, variables, and comments should be in English.
 - **Maintenance:** 100% AI-maintained directly via repository files. Do NOT introduce any external CMS.
 

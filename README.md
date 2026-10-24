@@ -1,6 +1,6 @@
 # arctic-ai-ry.github.io
 
-[Arctic AI Association ry](https://arctic-ai-ry.github.io) – yhdistyksen verkkosivut GitHub Pagesissa.
+[Arctic AI Association ry](https://arcai.fi) – yhdistyksen verkkosivut ([arcai.fi](https://arcai.fi), julkaisu GitHub Pagesissa).
 
 Staattinen Astro-sivusto: etusivu, yhteinen layout ja revontulitausta (`AuroraBackground`).
 
