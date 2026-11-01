@@ -1,22 +1,66 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+@import "@fontsource-variable/familjen-grotesk";
 
 @theme {
-	--color-arctic-night: #060a12;
+	--color-ink: #013047;
+	--color-ink-soft: #1c4a62;
+	--color-fjord: #06547f;
+	--color-aurora: #17b588;
+	--color-flare: #1efd6e;
+	--color-snow: #fefefe;
+	--color-mist: #f3f7f5;
+	--font-sans: "Familjen Grotesk Variable", "Familjen Grotesk", ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {
+	html {
+		scroll-behavior: smooth;
+	}
+
 	body {
-		@apply m-0 min-h-screen bg-arctic-night text-slate-100 antialiased;
+		@apply m-0 min-h-screen bg-snow font-sans text-ink antialiased;
+	}
+
+	:focus-visible {
+		outline: 2px solid var(--color-fjord);
+		outline-offset: 3px;
+	}
+
+	section[id] {
+		scroll-margin-top: 5.5rem;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		html {
+			scroll-behavior: auto;
+		}
 	}
 }
 
-/* Revontulitausta — asettelu ja animaatio (värit canvas-skriptissä) */
+.skip-link {
+	position: absolute;
+	left: 1rem;
+	top: 0;
+	z-index: 50;
+	transform: translateY(-120%);
+	background: var(--color-ink);
+	color: var(--color-snow);
+	padding: 0.6rem 0.9rem;
+	border-radius: 0.25rem;
+}
+
+.skip-link:focus {
+	transform: translateY(0.75rem);
+}
+
+/* Revontulitausta on läpinäkyvä ja jää sivun värin päälle. */
 #aurora-root {
 	position: fixed;
 	inset: 0;
 	z-index: 0;
 	pointer-events: none;
+	background: transparent;
 }
 
 #aurora-veils {
@@ -26,29 +70,9 @@
 	width: 104%;
 	height: 118%;
 	display: block;
+	background: transparent;
 	transform-origin: 50% 22%;
 	filter: blur(10px);
 	will-change: transform;
 }
 
-#aurora-stars {
-	position: absolute;
-	inset: -280px -48px;
-	background-repeat: no-repeat;
-	will-change: transform, opacity;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-	#aurora-stars {
-		animation: aurora-stars 5.5s ease-in-out infinite alternate;
-	}
-}
-
-@keyframes aurora-stars {
-	from {
-		opacity: 0.55;
-	}
-	to {
-		opacity: 1;
-	}
-}

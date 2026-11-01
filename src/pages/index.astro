@@ -1,16 +1,231 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+const description =
+	'Arctic AI Association ry on oululainen yhdistys, joka vie tekoälyn puheista tuotantoon Pohjois-Suomessa.';
 ---
 
-<Layout>
-	<article class="prose prose-invert prose-slate max-w-none">
-		<h1>Testisivu</h1>
-		<p>
-			Tämä on väliaikainen etusivu. Sivusto rakennetaan Astroon ja julkaistaan osoitteessa <a
-				href="https://arcai.fi">arcai.fi</a> (GitHub Pages).
+<Layout title="Arctic AI Association ry" description={description}>
+	<section>
+		<div class="mx-auto grid max-w-6xl items-center gap-10 px-4 pt-14 pb-16 sm:px-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(16rem,0.85fr)] lg:pt-20 lg:pb-24">
+			<div>
+				<p class="text-sm font-semibold text-fjord">Rekisteröity yhdistys · Oulu</p>
+				<h1 class="mt-4 max-w-3xl text-balance text-[clamp(2.6rem,6vw,4.6rem)] leading-[1.05] font-semibold tracking-tight">
+					Viemme tekoälyn puheista tuotantoon.
+				</h1>
+				<p class="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">
+					Arctic AI Association ry on riippumaton yhteisö. Kokoamme Pohjois-Suomen yritykset, osaajat,
+					tutkimuksen ja julkisen sektorin hyödyntämään tekoälyä käytännössä.
+				</p>
+				<p class="mt-5 max-w-xl border-l-2 border-aurora pl-4 text-lg font-medium">
+					Pohjoisen älyä – arjessa ja maailmalla.
+				</p>
+				<div class="mt-8 flex flex-wrap gap-3">
+					<a
+						href="#jasenyys"
+						class="inline-flex min-h-11 items-center bg-ink px-5 text-sm font-semibold text-snow hover:bg-fjord"
+					>
+						Jäsenyys
+					</a>
+					<a
+						href="#toiminta"
+						class="inline-flex min-h-11 items-center border border-ink/20 px-5 text-sm font-semibold hover:border-ink"
+					>
+						Mitä teemme
+					</a>
+				</div>
+			</div>
+			<img
+				src="/logo.png"
+				alt="Arctic AI"
+				width="623"
+				height="384"
+				class="mx-auto w-full max-w-md lg:max-w-none"
+			/>
+		</div>
+		<p class="mx-auto max-w-6xl border-y border-ink/10 px-4 py-4 text-lg font-medium sm:px-6">
+			<span class="text-fjord">Visio.</span> Oulusta Pohjolan tekoälykeskus.
 		</p>
-		<p>
-			<strong>Arctic AI Association ry</strong> – pohjoisen tekoälyyhteisön kotisivu on tulossa.
-		</p>
-	</article>
+	</section>
+
+	<section id="tarkoitus" class="bg-mist/70">
+		<div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
+			<p class="text-sm font-semibold text-fjord">01</p>
+			<h2 class="mt-2 max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl">Miksi yhdistys on olemassa</h2>
+			<p class="mt-6 max-w-3xl text-lg leading-relaxed text-ink-soft">
+				Yhdistys edistää tekoälyn ja älykkäiden järjestelmien tuntemusta, tutkimusta ja osaamista sekä niiden
+				vastuullista, turvallista ja eettisesti kestävää käyttöä. Se on asiantuntijoiden, tutkijoiden,
+				opiskelijoiden, yritysten, koulujen ja julkisten toimijoiden verkosto erityisesti Pohjois-Suomessa.
+			</p>
+			<ul class="mt-12 grid gap-10 sm:grid-cols-3">
+				<li>
+					<h3 class="text-lg font-semibold">Tekeminen edellä</h3>
+					<p class="mt-2 leading-relaxed text-ink-soft">
+						Pilotit, prototyypit ja käyttöönotot. Tavoitteena ovat ratkaisut, jotka päätyvät käyttöön.
+					</p>
+				</li>
+				<li>
+					<h3 class="text-lg font-semibold">Neutraali alusta</h3>
+					<p class="mt-2 leading-relaxed text-ink-soft">
+						Yhdistys palvelee koko alueen etua. Kaupallinen myynti pidetään erillään aatteellisesta toiminnasta.
+					</p>
+				</li>
+				<li>
+					<h3 class="text-lg font-semibold">Näytämme itse</h3>
+					<p class="mt-2 leading-relaxed text-ink-soft">
+						Jaamme jäsenille ratkaisuja, joita käytämme omassa arjessamme, myös hallinnon rutiineissa.
+					</p>
+				</li>
+			</ul>
+		</div>
+	</section>
+
+	<section id="toiminta">
+		<div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
+			<p class="text-sm font-semibold text-fjord">02</p>
+			<h2 class="mt-2 max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl">Mitä teemme</h2>
+			<p class="mt-6 max-w-3xl text-lg leading-relaxed text-ink-soft">
+				Verkostoituminen on tärkein. Osaaminen, kokeilut ja sääntely ovat suuntia, jotka muotoutuvat jäsenistön
+				kanssa.
+			</p>
+			<ol class="mt-12 divide-y divide-ink/10 border-y border-ink/10">
+				<li class="grid gap-2 py-6 sm:grid-cols-[8rem_1fr] sm:gap-8">
+					<p class="font-semibold text-fjord">Verkosto</p>
+					<p class="leading-relaxed text-ink-soft">
+						Kohtaamisia, joissa yritykset, osaajat, tutkimus ja julkinen sektori löytävät toisensa.
+					</p>
+				</li>
+				<li class="grid gap-2 py-6 sm:grid-cols-[8rem_1fr] sm:gap-8">
+					<p class="font-semibold text-fjord">Osaaminen</p>
+					<p class="leading-relaxed text-ink-soft">
+						Koulutuksia ja työpajoja, myös tekoälylukutaidon tueksi.
+					</p>
+				</li>
+				<li class="grid gap-2 py-6 sm:grid-cols-[8rem_1fr] sm:gap-8">
+					<p class="font-semibold text-fjord">Kokeilut</p>
+					<p class="leading-relaxed text-ink-soft">
+						Tekoälyn viemistä kokeiluista käyttöön.
+					</p>
+				</li>
+				<li class="grid gap-2 py-6 sm:grid-cols-[8rem_1fr] sm:gap-8">
+					<p class="font-semibold text-fjord">Sääntely</p>
+					<p class="leading-relaxed text-ink-soft">
+						Keskustelua tekoälyasetuksesta, tekijänoikeuksista ja datasuvereniteetista.
+					</p>
+				</li>
+			</ol>
+			<p class="mt-8 max-w-3xl leading-relaxed text-ink-soft">
+				Verkostoa kootaan Pohjois-Suomessa. Tekoäly kytkeytyy alueen vahvuuksiin: terveysteknologiaan, älykkääseen
+				teollisuuteen, arktiseen logistiikkaan, matkailuun sekä puolustus- ja kaksikäyttöteknologiaan.
+			</p>
+		</div>
+	</section>
+
+	<section id="kenelle" class="bg-mist/70">
+		<div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
+			<p class="text-sm font-semibold text-fjord">03</p>
+			<h2 class="mt-2 max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl">Kenelle</h2>
+			<p class="mt-6 max-w-3xl text-lg leading-relaxed text-ink-soft">
+				Pääpaino on organisaatioissa, koska suurin vaikutus syntyy työn ja liiketoiminnan kautta. Mukaan ovat
+				tervetulleita kaikki tekoälystä kiinnostuneet.
+			</p>
+			<ul class="mt-12 grid gap-x-12 sm:grid-cols-2">
+				<li class="border-t border-ink/15 py-5">
+					<h3 class="font-semibold">Yritykset</h3>
+					<p class="mt-1 leading-relaxed text-ink-soft">
+						Koulutusta, sääntelytukea, rahoitusneuvontaa ja oppia muiden kokemuksista.
+					</p>
+				</li>
+				<li class="border-t border-ink/15 py-5">
+					<h3 class="font-semibold">Startupit</h3>
+					<p class="mt-1 leading-relaxed text-ink-soft">
+						Näkyvyyttä, verkostoja ja tilaisuuksia esitellä omia ratkaisuja.
+					</p>
+				</li>
+				<li class="border-t border-ink/15 py-5">
+					<h3 class="font-semibold">Tekoälyammattilaiset ja kehittäjät</h3>
+					<p class="mt-1 leading-relaxed text-ink-soft">Työpajoja, vertaistukea ja ammatillinen verkosto.</p>
+				</li>
+				<li class="border-t border-ink/15 py-5">
+					<h3 class="font-semibold">Tutkijat, opiskelijat ja oppilaitokset</h3>
+					<p class="mt-1 leading-relaxed text-ink-soft">
+						Hackathoneja, opinnäyte- ja harjoitteluyhteyksiä sekä reitti yrityksiin.
+					</p>
+				</li>
+				<li class="border-t border-ink/15 py-5">
+					<h3 class="font-semibold">Julkinen sektori</h3>
+					<p class="mt-1 leading-relaxed text-ink-soft">
+						Neutraali asiantuntijakumppani elinkeinoelämän ja julkisten tekoälyratkaisujen tueksi.
+					</p>
+				</li>
+				<li class="border-t border-ink/15 py-5">
+					<h3 class="font-semibold">Työntekijät ja muut yksityishenkilöt</h3>
+					<p class="mt-1 leading-relaxed text-ink-soft">Osaamista ja keinoja käyttää tekoälyä omassa työssä.</p>
+				</li>
+			</ul>
+		</div>
+	</section>
+
+	<section id="jasenyys" class="bg-ink/80 text-snow">
+		<div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
+			<p class="text-sm font-semibold text-aurora">04</p>
+			<h2 class="mt-2 max-w-2xl text-3xl font-semibold tracking-tight text-snow sm:text-4xl">Jäsenyys</h2>
+			<p class="mt-6 max-w-3xl text-lg leading-relaxed text-snow/80">
+				Jäseneksi voi liittyä henkilö tai yhteisö, joka hyväksyy yhdistyksen tarkoituksen ja säännöt. Hallitus
+				hyväksyy varsinaiset jäsenet ja kannattajajäsenet hakemuksesta. Sähköinen jäsenhakemus julkaistaan tällä
+				sivulla.
+			</p>
+			<div class="mt-10 overflow-x-auto">
+				<table class="w-full min-w-[28rem] text-left text-sm">
+					<caption class="mb-4 text-left text-base font-semibold text-snow">
+						Jäsenmaksut kaudelle 14.10.2026–31.12.2027
+					</caption>
+					<thead>
+						<tr class="border-b border-snow/20 text-snow/70">
+							<th scope="col" class="py-2 pr-4 font-medium">Jäsenluokka</th>
+							<th scope="col" class="py-2 text-right font-medium">Vuosimaksu</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="border-b border-snow/15">
+							<th scope="row" class="py-3 pr-4 font-medium">Henkilöjäsen</th>
+							<td class="py-3 text-right tabular-nums">20 €</td>
+						</tr>
+						<tr class="border-b border-snow/15">
+							<th scope="row" class="py-3 pr-4 font-medium">Opiskelija- tai eläkeläisjäsen</th>
+							<td class="py-3 text-right tabular-nums">10 €</td>
+						</tr>
+						<tr class="border-b border-snow/15">
+							<th scope="row" class="py-3 pr-4 font-medium">Yritys, liikevaihto enintään 1 milj. €</th>
+							<td class="py-3 text-right tabular-nums">50 €</td>
+						</tr>
+						<tr class="border-b border-snow/15">
+							<th scope="row" class="py-3 pr-4 font-medium">Yritys, liikevaihto yli 1 milj. €</th>
+							<td class="py-3 text-right tabular-nums">200 €</td>
+						</tr>
+						<tr class="border-b border-snow/15">
+							<th scope="row" class="py-3 pr-4 font-medium">
+								Muu yleishyödyllinen toimija
+								<span class="mt-1 block font-normal text-snow/70">
+									Koulut, kunnat, tutkimuslaitokset ja yhdistykset
+								</span>
+							</th>
+							<td class="py-3 text-right align-top tabular-nums">200 €</td>
+						</tr>
+						<tr class="border-b border-snow/15">
+							<th scope="row" class="py-3 pr-4 font-medium">Kannattajajäsen, henkilö</th>
+							<td class="py-3 text-right tabular-nums">20 €</td>
+						</tr>
+						<tr>
+							<th scope="row" class="py-3 pr-4 font-medium">Kannattajajäsen, yhteisö</th>
+							<td class="py-3 text-right tabular-nums">200 €</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<p class="mt-6 max-w-3xl text-sm leading-relaxed text-snow/70">
+				Kannattajajäsenellä on kokouksissa läsnäolo- ja puheoikeus. Varsinaisella jäsenellä on myös äänioikeus.
+			</p>
+		</div>
+	</section>
 </Layout>

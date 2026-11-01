@@ -2,7 +2,7 @@
 
 [Arctic AI Association ry](https://arcai.fi) – yhdistyksen verkkosivut ([arcai.fi](https://arcai.fi), julkaisu GitHub Pagesissa).
 
-Staattinen Astro-sivusto: etusivu, yhteinen layout ja revontulitausta (`AuroraBackground`).
+Staattinen Astro-sivusto: yhdistyksen landing page, yhteinen layout ja läpinäkyvä revontulitausta (`AuroraBackground`).
 
 ## Teknologia
 
@@ -44,6 +44,10 @@ src/
   layouts/        Layout.astro
   pages/          index.astro
   styles/         global.css
+public/
+  logo.png        tunnus ja sanamerkki
+  mark.png        tunnus ilman sanamerkkiä
+  favicon.png
 .github/workflows/deploy.yml
 ```
 
