@@ -42,7 +42,8 @@ Konfiguroitu `astro.config.mjs` → `integrations`:
 src/
   components/     AuroraBackground.astro
   layouts/        Layout.astro
-  pages/          index.astro
+  i18n/           ui.ts (fi, en)
+  pages/          index.astro → /fi/, fi/index.astro, en/index.astro
   styles/         global.css
 public/
   logo.png        tunnus ja sanamerkki

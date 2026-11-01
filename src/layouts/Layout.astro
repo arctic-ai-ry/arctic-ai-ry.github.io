@@ -1,25 +1,22 @@
 ---
+import { getAbsoluteLocaleUrl, getRelativeLocaleUrl } from 'astro:i18n';
 import AuroraBackground from '../components/AuroraBackground.astro';
+import { locales, type SiteCopy } from '../i18n/ui';
 import '../styles/global.css';
 
 interface Props {
-	title?: string;
-	description?: string;
+	copy: SiteCopy;
 }
 
 const siteName = 'Arctic AI Association ry';
-
-const {
-	title = siteName,
-	description = 'Arctic AI Association ry on oululainen yhdistys, joka vie tekoälyn puheista tuotantoon Pohjois-Suomessa.',
-} = Astro.props;
-
-const pageTitle = title === siteName ? siteName : `${title} · ${siteName}`;
+const { copy } = Astro.props;
+const pageTitle = siteName;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const home = getRelativeLocaleUrl(copy.locale);
 ---
 
 <!doctype html>
-<html lang="fi">
+<html lang={copy.htmlLang}>
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
@@ -27,51 +24,95 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 		<meta name="theme-color" content="#fefefe" />
 		<link rel="icon" type="image/png" href="/favicon.png" />
 		<link rel="canonical" href={canonical} />
+		{
+			locales.map((locale) => (
+				<link rel="alternate" hreflang={locale} href={getAbsoluteLocaleUrl(locale)} />
+			))
+		}
+		<link rel="alternate" hreflang="x-default" href={getAbsoluteLocaleUrl('fi')} />
 		<meta name="generator" content={Astro.generator} />
-		<meta name="description" content={description} />
+		<meta name="description" content={copy.description} />
 		<meta property="og:type" content="website" />
-		<meta property="og:locale" content="fi_FI" />
+		<meta property="og:locale" content={copy.ogLocale} />
+		{
+			locales
+				.filter((locale) => locale !== copy.locale)
+				.map((locale) => <meta property="og:locale:alternate" content={locale === 'fi' ? 'fi_FI' : 'en_GB'} />)
+		}
 		<meta property="og:site_name" content={siteName} />
 		<meta property="og:title" content={pageTitle} />
-		<meta property="og:description" content={description} />
+		<meta property="og:description" content={copy.description} />
 		<meta property="og:url" content={canonical} />
 		<title>{pageTitle}</title>
-		<script type="application/ld+json" set:html={JSON.stringify({
-			'@context': 'https://schema.org',
-			'@type': 'Organization',
-			name: siteName,
-			legalName: siteName,
-			url: 'https://arcai.fi',
-			identifier: '3663885-8',
-			description,
-			address: {
-				'@type': 'PostalAddress',
-				addressLocality: 'Oulu',
-				addressCountry: 'FI',
-			},
-		})} />
+		<script
+			type="application/ld+json"
+			set:html={JSON.stringify({
+				'@context': 'https://schema.org',
+				'@type': 'Organization',
+				name: siteName,
+				legalName: siteName,
+				url: 'https://arcai.fi',
+				identifier: '3663885-8',
+				description: copy.description,
+				inLanguage: copy.htmlLang,
+				address: {
+					'@type': 'PostalAddress',
+					addressLocality: 'Oulu',
+					addressCountry: 'FI',
+				},
+			})}
+		/>
 	</head>
 	<body>
 		<AuroraBackground />
-		<a class="skip-link" href="#sisalto">Siirry sisältöön</a>
+		<a class="skip-link" href="#sisalto">{copy.skip}</a>
 		<div class="relative z-10 flex min-h-screen flex-col">
 			<div class="h-1 bg-linear-to-r from-fjord via-aurora to-flare" aria-hidden="true"></div>
 			<header class="sticky top-0 z-20 border-b border-ink/10 bg-snow/90 backdrop-blur-md">
 				<div
 					class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-3 px-4 py-3 sm:px-6"
 				>
-					<a href="/" class="flex items-center gap-3 text-ink">
+					<a href={home} class="flex items-center gap-3 text-ink">
 						<img src="/mark.png" alt="" width="623" height="285" class="h-9 w-auto" />
 						<span class="text-sm font-semibold tracking-tight sm:text-base">{siteName}</span>
 					</a>
-					<nav aria-label="Sivun osiot">
-						<ul class="flex flex-wrap gap-x-5 gap-y-1 text-sm font-medium text-ink-soft">
-							<li><a class="hover:text-ink" href="/#tarkoitus">Tarkoitus</a></li>
-							<li><a class="hover:text-ink" href="/#toiminta">Toiminta</a></li>
-							<li><a class="hover:text-ink" href="/#kenelle">Kenelle</a></li>
-							<li><a class="hover:text-ink" href="/#jasenyys">Jäsenyys</a></li>
-						</ul>
-					</nav>
+					<div class="flex flex-wrap items-center gap-x-6 gap-y-2">
+						<nav aria-label={copy.navLabel}>
+							<ul class="flex flex-wrap gap-x-5 gap-y-1 text-sm font-medium text-ink-soft">
+								{
+									copy.nav.map((item) => (
+										<li>
+											<a class="hover:text-ink" href={`${home}#${item.id}`}>
+												{item.label}
+											</a>
+										</li>
+									))
+								}
+							</ul>
+						</nav>
+						<nav aria-label={copy.languageLabel}>
+							<ul class="flex gap-3 text-sm">
+								{
+									locales.map((locale) => (
+										<li>
+											<a
+												href={getRelativeLocaleUrl(locale)}
+												hreflang={locale}
+												lang={locale}
+												aria-current={locale === copy.locale ? 'page' : undefined}
+												class:list={[
+													'hover:text-ink',
+													locale === copy.locale ? 'font-semibold text-ink' : 'text-ink-soft',
+												]}
+											>
+												{locale.toUpperCase()}
+											</a>
+										</li>
+									))
+								}
+							</ul>
+						</nav>
+					</div>
 				</div>
 			</header>
 			<main id="sisalto" class="flex-1">
@@ -81,16 +122,13 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 				<div class="mx-auto max-w-6xl px-4 py-10 text-sm text-ink-soft sm:px-6">
 					<p class="font-semibold text-ink">{siteName}</p>
 					<p class="mt-2">
-						Y-tunnus 3663885-8
+						{copy.businessId}
 						<span aria-hidden="true"> · </span>
-						Kotipaikka Oulu
+						{copy.domicile}
 						<span aria-hidden="true"> · </span>
-						Perustettu 14.10.2026
+						{copy.founded}
 					</p>
-					<p class="mt-4 max-w-3xl">
-						Hallitus: Elina Heikkinen (puheenjohtaja), Janne Ikola, Kari Vierimaa, Teuvo Virsu, Pekka
-						Salo ja Satu Nikula. Varajäsen Petteri Heikkinen.
-					</p>
+					<p class="mt-4 max-w-3xl">{copy.board}</p>
 					<p class="mt-6">© {new Date().getFullYear()} {siteName}</p>
 				</div>
 			</footer>

@@ -12,5 +12,13 @@ export default defineConfig({
     plugins: [tailwindcss()]
   },
   site: 'https://arcai.fi',
+  i18n: {
+    defaultLocale: 'fi',
+    locales: ['fi', 'en'],
+    routing: {
+      prefixDefaultLocale: true,
+      redirectToDefaultLocale: true,
+    },
+  },
   integrations: [mdx(), icon(), sitemap()]
 });

@@ -1,0 +1,150 @@
+---
+import Layout from '../layouts/Layout.astro';
+import type { SiteCopy } from '../i18n/ui';
+
+interface Props {
+	copy: SiteCopy;
+}
+
+const { copy } = Astro.props;
+const purpose = copy.nav[0];
+const activity = copy.nav[1];
+const audience = copy.nav[2];
+const membership = copy.nav[3];
+---
+
+<Layout copy={copy}>
+	<section>
+		<div
+			class="mx-auto grid max-w-6xl items-center gap-10 px-4 pt-14 pb-16 sm:px-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(16rem,0.85fr)] lg:pt-20 lg:pb-24"
+		>
+			<div>
+				<p class="text-sm font-semibold text-fjord">{copy.heroEyebrow}</p>
+				<h1
+					class="mt-4 max-w-3xl text-balance text-[clamp(2.6rem,6vw,4.6rem)] leading-[1.05] font-semibold tracking-tight"
+				>
+					{copy.heroTitle}
+				</h1>
+				<p class="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">{copy.heroLead}</p>
+				<p class="mt-5 max-w-xl border-l-2 border-aurora pl-4 text-lg font-medium">{copy.tagline}</p>
+				<div class="mt-8 flex flex-wrap gap-3">
+					<a
+						href={`#${membership.id}`}
+						class="inline-flex min-h-11 items-center bg-ink px-5 text-sm font-semibold text-snow hover:bg-fjord"
+					>
+						{copy.ctaMembership}
+					</a>
+					<a
+						href={`#${activity.id}`}
+						class="inline-flex min-h-11 items-center border border-ink/20 px-5 text-sm font-semibold hover:border-ink"
+					>
+						{copy.ctaActivity}
+					</a>
+				</div>
+			</div>
+			<img
+				src="/logo.png"
+				alt={copy.logoAlt}
+				width="623"
+				height="384"
+				class="mx-auto w-full max-w-md lg:max-w-none"
+			/>
+		</div>
+		<p class="mx-auto max-w-6xl border-y border-ink/10 px-4 py-4 text-lg font-medium sm:px-6">
+			<span class="text-fjord">{copy.visionLabel}</span>
+			{copy.vision}
+		</p>
+	</section>
+
+	<section id={purpose.id} class="bg-mist/70">
+		<div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
+			<p class="text-sm font-semibold text-fjord">01</p>
+			<h2 class="mt-2 max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl">{copy.purposeTitle}</h2>
+			<p class="mt-6 max-w-3xl text-lg leading-relaxed text-ink-soft">{copy.purposeBody}</p>
+			<ul class="mt-12 grid gap-10 sm:grid-cols-3">
+				{
+					copy.pillars.map((item) => (
+						<li>
+							<h3 class="text-lg font-semibold">{item.title}</h3>
+							<p class="mt-2 leading-relaxed text-ink-soft">{item.body}</p>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<section id={activity.id}>
+		<div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
+			<p class="text-sm font-semibold text-fjord">02</p>
+			<h2 class="mt-2 max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl">{copy.activityTitle}</h2>
+			<p class="mt-6 max-w-3xl text-lg leading-relaxed text-ink-soft">{copy.activityLead}</p>
+			<ol class="mt-12 divide-y divide-ink/10 border-y border-ink/10">
+				{
+					copy.activities.map((item) => (
+						<li class="grid gap-2 py-6 sm:grid-cols-[8rem_1fr] sm:gap-8">
+							<p class="font-semibold text-fjord">{item.title}</p>
+							<p class="leading-relaxed text-ink-soft">{item.body}</p>
+						</li>
+					))
+				}
+			</ol>
+			<p class="mt-8 max-w-3xl leading-relaxed text-ink-soft">{copy.activityNote}</p>
+		</div>
+	</section>
+
+	<section id={audience.id} class="bg-mist/70">
+		<div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
+			<p class="text-sm font-semibold text-fjord">03</p>
+			<h2 class="mt-2 max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl">{copy.audienceTitle}</h2>
+			<p class="mt-6 max-w-3xl text-lg leading-relaxed text-ink-soft">{copy.audienceLead}</p>
+			<ul class="mt-12 grid gap-x-12 sm:grid-cols-2">
+				{
+					copy.audiences.map((item) => (
+						<li class="border-t border-ink/15 py-5">
+							<h3 class="font-semibold">{item.title}</h3>
+							<p class="mt-1 leading-relaxed text-ink-soft">{item.body}</p>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<section id={membership.id} class="bg-ink/80 text-snow">
+		<div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
+			<p class="text-sm font-semibold text-aurora">04</p>
+			<h2 class="mt-2 max-w-2xl text-3xl font-semibold tracking-tight text-snow sm:text-4xl">
+				{copy.membershipTitle}
+			</h2>
+			<p class="mt-6 max-w-3xl text-lg leading-relaxed text-snow/80">{copy.membershipLead}</p>
+			<div class="mt-10 overflow-x-auto">
+				<table class="w-full min-w-[28rem] text-left text-sm">
+					<caption class="mb-4 text-left text-base font-semibold text-snow">{copy.feesCaption}</caption>
+					<thead>
+						<tr class="border-b border-snow/20 text-snow/70">
+							<th scope="col" class="py-2 pr-4 font-medium">{copy.feeClass}</th>
+							<th scope="col" class="py-2 text-right font-medium">{copy.feeAmount}</th>
+						</tr>
+					</thead>
+					<tbody>
+						{
+							copy.fees.map((fee, index) => (
+								<tr class:list={[{ 'border-b border-snow/15': index < copy.fees.length - 1 }]}>
+									<th scope="row" class="py-3 pr-4 font-medium">
+										{fee.label}
+										{fee.note && <span class="mt-1 block font-normal text-snow/70">{fee.note}</span>}
+									</th>
+									<td class:list={['py-3 text-right tabular-nums', { 'align-top': fee.note }]}>
+										{fee.amount}
+									</td>
+								</tr>
+							))
+						}
+					</tbody>
+				</table>
+			</div>
+			<p class="mt-6 max-w-3xl text-sm leading-relaxed text-snow/70">{copy.membershipNote}</p>
+		</div>
+	</section>
+</Layout>
