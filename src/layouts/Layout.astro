@@ -133,9 +133,12 @@ const routePath = Astro.url.pathname.replace(/^\/(fi|en)/, '').replace(/\/$/, ''
 						{copy.founded}
 					</p>
 					<p class="mt-4 max-w-3xl">{copy.board}</p>
-					<p class="mt-4">
+					<p class="mt-4 flex flex-wrap gap-x-5 gap-y-2">
 						<a class="font-medium text-ink hover:text-fjord" href={getRelativeLocaleUrl(copy.locale, 'saannot')}>
 							{copy.rulesLabel}
+						</a>
+						<a class="font-medium text-ink hover:text-fjord" href={getRelativeLocaleUrl(copy.locale, 'tietosuoja')}>
+							{copy.privacyLabel}
 						</a>
 					</p>
 					<p class="mt-6">© {new Date().getFullYear()} {siteName}</p>

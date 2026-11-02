@@ -58,6 +58,7 @@ export interface SiteCopy {
 	founded: string;
 	board: string;
 	rulesLabel: string;
+	privacyLabel: string;
 }
 
 export const ui: Record<Locale, SiteCopy> = {
@@ -182,6 +183,7 @@ export const ui: Record<Locale, SiteCopy> = {
 		board:
 			'Hallitus: Elina Heikkinen (puheenjohtaja), Janne Ikola, Kari Vierimaa, Teuvo Virsu, Pekka Salo ja Satu Nikula. Varajäsen Petteri Heikkinen.',
 		rulesLabel: 'Yhdistyksen säännöt',
+		privacyLabel: 'Tietosuoja',
 	},
 	en: {
 		locale: 'en',
@@ -304,5 +306,6 @@ export const ui: Record<Locale, SiteCopy> = {
 		board:
 			'Board: Elina Heikkinen (chair), Janne Ikola, Kari Vierimaa, Teuvo Virsu, Pekka Salo and Satu Nikula. Deputy member Petteri Heikkinen.',
 		rulesLabel: 'Rules of the association',
+		privacyLabel: 'Privacy',
 	},
 };

@@ -7,9 +7,10 @@ import type { RulesDocument, RulesItem } from '../i18n/rules';
 interface Props {
 	copy: SiteCopy;
 	rules: RulesDocument;
+	officialPath?: string;
 }
 
-const { copy, rules } = Astro.props;
+const { copy, rules, officialPath = 'saannot' } = Astro.props;
 
 function sectionParts(title: string) {
 	const match = /^(\d+)\.\s+([\s\S]+)$/.exec(title);
@@ -33,7 +34,7 @@ function entry(item: RulesItem) {
 						{rules.notice}{' '}
 						<a
 							class="font-semibold text-fjord hover:text-ink"
-							href={getRelativeLocaleUrl('fi', 'saannot')}
+							href={getRelativeLocaleUrl('fi', officialPath)}
 							hreflang="fi"
 							lang="fi"
 						>
