@@ -1,4 +1,5 @@
 ---
+import { getRelativeLocaleUrl } from 'astro:i18n';
 import Layout from '../layouts/Layout.astro';
 import type { SiteCopy } from '../i18n/ui';
 
@@ -118,6 +119,14 @@ const membership = copy.nav[3];
 				{copy.membershipTitle}
 			</h2>
 			<p class="mt-6 max-w-3xl text-lg leading-relaxed text-snow/80">{copy.membershipLead}</p>
+			<p class="mt-6">
+				<a
+					class="font-semibold text-aurora hover:text-snow"
+					href={getRelativeLocaleUrl(copy.locale, 'saannot')}
+				>
+					{copy.rulesLabel}
+				</a>
+			</p>
 			<div class="mt-10 overflow-x-auto">
 				<table class="w-full min-w-[28rem] text-left text-sm">
 					<caption class="mb-4 text-left text-base font-semibold text-snow">{copy.feesCaption}</caption>

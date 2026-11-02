@@ -6,13 +6,17 @@ import '../styles/global.css';
 
 interface Props {
 	copy: SiteCopy;
+	title?: string;
+	description?: string;
 }
 
 const siteName = 'Arctic AI Association ry';
-const { copy } = Astro.props;
-const pageTitle = siteName;
+const { copy, title, description: pageDescription } = Astro.props;
+const pageTitle = title ? `${title} – ${siteName}` : siteName;
+const description = pageDescription ?? copy.description;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const home = getRelativeLocaleUrl(copy.locale);
+const routePath = Astro.url.pathname.replace(/^\/(fi|en)/, '').replace(/\/$/, '').replace(/^\//, '');
 ---
 
 <!doctype html>
@@ -26,12 +30,12 @@ const home = getRelativeLocaleUrl(copy.locale);
 		<link rel="canonical" href={canonical} />
 		{
 			locales.map((locale) => (
-				<link rel="alternate" hreflang={locale} href={getAbsoluteLocaleUrl(locale)} />
+				<link rel="alternate" hreflang={locale} href={getAbsoluteLocaleUrl(locale, routePath || undefined)} />
 			))
 		}
-		<link rel="alternate" hreflang="x-default" href={getAbsoluteLocaleUrl('fi')} />
+		<link rel="alternate" hreflang="x-default" href={getAbsoluteLocaleUrl('fi', routePath || undefined)} />
 		<meta name="generator" content={Astro.generator} />
-		<meta name="description" content={copy.description} />
+		<meta name="description" content={description} />
 		<meta property="og:type" content="website" />
 		<meta property="og:locale" content={copy.ogLocale} />
 		{
@@ -41,7 +45,7 @@ const home = getRelativeLocaleUrl(copy.locale);
 		}
 		<meta property="og:site_name" content={siteName} />
 		<meta property="og:title" content={pageTitle} />
-		<meta property="og:description" content={copy.description} />
+		<meta property="og:description" content={description} />
 		<meta property="og:url" content={canonical} />
 		<title>{pageTitle}</title>
 		<script
@@ -53,7 +57,7 @@ const home = getRelativeLocaleUrl(copy.locale);
 				legalName: siteName,
 				url: 'https://arcai.fi',
 				identifier: '3663885-8',
-				description: copy.description,
+				description,
 				inLanguage: copy.htmlLang,
 				address: {
 					'@type': 'PostalAddress',
@@ -96,7 +100,7 @@ const home = getRelativeLocaleUrl(copy.locale);
 									locales.map((locale) => (
 										<li>
 											<a
-												href={getRelativeLocaleUrl(locale)}
+												href={getRelativeLocaleUrl(locale, routePath || undefined)}
 												hreflang={locale}
 												lang={locale}
 												aria-current={locale === copy.locale ? 'page' : undefined}
@@ -129,6 +133,11 @@ const home = getRelativeLocaleUrl(copy.locale);
 						{copy.founded}
 					</p>
 					<p class="mt-4 max-w-3xl">{copy.board}</p>
+					<p class="mt-4">
+						<a class="font-medium text-ink hover:text-fjord" href={getRelativeLocaleUrl(copy.locale, 'saannot')}>
+							{copy.rulesLabel}
+						</a>
+					</p>
 					<p class="mt-6">© {new Date().getFullYear()} {siteName}</p>
 				</div>
 			</footer>
