@@ -1,7 +1,8 @@
 ---
 import { getRelativeLocaleUrl } from 'astro:i18n';
+import { Icon } from 'astro-icon/components';
 import Layout from '../layouts/Layout.astro';
-import type { SiteCopy } from '../i18n/ui';
+import { discordInviteUrl, type SiteCopy } from '../i18n/ui';
 
 interface Props {
 	copy: SiteCopy;
@@ -127,7 +128,17 @@ const membership = copy.nav[3];
 					{copy.rulesLabel}
 				</a>
 			</p>
-			<div class="mt-10 overflow-x-auto">
+			<a
+				href={copy.membershipFormUrl}
+				target="_blank"
+				rel="noopener"
+				class="mt-10 inline-flex min-h-16 items-center gap-3 bg-aurora px-10 text-xl font-semibold text-ink hover:bg-flare focus-visible:outline-snow"
+			>
+				{copy.membershipCta}
+				<Icon name="lucide:arrow-up-right" class="size-6 shrink-0" aria-hidden="true" />
+				<span class="sr-only">{copy.opensInNewTab}</span>
+			</a>
+			<div class="mt-12 overflow-x-auto">
 				<table class="w-full min-w-[28rem] text-left text-sm">
 					<caption class="mb-4 text-left text-base font-semibold text-snow">{copy.feesCaption}</caption>
 					<thead>
@@ -154,6 +165,51 @@ const membership = copy.nav[3];
 				</table>
 			</div>
 			<p class="mt-6 max-w-3xl text-sm leading-relaxed text-snow/70">{copy.membershipNote}</p>
+		</div>
+	</section>
+
+	<section id="discord" class="bg-mist/70">
+		<div
+			class="mx-auto grid max-w-6xl gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-20 lg:py-24"
+		>
+			<div>
+				<p class="text-sm font-semibold text-fjord">05</p>
+				<h2 class="mt-2 max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl">{copy.discordTitle}</h2>
+				<p class="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">{copy.discordLead}</p>
+				{
+					copy.discordLanguageNote && (
+						<p class="mt-5 flex max-w-xl gap-3 border-l-2 border-aurora pl-4 font-medium">
+							<Icon name="lucide:languages" class="mt-0.5 size-5 shrink-0 text-fjord" aria-hidden="true" />
+							<span>{copy.discordLanguageNote}</span>
+						</p>
+					)
+				}
+				<a
+					href={discordInviteUrl}
+					target="_blank"
+					rel="noopener"
+					class="mt-8 inline-flex min-h-11 items-center gap-2 bg-ink px-5 text-sm font-semibold text-snow hover:bg-fjord"
+				>
+					{copy.discordCta}
+					<Icon name="lucide:arrow-up-right" class="size-4 shrink-0" aria-hidden="true" />
+					<span class="sr-only">{copy.opensInNewTab}</span>
+				</a>
+			</div>
+			<ul class="divide-y divide-ink/15 border-y border-ink/15 self-start">
+				{
+					copy.discordPoints.map((point) => (
+						<li class="flex gap-4 py-5">
+							<span class="grid size-10 shrink-0 place-items-center bg-aurora/15 text-fjord">
+								<Icon name={point.icon} class="size-5" aria-hidden="true" />
+							</span>
+							<div>
+								<h3 class="font-semibold">{point.title}</h3>
+								<p class="mt-1 leading-relaxed text-ink-soft">{point.body}</p>
+							</div>
+						</li>
+					))
+				}
+			</ul>
 		</div>
 	</section>
 </Layout>

@@ -18,6 +18,12 @@ export interface FeeRow {
 	amount: string;
 }
 
+export interface IconText extends NamedText {
+	icon: string;
+}
+
+export const discordInviteUrl = 'https://discord.gg/yBsyDP3S3H';
+
 export interface SiteCopy {
 	locale: Locale;
 	htmlLang: 'fi' | 'en';
@@ -48,11 +54,19 @@ export interface SiteCopy {
 	audiences: NamedText[];
 	membershipTitle: string;
 	membershipLead: string;
+	membershipCta: string;
+	membershipFormUrl: string;
+	opensInNewTab: string;
 	feesCaption: string;
 	feeClass: string;
 	feeAmount: string;
 	fees: FeeRow[];
 	membershipNote: string;
+	discordTitle: string;
+	discordLead: string;
+	discordCta: string;
+	discordLanguageNote?: string;
+	discordPoints: IconText[];
 	businessId: string;
 	domicile: string;
 	founded: string;
@@ -159,7 +173,10 @@ export const ui: Record<Locale, SiteCopy> = {
 		],
 		membershipTitle: 'Jäsenyys',
 		membershipLead:
-			'Jäseneksi voi liittyä henkilö tai yhteisö, joka hyväksyy yhdistyksen tarkoituksen ja säännöt. Hallitus hyväksyy varsinaiset jäsenet ja kannattajajäsenet hakemuksesta. Sähköinen jäsenhakemus julkaistaan tällä sivulla.',
+			'Jäseneksi voi liittyä henkilö tai yhteisö, joka hyväksyy yhdistyksen tarkoituksen ja säännöt. Hallitus hyväksyy varsinaiset jäsenet ja kannattajajäsenet hakemuksesta.',
+		membershipCta: 'Hae jäsenyyttä',
+		membershipFormUrl: 'https://forms.gle/5Ns3Y9PgondNUw9v8',
+		opensInNewTab: '(avautuu uuteen välilehteen)',
 		feesCaption: 'Jäsenmaksut kaudelle 14.10.2026–31.12.2027',
 		feeClass: 'Jäsenluokka',
 		feeAmount: 'Vuosimaksu',
@@ -178,6 +195,26 @@ export const ui: Record<Locale, SiteCopy> = {
 		],
 		membershipNote:
 			'Kannattajajäsenellä on kokouksissa läsnäolo- ja puheoikeus. Varsinaisella jäsenellä on myös äänioikeus.',
+		discordTitle: 'Tule mukaan Discordiin',
+		discordLead: 'Kaikki tekoälystä aiheena kiinnostuneet ovat tervetulleita yhdistyksen Discordiin.',
+		discordCta: 'Liity Discordiin',
+		discordPoints: [
+			{
+				icon: 'lucide:messages-square',
+				title: 'Keskustele tekoälystä',
+				body: 'Kysy, kerro omista kokeiluistasi ja kuule, mitä muut tekevät.',
+			},
+			{
+				icon: 'lucide:sprout',
+				title: 'Kokemusta ei tarvita',
+				body: 'Aloittelijat ja alan ammattilaiset ovat yhtä lailla tervetulleita.',
+			},
+			{
+				icon: 'lucide:user-check',
+				title: 'Avoin kaikille',
+				body: 'Voit liittyä Discordiin, vaikka vasta harkitsisit jäsenyyttä.',
+			},
+		],
 		businessId: 'Y-tunnus 3663885-8',
 		domicile: 'Kotipaikka Oulu',
 		founded: 'Perustettu 14.10.2026',
@@ -283,7 +320,10 @@ export const ui: Record<Locale, SiteCopy> = {
 		],
 		membershipTitle: 'Membership',
 		membershipLead:
-			'A person or an organisation that accepts the association’s purpose and rules may join. The board accepts full members and supporting members on application. An online membership form will be published on this page.',
+			'A person or an organisation that accepts the association’s purpose and rules may join. The board accepts full members and supporting members on application.',
+		membershipCta: 'Apply for membership',
+		membershipFormUrl: 'https://forms.gle/F3dEfpvxGnT6xL6h6',
+		opensInNewTab: '(opens in a new tab)',
 		feesCaption: 'Membership fees for 14 October 2026–31 December 2027',
 		feeClass: 'Member class',
 		feeAmount: 'Annual fee',
@@ -302,6 +342,27 @@ export const ui: Record<Locale, SiteCopy> = {
 		],
 		membershipNote:
 			'A supporting member may attend meetings and speak. A full member also has the right to vote.',
+		discordTitle: 'Join us on Discord',
+		discordLead: 'Everyone interested in AI as a topic is welcome on the association’s Discord.',
+		discordCta: 'Join the Discord',
+		discordLanguageNote: 'A fair warning: people on our Discord speak Finnish. Everyone is welcome all the same.',
+		discordPoints: [
+			{
+				icon: 'lucide:messages-square',
+				title: 'Talk about AI',
+				body: 'Ask questions, share what you are trying and hear what others are doing.',
+			},
+			{
+				icon: 'lucide:sprout',
+				title: 'No experience needed',
+				body: 'Beginners and professionals are equally welcome.',
+			},
+			{
+				icon: 'lucide:user-check',
+				title: 'Open to everyone',
+				body: 'You can join the Discord even if you’re only considering membership.',
+			},
+		],
 		businessId: 'Business ID 3663885-8',
 		domicile: 'Domicile Oulu',
 		founded: 'Founded 14 October 2026',
