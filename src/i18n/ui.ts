@@ -57,6 +57,7 @@ export interface SiteCopy {
 	domicile: string;
 	founded: string;
 	board: string;
+	contact: string;
 	rulesLabel: string;
 	privacyLabel: string;
 }
@@ -182,6 +183,7 @@ export const ui: Record<Locale, SiteCopy> = {
 		founded: 'Perustettu 14.10.2026',
 		board:
 			'Hallitus: Elina Heikkinen (puheenjohtaja), Janne Ikola, Kari Vierimaa, Teuvo Virsu, Pekka Salo ja Satu Nikula. Varajäsen Petteri Heikkinen.',
+		contact: 'Yhteys: elina.heikkinen@logean.com',
 		rulesLabel: 'Yhdistyksen säännöt',
 		privacyLabel: 'Tietosuoja',
 	},
@@ -305,6 +307,7 @@ export const ui: Record<Locale, SiteCopy> = {
 		founded: 'Founded 14 October 2026',
 		board:
 			'Board: Elina Heikkinen (chair), Janne Ikola, Kari Vierimaa, Teuvo Virsu, Pekka Salo and Satu Nikula. Deputy member Petteri Heikkinen.',
+		contact: 'Contact: elina.heikkinen@logean.com',
 		rulesLabel: 'Rules of the association',
 		privacyLabel: 'Privacy',
 	},
