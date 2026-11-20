@@ -26,7 +26,9 @@ const routePath = Astro.url.pathname.replace(/^\/(fi|en)/, '').replace(/\/$/, ''
 		<meta name="viewport" content="width=device-width" />
 		<meta name="color-scheme" content="light" />
 		<meta name="theme-color" content="#fefefe" />
+		<link rel="icon" href="/favicon.ico" sizes="48x48" />
 		<link rel="icon" type="image/png" href="/favicon.png" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 		<link rel="canonical" href={canonical} />
 		{
 			locales.map((locale) => (
@@ -77,7 +79,7 @@ const routePath = Astro.url.pathname.replace(/^\/(fi|en)/, '').replace(/\/$/, ''
 					class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-3 px-4 py-3 sm:px-6"
 				>
 					<a href={home} class="flex items-center gap-3 text-ink">
-						<img src="/mark.png" alt="" width="623" height="285" class="h-9 w-auto" />
+						<img src="/mark.png" alt="" width="512" height="512" class="size-14" />
 						<span class="text-sm font-semibold tracking-tight sm:text-base">{siteName}</span>
 					</a>
 					<div class="flex flex-wrap items-center gap-x-6 gap-y-2">
