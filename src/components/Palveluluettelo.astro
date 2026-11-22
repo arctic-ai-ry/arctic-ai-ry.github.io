@@ -1,0 +1,71 @@
+---
+import { Icon } from 'astro-icon/components';
+import Layout from '../layouts/Layout.astro';
+import { contactEmail, type SiteCopy } from '../i18n/ui';
+import { palveluSummary, palvelutByKind } from '../lib/palvelut';
+
+interface Props {
+	copy: SiteCopy;
+}
+
+const { copy } = Astro.props;
+const headings = {
+	yritys: copy.directoryCompanies,
+	julkinen: copy.directoryPublic,
+	kumppani: copy.directoryPartners,
+};
+const groups = (await palvelutByKind())
+	.filter((group) => group.entries.length > 0)
+	.map((group) => ({
+		heading: headings[group.kind],
+		entries: group.entries,
+	}));
+---
+
+<Layout copy={copy} title={copy.directoryTitle} description={copy.directoryDescription}>
+	<div class="mx-auto max-w-3xl px-4 py-14 sm:px-6 lg:py-20">
+		<h1 class="text-4xl font-semibold tracking-tight text-balance sm:text-5xl">{copy.directoryTitle}</h1>
+		<p class="mt-6 max-w-2xl text-lg leading-relaxed text-pretty text-ink-soft">{copy.directoryLead}</p>
+		{
+			groups.length === 0 ? (
+				<p class="mt-10 border-l-2 border-aurora pl-4 text-lg leading-relaxed">{copy.directoryEmpty}</p>
+			) : (
+				groups.map((group) => (
+					<section class="mt-14">
+						<h2 class="text-sm font-semibold tracking-wide text-fjord uppercase">{group.heading}</h2>
+						<ul class="mt-4 divide-y divide-ink/10 border-y border-ink/10">
+							{group.entries.map((entry) => (
+								<li>
+									<a
+										class="block border-l-4 border-fjord py-8 pl-5 hover:text-fjord"
+										href={entry.data.url}
+										target="_blank"
+										rel="noopener"
+									>
+										<h3 class="text-2xl font-semibold tracking-tight text-pretty text-ink">{entry.data.name}</h3>
+										<p class="mt-3 max-w-2xl leading-relaxed text-pretty text-ink-soft">
+											{palveluSummary(entry, copy.locale)}
+										</p>
+										<p class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-fjord">
+											{copy.directoryVisit}
+											<Icon name="lucide:arrow-up-right" class="size-4 shrink-0" aria-hidden="true" />
+											<span class="sr-only">{copy.opensInNewTab}</span>
+										</p>
+									</a>
+								</li>
+							))}
+						</ul>
+					</section>
+				))
+			)
+		}
+		<section class="mt-14 max-w-2xl border-l-2 border-aurora pl-4">
+			<h2 class="text-xl font-semibold tracking-tight">{copy.directoryHowTitle}</h2>
+			<p class="mt-3 leading-relaxed text-ink-soft">
+				{copy.directoryHow}{' '}
+				<a class="font-semibold text-fjord hover:text-ink" href={`mailto:${contactEmail}`}>{contactEmail}</a>.{' '}
+				{copy.directoryHowAfter}
+			</p>
+		</section>
+	</div>
+</Layout>

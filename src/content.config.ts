@@ -28,4 +28,21 @@ const blogi = defineCollection({
 	]),
 });
 
-export const collections = { blogi };
+// One file per member organisation. The guide in this folder is not an entry.
+const palvelut = defineCollection({
+	loader: glob({
+		pattern: ['*.md', '!OHJE.md'],
+		base: './src/content/palvelut',
+	}),
+	schema: z.object({
+		name: z.string().min(1),
+		url: z.string().url(),
+		kind: z.enum(['yritys', 'julkinen', 'kumppani']),
+		summary: z.object({
+			fi: z.string().min(1).max(280),
+			en: z.string().min(1).max(280).optional(),
+		}),
+	}),
+});
+
+export const collections = { blogi, palvelut };

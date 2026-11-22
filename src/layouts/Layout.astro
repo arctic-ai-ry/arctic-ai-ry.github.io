@@ -147,6 +147,9 @@ const routePath = Astro.url.pathname.replace(/^\/(fi|en)/, '').replace(/\/$/, ''
 						<a class="font-medium text-ink hover:text-fjord" href={getRelativeLocaleUrl(copy.locale, 'tietosuoja')}>
 							{copy.privacyLabel}
 						</a>
+						<a class="font-medium text-ink hover:text-fjord" href={getRelativeLocaleUrl(copy.locale, 'palvelut')}>
+							{copy.directoryNav}
+						</a>
 						<a class="font-medium text-ink hover:text-fjord" href={getRelativeLocaleUrl(copy.locale, 'blogi')}>
 							{copy.blogLabel}
 						</a>

@@ -106,6 +106,18 @@ export interface SiteCopy {
 	blogPartnerHeading: string;
 	blogOwnLabel: string;
 	blogPartnerLabel: string;
+	directoryNav: string;
+	directoryTitle: string;
+	directoryLead: string;
+	directoryDescription: string;
+	directoryCompanies: string;
+	directoryPublic: string;
+	directoryPartners: string;
+	directoryVisit: string;
+	directoryEmpty: string;
+	directoryHowTitle: string;
+	directoryHow: string;
+	directoryHowAfter: string;
 	socialLabel: string;
 	volunteerNav: string;
 	volunteerBrief: string;
@@ -137,6 +149,7 @@ export const ui: Record<Locale, SiteCopy> = {
 			{ id: 'toiminta', label: 'Toiminta' },
 			{ id: 'kenelle', label: 'Kenelle' },
 			{ id: 'jasenyys', label: 'Jäsenyys' },
+			{ id: 'palvelut', label: 'Palvelut', path: 'palvelut' },
 			{ id: 'blogi', label: 'Blogi', path: 'blogi' },
 		],
 		heroEyebrow: 'Rekisteröity yhdistys · Oulu',
@@ -278,6 +291,21 @@ export const ui: Record<Locale, SiteCopy> = {
 		blogPartnerHeading: 'Yhteistyökumppaneiden kirjoitukset',
 		blogOwnLabel: 'Yhdistys',
 		blogPartnerLabel: 'Kumppani',
+		directoryNav: 'Palvelut',
+		directoryTitle: 'Palveluluettelo',
+		directoryLead:
+			'Jäsenyritysten, muiden yleishyödyllisten toimijoiden ja yhteistyökumppaneiden lyhyet esittelyt ja linkit.',
+		directoryDescription:
+			'Arctic AI Association ry:n palveluluettelo: jäsenyritysten, muiden yleishyödyllisten toimijoiden ja yhteistyökumppaneiden lyhyet esittelyt.',
+		directoryCompanies: 'Yritykset',
+		directoryPublic: 'Muu yleishyödyllinen toimija',
+		directoryPartners: 'Yhteistyökumppanit',
+		directoryVisit: 'Sivusto',
+		directoryEmpty: 'Luettelossa ei ole vielä esittelyjä.',
+		directoryHowTitle: 'Miten pääsee mukaan',
+		directoryHow:
+			'Luettelo on jäsenyrityksille, muille yleishyödyllisille toimijoille ja yhteistyökumppaneille. Lähetä toimijan nimi, linkki ja enintään 280 merkin esittely osoitteeseen',
+		directoryHowAfter: 'Hallitus lisää kortin sivulle.',
 		socialLabel: 'Kanavat',
 		volunteerNav: 'Vapaaehtoiseksi',
 		volunteerBrief: 'Etsimme vapaaehtoisia tapahtumiin, tapaamisiin ja viestintään.',
@@ -332,6 +360,7 @@ export const ui: Record<Locale, SiteCopy> = {
 			{ id: 'work', label: 'What we do' },
 			{ id: 'audience', label: 'Who it’s for' },
 			{ id: 'membership', label: 'Membership' },
+			{ id: 'services', label: 'Services', path: 'palvelut' },
 			{ id: 'blog', label: 'Blog', path: 'blogi' },
 		],
 		heroEyebrow: 'Registered association · Oulu',
@@ -474,6 +503,21 @@ export const ui: Record<Locale, SiteCopy> = {
 		blogPartnerHeading: 'From partners',
 		blogOwnLabel: 'Association',
 		blogPartnerLabel: 'Partner',
+		directoryNav: 'Services',
+		directoryTitle: 'Service directory',
+		directoryLead:
+			'Short introductions and links from member companies, other nonprofit organisations and partners.',
+		directoryDescription:
+			'Service directory of Arctic AI Association ry: short introductions from member companies, other nonprofit organisations and partners.',
+		directoryCompanies: 'Companies',
+		directoryPublic: 'Other nonprofit organisation',
+		directoryPartners: 'Partners',
+		directoryVisit: 'Website',
+		directoryEmpty: 'There are no introductions in the directory yet.',
+		directoryHowTitle: 'How to be listed',
+		directoryHow:
+			'The directory is for member companies, other nonprofit organisations and partners. Send the name, a link and an introduction of at most 280 characters to',
+		directoryHowAfter: 'The board adds the card to the site.',
 		socialLabel: 'Channels',
 		volunteerNav: 'Volunteer',
 		volunteerBrief: 'We are looking for volunteers for events, meetups and communication.',

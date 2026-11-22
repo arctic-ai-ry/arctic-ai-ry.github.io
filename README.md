@@ -43,6 +43,7 @@ src/
   components/     AuroraBackground.astro
   layouts/        Layout.astro
   i18n/           ui.ts (fi, en)
+  content/        blogi/, palvelut/ (palveluluettelon kortit, ohje OHJE.md)
   pages/          index.astro → /fi/, fi/index.astro, en/index.astro
   styles/         global.css
 public/
@@ -51,6 +52,10 @@ public/
   favicon.png
 .github/workflows/deploy.yml
 ```
+
+## Palveluluettelo
+
+Jäsenyritysten, muiden yleishyödyllisten toimijoiden ja yhteistyökumppaneiden kortit ovat tiedostoja kansiossa `src/content/palvelut/`. Täyttöohje on samassa kansiossa: [`OHJE.md`](src/content/palvelut/OHJE.md).
 
 ## Kehitys
 
