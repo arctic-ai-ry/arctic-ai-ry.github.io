@@ -1,7 +1,7 @@
 ---
 import { getAbsoluteLocaleUrl, getRelativeLocaleUrl } from 'astro:i18n';
 import AuroraBackground from '../components/AuroraBackground.astro';
-import { locales, type SiteCopy } from '../i18n/ui';
+import { locales, socials, type SiteCopy } from '../i18n/ui';
 import '../styles/global.css';
 
 interface Props {
@@ -66,6 +66,7 @@ const routePath = Astro.url.pathname.replace(/^\/(fi|en)/, '').replace(/\/$/, ''
 					addressLocality: 'Oulu',
 					addressCountry: 'FI',
 				},
+				sameAs: socials.map((item) => item.href),
 			})}
 		/>
 	</head>
@@ -88,7 +89,10 @@ const routePath = Astro.url.pathname.replace(/^\/(fi|en)/, '').replace(/\/$/, ''
 								{
 									copy.nav.map((item) => (
 										<li>
-											<a class="hover:text-ink" href={`${home}#${item.id}`}>
+											<a
+												class="hover:text-ink"
+												href={item.path ? getRelativeLocaleUrl(copy.locale, item.path) : `${home}#${item.id}`}
+											>
 												{item.label}
 											</a>
 										</li>
@@ -142,6 +146,9 @@ const routePath = Astro.url.pathname.replace(/^\/(fi|en)/, '').replace(/\/$/, ''
 						</a>
 						<a class="font-medium text-ink hover:text-fjord" href={getRelativeLocaleUrl(copy.locale, 'tietosuoja')}>
 							{copy.privacyLabel}
+						</a>
+						<a class="font-medium text-ink hover:text-fjord" href={getRelativeLocaleUrl(copy.locale, 'blogi')}>
+							{copy.blogLabel}
 						</a>
 					</p>
 					<p class="mt-6">© {new Date().getFullYear()} {siteName}</p>

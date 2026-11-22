@@ -1,0 +1,47 @@
+---
+title: "Näytämme itse: näin yhdistyksen sivusto rakennettiin"
+description: "Kerromme, miten teimme sivuston ilman julkaisujärjestelmää ja ilman evästeitä."
+pubDate: 2026-11-02
+locale: fi
+kind: association
+---
+
+import PublishFlow from '../../../components/PublishFlow.astro';
+
+Arctic AI Association ry perustettiin Oulussa 14.10.2026. Sivut osoitteessa arcai.fi olivat ensimmäinen asia, jonka teimme itse.
+
+Halusimme sivun, joka latautuu nopeasti ja jota voi käyttää näppäimistöllä. Evästeitä emme halunneet, koska silloin ei tarvita evästebanneriakaan. Rahaa oli vähän, eikä julkaisujärjestelmän lisenssille tai omalle palvelimelle ollut tarvetta, kun sisältöä on vielä näin vähän. Tekstit ovat tiedostoja git-varastossa. Jos joku kohta menee pieleen, edellisen version saa takaisin. Kirjautumista ei ole, joten ylläpitotunnuksiakaan ei ole.
+
+Sivu on tavallista HTML:ää ja CSS:ää. Kirjasin Familjen Grotesk on paketoitu mukaan, eikä selain hae sitä muualta. Otsikot, valikko ja alatunniste on merkitty niin, että ruudunlukija ja näppäimistö löytävät ne. Kohdistus näkyy, ja kieli on merkitty suomeksi tai englanniksi. Revontulet liikkuvat taustalla. Jos kävijä on laittanut selaimessa liikkeen vähemmälle, animaatio ei käynnisty.
+
+Kävijäseurantaa ei ole. GitHub Pages voi silti kirjoittaa omiin lokeihinsa IP-osoitteen ja selaintyypin, jotta palvelu pysyy pystyssä. Niitä lokeja ei yhdistetä jäsenrekisteriin. Tarkemmin asiasta [tietosuojaselosteessa](/fi/tietosuoja).
+
+## Miten sivu on tehty
+
+Sivugeneraattori on [Astro 7](https://astro.build/). Ulkoasu tulee [Tailwind CSS](https://tailwindcss.com/) v4:stä, värit ja kirjasin yhdestä tyylitiedostosta. Suomi on oletuskieli ja englanti löytyy osoitteesta `/en/`. Pelkkä arcai.fi ohjaa suomenkieliselle etusivulle. Valikot, säännöt ja tietosuojaseloste on kirjoitettu TypeScriptinä, jotta kieliversiot pysyvät samassa järjestyksessä. Tämä juttu on markdown-tiedosto samassa kansiossa.
+
+Kuvakkeet piirretään SVG-kuviksi buildin aikana, ja sivustokartta syntyy samalla. Selainpuolella ainoa skripti on revontulitausta. Se ei lähetä mitään palvelimelle.
+
+Julkaisu hoituu GitHubissa. Lähdekoodi on osoitteessa [github.com/arctic-ai-ry/arctic-ai-ry.github.io](https://github.com/arctic-ai-ry/arctic-ai-ry.github.io). Kun muutos tulee `main`-haaraan, Actions käynnistää työnkulun *Deploy to GitHub Pages*. Build ajetaan Node.js 24:llä ja tulos menee GitHub Pagesiin. Yhdistyksen koodi ei pyöri palvelimella sillä hetkellä, kun joku avaa sivun. Selaimelle lähtee valmis sivu.
+
+<PublishFlow
+	caption="Varastosta selaimeen"
+	steps={[
+		{ label: 'Git-varasto', detail: 'Sivut, tekstit ja tyylit' },
+		{ label: 'Astro-build', detail: 'Actions, Node 24' },
+		{ label: 'GitHub Pages', detail: 'HTML, CSS ja fontti' },
+		{ label: 'arcai.fi', detail: 'Selain' },
+	]}
+/>
+
+## Tekoäly oli mukana
+
+Koodia, rakennetta, tekstejä ja tietosuojaselostetta luonnosteltiin kielimallien kanssa. Malli kirjoitti ehdotuksen. Me katsoimme versionhallinnasta, mitä oli muuttunut, ja päätimme mitä jätetään. Sivusto on pieni juuri tästä syystä: ehdotuksen näkee kerralla, ja rikki mennyt kohta tulee vastaan jo buildissa.
+
+Etusivun suomea ja englantia hiottiin useaan kertaan. Jäsenmaksut, hallitus, perustamispäivä ja Y-tunnus tarkistettiin yhdistyksen omista papereista. Niissä kohdissa mallin ehdotukseen ei luotettu.
+
+Tietosuojaseloste julkaistiin 2.11.2026. Se nojaa tietosuoja-asetukseen ja yhdistyslakiin. Mukana ovat jäsenluettelo, kirjanpidon tositteet, jäsensuhde, suostumus silloin kun sitä tarvitaan, ja rekisteröidyn oikeudet. Selosteessa sanotaan myös, ettei sivusto aseta evästeitä. Rekisterinpitäjä on yhdistys, yhteyshenkilö hallituksen puheenjohtaja. Sujuvakaan lause ei auta, jos seloste ei vastaa sitä, mitä tiedoille oikeasti teemme.
+
+## Näytämme itse
+
+Jaamme jäsenille keinoja, joita käytämme itse, myös hallinnossa. Sivusto on yksi sellainen. Lähdekoodi on julkinen, jos haluaa katsoa miten se on tehty.

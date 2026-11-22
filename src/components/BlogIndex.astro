@@ -1,0 +1,57 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import Layout from '../layouts/Layout.astro';
+import PostKind from './PostKind.astro';
+import type { SiteCopy } from '../i18n/ui';
+import { formatPostDate, postSlug, postsByLocale, postsOfKind } from '../lib/blog';
+
+interface Props {
+	copy: SiteCopy;
+}
+
+const { copy } = Astro.props;
+const posts = await postsByLocale(copy.locale);
+const groups = [
+	{ heading: copy.blogOwnHeading, posts: postsOfKind(posts, 'association') },
+	{ heading: copy.blogPartnerHeading, posts: postsOfKind(posts, 'partner') },
+].filter((group) => group.posts.length > 0);
+---
+
+<Layout copy={copy} title={copy.blogTitle} description={copy.blogLead}>
+	<div class="mx-auto max-w-3xl px-4 py-14 sm:px-6 lg:py-20">
+		<h1 class="text-4xl font-semibold tracking-tight text-balance sm:text-5xl">{copy.blogTitle}</h1>
+		<p class="mt-6 max-w-2xl text-lg leading-relaxed text-pretty text-ink-soft">{copy.blogLead}</p>
+		{
+			groups.map((group) => (
+				<section class="mt-14">
+					<h2 class="text-sm font-semibold tracking-wide text-fjord uppercase">{group.heading}</h2>
+					<ul class="mt-4 divide-y divide-ink/10 border-y border-ink/10">
+						{group.posts.map((post) => (
+							<li>
+								<a
+									class:list={[
+										'block border-l-4 py-8 pl-5 hover:text-fjord',
+										post.data.kind === 'partner' ? 'border-aurora' : 'border-fjord',
+									]}
+									href={getRelativeLocaleUrl(copy.locale, `blogi/${postSlug(post)}`)}
+								>
+									<p class="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm">
+										<PostKind copy={copy} post={post} linked={false} />
+										<span class="text-ink-soft">
+											{copy.publishedLabel}{' '}
+											<time datetime={post.data.pubDate.toISOString()}>
+												{formatPostDate(post.data.pubDate, copy.locale)}
+											</time>
+										</span>
+									</p>
+									<h3 class="mt-3 text-2xl font-semibold tracking-tight text-pretty text-ink">{post.data.title}</h3>
+									<p class="mt-3 max-w-2xl leading-relaxed text-pretty text-ink-soft">{post.data.description}</p>
+								</a>
+							</li>
+						))}
+					</ul>
+				</section>
+			))
+		}
+	</div>
+</Layout>

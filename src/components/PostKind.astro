@@ -1,0 +1,36 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import type { SiteCopy } from '../i18n/ui';
+
+interface Props {
+	copy: SiteCopy;
+	post: CollectionEntry<'blogi'>;
+	linked?: boolean;
+}
+
+const { copy, post, linked = true } = Astro.props;
+const partner = post.data.kind === 'partner';
+const partnerName = partner ? post.data.partner : '';
+const partnerUrl = partner ? post.data.partnerUrl : undefined;
+---
+
+<span class="inline-flex flex-wrap items-center gap-x-2 gap-y-1">
+	<span
+		class:list={[
+			'inline-block px-2 py-0.5 text-xs font-semibold tracking-wide uppercase',
+			partner ? 'bg-aurora/20 text-ink' : 'bg-fjord/10 text-fjord',
+		]}
+	>
+		{partner ? copy.blogPartnerLabel : copy.blogOwnLabel}
+	</span>
+	{
+		partner &&
+			(linked && partnerUrl ? (
+				<a class="font-semibold text-ink hover:text-fjord" href={partnerUrl}>
+					{partnerName}
+				</a>
+			) : (
+				<span class="font-semibold text-ink">{partnerName}</span>
+			))
+	}
+</span>

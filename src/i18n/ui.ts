@@ -5,6 +5,7 @@ export type Locale = (typeof locales)[number];
 export interface NavItem {
 	id: string;
 	label: string;
+	path?: string;
 }
 
 export interface NamedText {
@@ -23,6 +24,29 @@ export interface IconText extends NamedText {
 }
 
 export const discordInviteUrl = 'https://discord.gg/yBsyDP3S3H';
+
+/**
+ * Volunteer signup form. Both language versions use this address.
+ * Leave empty until the form exists.
+ */
+export const volunteerFormUrl = '';
+
+export const contactEmail = 'elina.heikkinen@logean.com';
+
+export interface SocialLink {
+	label: string;
+	href: string;
+	icon: string;
+}
+
+/** External profiles. Add further networks here when they exist. */
+export const socials: SocialLink[] = [
+	{
+		label: 'GitHub',
+		href: 'https://github.com/arctic-ai-ry',
+		icon: 'lucide:github',
+	},
+];
 
 export interface SiteCopy {
 	locale: Locale;
@@ -74,6 +98,28 @@ export interface SiteCopy {
 	contact: string;
 	rulesLabel: string;
 	privacyLabel: string;
+	blogLabel: string;
+	blogTitle: string;
+	blogLead: string;
+	publishedLabel: string;
+	blogOwnHeading: string;
+	blogPartnerHeading: string;
+	blogOwnLabel: string;
+	blogPartnerLabel: string;
+	socialLabel: string;
+	volunteerNav: string;
+	volunteerBrief: string;
+	volunteerTitle: string;
+	volunteerDescription: string;
+	volunteerLead: string;
+	volunteerTasks: IconText[];
+	volunteerHowTitle: string;
+	volunteerHow: string;
+	volunteerCtaTitle: string;
+	volunteerCtaLead: string;
+	volunteerCta: string;
+	volunteerFormPending: string;
+	volunteerEmailLabel: string;
 }
 
 export const ui: Record<Locale, SiteCopy> = {
@@ -91,6 +137,7 @@ export const ui: Record<Locale, SiteCopy> = {
 			{ id: 'toiminta', label: 'Toiminta' },
 			{ id: 'kenelle', label: 'Kenelle' },
 			{ id: 'jasenyys', label: 'Jäsenyys' },
+			{ id: 'blogi', label: 'Blogi', path: 'blogi' },
 		],
 		heroEyebrow: 'Rekisteröity yhdistys · Oulu',
 		heroTitle: 'Viemme tekoälyn puheista tuotantoon.',
@@ -223,6 +270,53 @@ export const ui: Record<Locale, SiteCopy> = {
 		contact: 'Yhteys: elina.heikkinen@logean.com',
 		rulesLabel: 'Yhdistyksen säännöt',
 		privacyLabel: 'Tietosuoja',
+		blogLabel: 'Blogi',
+		blogTitle: 'Blogi',
+		blogLead: 'Yhdistyksen omia kirjoituksia ja yhteistyökumppaneiden tekstejä.',
+		publishedLabel: 'Julkaistu',
+		blogOwnHeading: 'Yhdistyksen kirjoitukset',
+		blogPartnerHeading: 'Yhteistyökumppaneiden kirjoitukset',
+		blogOwnLabel: 'Yhdistys',
+		blogPartnerLabel: 'Kumppani',
+		socialLabel: 'Kanavat',
+		volunteerNav: 'Vapaaehtoiseksi',
+		volunteerBrief: 'Etsimme vapaaehtoisia tapahtumiin, tapaamisiin ja viestintään.',
+		volunteerTitle: 'Tule tekemään tätä kanssamme',
+		volunteerDescription:
+			'Arctic AI Association ry etsii vapaaehtoisia tapahtumiin, tapaamisiin ja viestintään.',
+		volunteerLead:
+			'Etsimme vapaaehtoisia mukaan yhdistyksen toimintaan. Työtä on tapahtumissa, tapaamisissa ja viestinnässä. Kokemusta tekoälystä ei tarvita, eikä jäsenyyttäkään.',
+		volunteerTasks: [
+			{
+				icon: 'lucide:calendar-days',
+				title: 'Tapahtumat',
+				body: 'Ovet, ilmoittautumiset, tilan laitto. Sellainen työ, jota ilman ilta ei käynnisty.',
+			},
+			{
+				icon: 'lucide:presentation',
+				title: 'Tapaamiset',
+				body: 'Voit vetää työpajan tai olla mukana niin, että muut pääsevät alkuun.',
+			},
+			{
+				icon: 'lucide:megaphone',
+				title: 'Viestintä',
+				body: 'Julkaisut, sivujen tekstit tai Discord. Kerrot, mitä yhdistyksessä tapahtuu.',
+			},
+			{
+				icon: 'lucide:users',
+				title: 'Verkosto',
+				body: 'Tunnet ihmisiä Pohjois-Suomessa ja tuot heidät samaan pöytään.',
+			},
+		],
+		volunteerHowTitle: 'Miten tämä toimii',
+		volunteerHow:
+			'Kerro lomakkeella, mistä olet kiinnostunut. Otamme yhteyttä, kun on jotain tehtävää. Yksi ilta tai yksi tapahtuma riittää alkuun. Jatkosta sovitaan sen mukaan, mitä ehdit.',
+		volunteerCtaTitle: 'Ilmoittaudu',
+		volunteerCtaLead: 'Kerro, missä haluat olla mukana.',
+		volunteerCta: 'Ilmoittaudu vapaaehtoiseksi',
+		volunteerFormPending:
+			'Ilmoittautumislomake ei ole vielä auki. Linkki julkaistaan tällä sivulla heti, kun lomake on valmis.',
+		volunteerEmailLabel: 'Sillä välin voit laittaa viestiä',
 	},
 	en: {
 		locale: 'en',
@@ -238,6 +332,7 @@ export const ui: Record<Locale, SiteCopy> = {
 			{ id: 'work', label: 'What we do' },
 			{ id: 'audience', label: 'Who it’s for' },
 			{ id: 'membership', label: 'Membership' },
+			{ id: 'blog', label: 'Blog', path: 'blogi' },
 		],
 		heroEyebrow: 'Registered association · Oulu',
 		heroTitle: 'We take AI from talk into production.',
@@ -371,5 +466,52 @@ export const ui: Record<Locale, SiteCopy> = {
 		contact: 'Contact: elina.heikkinen@logean.com',
 		rulesLabel: 'Rules of the association',
 		privacyLabel: 'Privacy',
+		blogLabel: 'Blog',
+		blogTitle: 'Blog',
+		blogLead: 'Writing from the association and from its partners.',
+		publishedLabel: 'Published',
+		blogOwnHeading: 'From the association',
+		blogPartnerHeading: 'From partners',
+		blogOwnLabel: 'Association',
+		blogPartnerLabel: 'Partner',
+		socialLabel: 'Channels',
+		volunteerNav: 'Volunteer',
+		volunteerBrief: 'We are looking for volunteers for events, meetups and communication.',
+		volunteerTitle: 'Come and do this with us',
+		volunteerDescription:
+			'Arctic AI Association ry is looking for volunteers for events, meetups and communication.',
+		volunteerLead:
+			'We are looking for volunteers to help run the association. There is work at events, at meetups and in communication. You do not need experience with AI, and you do not need to be a member.',
+		volunteerTasks: [
+			{
+				icon: 'lucide:calendar-days',
+				title: 'Events',
+				body: 'Doors, registrations, setting up the room. The practical work that gets an evening started.',
+			},
+			{
+				icon: 'lucide:presentation',
+				title: 'Meetups',
+				body: 'You can run a workshop, or simply be there so others can get started.',
+			},
+			{
+				icon: 'lucide:megaphone',
+				title: 'Communication',
+				body: 'Posts, text on the site, or Discord. You tell people what the association is doing.',
+			},
+			{
+				icon: 'lucide:users',
+				title: 'Network',
+				body: 'You know people in Northern Finland and you bring them to the same table.',
+			},
+		],
+		volunteerHowTitle: 'How this works',
+		volunteerHow:
+			'Tell us on the form what you are interested in. We will be in touch when there is something to do. One evening or one event is enough to start. What happens after that depends on the time you have.',
+		volunteerCtaTitle: 'Sign up',
+		volunteerCtaLead: 'Tell us where you want to take part.',
+		volunteerCta: 'Sign up as a volunteer',
+		volunteerFormPending:
+			'The signup form is not open yet. The link will be published on this page as soon as the form is ready.',
+		volunteerEmailLabel: 'Until then, you can write to',
 	},
 };

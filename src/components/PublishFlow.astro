@@ -1,0 +1,50 @@
+---
+interface Step {
+	label: string;
+	detail: string;
+}
+
+interface Props {
+	caption: string;
+	steps: Step[];
+}
+
+const { caption, steps } = Astro.props;
+---
+
+<figure class="not-prose my-8">
+	<figcaption class="text-sm font-semibold text-fjord">{caption}</figcaption>
+	<ol class="mt-3 flex flex-col sm:flex-row sm:items-stretch">
+		{
+			steps.map((step, index) => (
+				<li class="flex min-w-0 flex-1 flex-col sm:flex-row">
+					<div
+						class:list={[
+							'h-full w-full rounded-md border px-4 py-3',
+							index === steps.length - 1 ? 'border-fjord bg-snow' : 'border-ink/15 bg-mist',
+						]}
+					>
+						<p class="text-xs font-semibold tabular-nums text-fjord">{index + 1}</p>
+						<p class="mt-1 font-semibold text-ink">{step.label}</p>
+						<p class="mt-1 text-sm leading-snug text-ink-soft">{step.detail}</p>
+					</div>
+					{index < steps.length - 1 && (
+						<svg
+							class="my-1 h-5 w-5 shrink-0 rotate-90 self-center text-fjord sm:mx-2 sm:my-0 sm:rotate-0"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							aria-hidden="true"
+						>
+							<path d="M5 12h14" />
+							<path d="m13 6 6 6-6 6" />
+						</svg>
+					)}
+				</li>
+			))
+		}
+	</ol>
+</figure>

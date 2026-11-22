@@ -1,0 +1,15 @@
+---
+import BlogPost from '../../../components/BlogPost.astro';
+import { ui } from '../../../i18n/ui';
+import { postSlug, postsByLocale } from '../../../lib/blog';
+
+export async function getStaticPaths() {
+	const posts = await postsByLocale('en');
+	return posts.map((post) => ({
+		params: { slug: postSlug(post) },
+		props: { post },
+	}));
+}
+---
+
+<BlogPost copy={ui.en} post={Astro.props.post} />

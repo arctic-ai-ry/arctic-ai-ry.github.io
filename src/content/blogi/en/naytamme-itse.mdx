@@ -1,0 +1,47 @@
+---
+title: "We show our own work: how the association’s website was built"
+description: "How we built the site without a publishing system and without cookies."
+pubDate: 2026-11-02
+locale: en
+kind: association
+---
+
+import PublishFlow from '../../../components/PublishFlow.astro';
+
+Arctic AI Association ry was founded in Oulu on 14 October 2026. The site at arcai.fi was the first thing we made ourselves.
+
+We wanted a page that loads quickly and works from the keyboard. We also wanted no cookies, because then there is no cookie banner to click away. Money was tight, and a publishing-system licence or a server of our own would have been wasted while there is still so little to publish. The texts are files in a git repository. If something goes wrong, the previous version is still there. There is no login, so there are no admin accounts either.
+
+The page is ordinary HTML and CSS. The typeface Familjen Grotesk is bundled with the site, and the browser does not fetch it from anywhere else. Headings, the menu and the footer are marked so that a screen reader and the keyboard can find them. Focus is visible, and the language is set to Finnish or English. The aurora moves in the background. If a visitor has asked the browser for less motion, the animation does not start.
+
+There is no visitor tracking. GitHub Pages may still write the IP address and browser type into its own logs, so that the service stays up. Those logs are not combined with the member register. The detail is in the [privacy notice](/en/tietosuoja).
+
+## How the page is built
+
+The generator is [Astro 7](https://astro.build/). The look comes from [Tailwind CSS](https://tailwindcss.com/) v4, with the colours and the typeface in one stylesheet. Finnish is the default, and English is at `/en/`. Opening arcai.fi on its own lands you on the Finnish home page. The menus, the rules and the privacy notice are written in TypeScript, so the two languages stay in the same order. This piece is a Markdown file in the same folder.
+
+Icons are drawn as SVG during the build, and the sitemap is produced then too. The only script in the browser is the aurora. It does not send anything to a server.
+
+Publishing happens on GitHub. The source is at [github.com/arctic-ai-ry/arctic-ai-ry.github.io](https://github.com/arctic-ai-ry/arctic-ai-ry.github.io). When a change reaches the `main` branch, Actions starts the workflow *Deploy to GitHub Pages*. The build runs on Node.js 24 and the result goes to GitHub Pages. The association’s code is not running on the server at the moment someone opens a page. The browser receives a finished page.
+
+<PublishFlow
+	caption="From the repository to the browser"
+	steps={[
+		{ label: 'Git repository', detail: 'Pages, text and styles' },
+		{ label: 'Astro build', detail: 'Actions, Node 24' },
+		{ label: 'GitHub Pages', detail: 'HTML, CSS and the font' },
+		{ label: 'arcai.fi', detail: 'The browser' },
+	]}
+/>
+
+## AI was part of the work
+
+The code, the structure, the wording and the privacy notice were drafted with language models. A model wrote a suggestion. We looked in version control at what had changed and decided what to keep. The site is small for that reason: you can see a suggestion in one go, and a broken piece shows up when the page is built.
+
+The Finnish and English of the home page went through several drafts. Membership fees, the board, the founding date and the business ID were checked against the association’s own papers. On those points we did not trust the model’s suggestion.
+
+The privacy notice was published on 2 November 2026. It rests on the GDPR and the Finnish Associations Act. It covers the member list, accounting vouchers, the membership relationship, consent where it is needed, and the data subject’s rights. It also says that the site does not set cookies. The association is the controller, and the contact is the chair of the board. A smooth sentence does not help if the notice does not match what we actually do with the data.
+
+## We show our own work
+
+We share with members the ways of working we use ourselves, including in administration. The website is one of them. The source is public, if you want to see how it was made.

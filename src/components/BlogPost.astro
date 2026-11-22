@@ -1,0 +1,71 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import Layout from '../layouts/Layout.astro';
+import PostKind from './PostKind.astro';
+import type { SiteCopy } from '../i18n/ui';
+import { formatPostDate } from '../lib/blog';
+
+interface Props {
+	copy: SiteCopy;
+	post: CollectionEntry<'blogi'>;
+}
+
+const { copy, post } = Astro.props;
+const { Content } = await render(post);
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const blogHref = getRelativeLocaleUrl(copy.locale, 'blogi');
+const partner = post.data.kind === 'partner' ? post.data : null;
+const author = partner
+	? {
+			'@type': 'Organization',
+			name: partner.partner,
+			...(partner.partnerUrl ? { url: partner.partnerUrl } : {}),
+		}
+	: {
+			'@type': 'Organization',
+			name: 'Arctic AI Association ry',
+			url: 'https://arcai.fi',
+		};
+---
+
+<Layout copy={copy} title={post.data.title} description={post.data.description}>
+	<article class:list={['border-t-4', partner ? 'border-aurora' : 'border-fjord']}>
+		<div class="mx-auto max-w-3xl px-4 py-14 sm:px-6 lg:py-20">
+			<p class="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm">
+				<a class="font-semibold text-fjord hover:text-ink" href={blogHref}>{copy.blogLabel}</a>
+				<PostKind copy={copy} post={post} />
+				<span class="text-ink-soft">
+					{copy.publishedLabel}{' '}
+					<time datetime={post.data.pubDate.toISOString()}>{formatPostDate(post.data.pubDate, copy.locale)}</time>
+				</span>
+			</p>
+			<h1 class="mt-3 text-4xl font-semibold tracking-tight text-balance sm:text-5xl">{post.data.title}</h1>
+			<p class="mt-6 max-w-2xl text-lg leading-relaxed text-pretty text-ink-soft">{post.data.description}</p>
+			<div
+				class="prose prose-slate mt-12 max-w-none prose-headings:scroll-mt-24 prose-headings:font-semibold prose-headings:tracking-tight prose-headings:text-ink prose-p:text-ink-soft prose-li:text-ink-soft prose-strong:text-ink prose-a:font-medium prose-a:text-fjord hover:prose-a:text-ink"
+			>
+				<Content />
+			</div>
+		</div>
+	</article>
+	<script
+		type="application/ld+json"
+		set:html={JSON.stringify({
+			'@context': 'https://schema.org',
+			'@type': 'BlogPosting',
+			headline: post.data.title,
+			datePublished: post.data.pubDate.toISOString().slice(0, 10),
+			description: post.data.description,
+			inLanguage: copy.htmlLang,
+			url: canonical,
+			mainEntityOfPage: canonical,
+			author,
+			publisher: {
+				'@type': 'Organization',
+				name: 'Arctic AI Association ry',
+				url: 'https://arcai.fi',
+			},
+		})}
+	/>
+</Layout>
