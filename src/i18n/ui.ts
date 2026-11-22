@@ -1,13 +1,11 @@
-import type { PageName } from './pages';
-
 export const locales = ['fi', 'en'] as const;
 
 export type Locale = (typeof locales)[number];
 
-export interface NavItem {
+/** A section of the front page: its anchor and its name in menus. */
+export interface SectionRef {
 	id: string;
 	label: string;
-	path?: PageName;
 }
 
 export interface NamedText {
@@ -21,28 +19,13 @@ export interface FeeRow {
 	amount: string;
 }
 
-export interface IconText extends NamedText {
-	icon: string;
-}
-
 export const discordInviteUrl = 'https://discord.gg/yBsyDP3S3H';
 
+export const whatsappInviteUrl = 'https://chat.whatsapp.com/FynC9sIxryT2vi4iuSSSca';
+
+export const githubUrl = 'https://github.com/arctic-ai-ry';
+
 export const contactEmail = 'elina.heikkinen@logean.com';
-
-export interface SocialLink {
-	label: string;
-	href: string;
-	icon: string;
-}
-
-/** External profiles. Add further networks here when they exist. */
-export const socials: SocialLink[] = [
-	{
-		label: 'GitHub',
-		href: 'https://github.com/arctic-ai-ry',
-		icon: 'lucide:github',
-	},
-];
 
 export interface SiteCopy {
 	locale: Locale;
@@ -51,13 +34,21 @@ export interface SiteCopy {
 	description: string;
 	skip: string;
 	navLabel: string;
+	menuLabel: string;
 	languageLabel: string;
-	nav: NavItem[];
+	homeLabel: string;
+	sections: {
+		purpose: SectionRef;
+		activity: SectionRef;
+		audience: SectionRef;
+		membership: SectionRef;
+		discord: SectionRef;
+	};
 	heroEyebrow: string;
 	heroTitle: string;
 	heroLead: string;
 	tagline: string;
-	ctaMembership: string;
+	ctaPrimary: string;
 	ctaActivity: string;
 	logoAlt: string;
 	visionLabel: string;
@@ -68,13 +59,15 @@ export interface SiteCopy {
 	activityTitle: string;
 	activityLead: string;
 	activities: NamedText[];
-	activityNote: string;
+	sectorsLead: string;
+	sectors: string[];
 	audienceTitle: string;
 	audienceLead: string;
 	audiences: NamedText[];
 	membershipTitle: string;
 	membershipLead: string;
-	membershipCta: string;
+	/** The call to action on the green band, one array item per line. */
+	membershipCta: string[];
 	membershipFormUrl: string;
 	opensInNewTab: string;
 	feesCaption: string;
@@ -82,20 +75,23 @@ export interface SiteCopy {
 	feeAmount: string;
 	fees: FeeRow[];
 	membershipNote: string;
+	rulesCta: string;
 	discordTitle: string;
 	discordLead: string;
 	discordCta: string;
+	whatsappCta: string;
 	discordLanguageNote?: string;
-	discordPoints: IconText[];
+	discordPoints: NamedText[];
 	businessId: string;
 	domicile: string;
 	founded: string;
 	board: string;
-	contact: string;
+	contactLabel: string;
 	rulesLabel: string;
 	privacyLabel: string;
 	blogLabel: string;
-	blogTitle: string;
+	/** Page titles set in the display face are given one array item per line. */
+	blogTitle: string[];
 	blogLead: string;
 	publishedLabel: string;
 	blogOwnHeading: string;
@@ -103,7 +99,8 @@ export interface SiteCopy {
 	blogOwnLabel: string;
 	blogPartnerLabel: string;
 	directoryNav: string;
-	directoryTitle: string;
+	directoryTitle: string[];
+	directoryPageTitle: string;
 	directoryLead: string;
 	directoryDescription: string;
 	directoryCompanies: string;
@@ -113,20 +110,35 @@ export interface SiteCopy {
 	directoryEmpty: string;
 	directoryHowTitle: string;
 	directoryHow: string;
-	directoryHowAfter: string;
-	socialLabel: string;
 	volunteerNav: string;
 	volunteerBrief: string;
-	volunteerTitle: string;
+	volunteerLink: string;
+	volunteerTitle: string[];
 	volunteerDescription: string;
 	volunteerLead: string;
-	volunteerTasks: IconText[];
+	volunteerRolesTitle: string;
+	volunteerRoles: string[];
+	/** The line after the named roles: it gets a plus sign, not a ticked box. */
+	volunteerRolesExtra: string;
+	volunteerRolesMore: string;
+	volunteerTasksTitle: string;
+	volunteerTasks: NamedText[];
+	volunteerOffersTitle: string;
+	volunteerOffers: string[];
 	volunteerHowTitle: string;
 	volunteerHow: string;
-	volunteerCtaTitle: string;
-	volunteerCtaLead: string;
+	volunteerFacts: string[];
 	volunteerCta: string;
 	volunteerFormUrl: string;
+	siteMapLabel: string;
+	siteMapTitle: string[];
+	siteMapLead: string;
+	siteMapGroups: {
+		about: string;
+		join: string;
+		content: string;
+		info: string;
+	};
 }
 
 export const ui: Record<Locale, SiteCopy> = {
@@ -135,48 +147,49 @@ export const ui: Record<Locale, SiteCopy> = {
 		htmlLang: 'fi',
 		ogLocale: 'fi_FI',
 		description:
-			'Arctic AI Association ry on oululainen yhdistys, joka vie tekoälyn puheista tuotantoon Pohjois-Suomessa.',
+			'Arctic AI Association ry on oululainen yhdistys, joka rakentaa pohjoisen tekoälyverkostoa ja vie tekoälyn puheista tuotantoon.',
 		skip: 'Siirry sisältöön',
-		navLabel: 'Sivun osiot',
+		navLabel: 'Päävalikko',
+		menuLabel: 'Valikko',
 		languageLabel: 'Kieli',
-		nav: [
-			{ id: 'tarkoitus', label: 'Tarkoitus' },
-			{ id: 'toiminta', label: 'Toiminta' },
-			{ id: 'kenelle', label: 'Kenelle' },
-			{ id: 'jasenyys', label: 'Jäsenyys' },
-			{ id: 'palvelut', label: 'Palvelut', path: 'palvelut' },
-			{ id: 'blogi', label: 'Blogi', path: 'blogi' },
-		],
+		homeLabel: 'Etusivu',
+		sections: {
+			purpose: { id: 'tarkoitus', label: 'Tarkoitus' },
+			activity: { id: 'toiminta', label: 'Toiminta' },
+			audience: { id: 'kenelle', label: 'Kenelle' },
+			membership: { id: 'jasenyys', label: 'Jäsenyys' },
+			discord: { id: 'discord', label: 'Discord' },
+		},
 		heroEyebrow: 'Rekisteröity yhdistys · Oulu',
 		heroTitle: 'Viemme tekoälyn puheista tuotantoon.',
 		heroLead:
-			'Arctic AI Association ry on riippumaton yhteisö. Kokoamme Pohjois-Suomen yritykset, osaajat, tutkimuksen ja julkisen sektorin hyödyntämään tekoälyä käytännössä.',
+			'Arctic AI Association ry on riippumaton yhdistys. Tuomme saman pöydän ääreen Pohjois-Suomen yritykset, osaajat, tutkimuksen ja julkisen sektorin, jotta tekoäly siirtyy puheista käyttöön.',
 		tagline: 'Pohjoisen älyä – arjessa ja maailmalla.',
-		ctaMembership: 'Jäsenyys',
+		ctaPrimary: 'Mukaan verkostoon',
 		ctaActivity: 'Mitä teemme',
 		logoAlt: 'Arctic AI',
 		visionLabel: 'Visio.',
 		vision: 'Oulusta Pohjolan tekoälykeskus.',
-		purposeTitle: 'Miksi yhdistys on olemassa',
+		purposeTitle: 'Miksi olemme olemassa',
 		purposeBody:
-			'Yhdistys edistää tekoälyn ja älykkäiden järjestelmien tuntemusta, tutkimusta ja osaamista sekä niiden vastuullista, turvallista ja eettisesti kestävää käyttöä. Se on asiantuntijoiden, tutkijoiden, opiskelijoiden, yritysten, koulujen ja julkisten toimijoiden verkosto erityisesti Pohjois-Suomessa.',
+			'Pohjoisessa on paljon tekoälyosaamista ja vielä enemmän kysymyksiä siitä, miten tekoälyä käytetään työssä. Tuomme ne yhteen. Edistämme tekoälyn tuntemusta, tutkimusta ja osaamista sekä sen vastuullista, turvallista ja eettisesti kestävää käyttöä.',
 		pillars: [
 			{
 				title: 'Tekeminen edellä',
-				body: 'Pilotit, prototyypit ja käyttöönotot. Tavoitteena ovat ratkaisut, jotka päätyvät käyttöön.',
+				body: 'Pilotteja, prototyyppejä ja käyttöönottoja. Tavoite on ratkaisu, joka päätyy käyttöön.',
 			},
 			{
 				title: 'Neutraali alusta',
-				body: 'Yhdistys palvelee koko alueen etua. Kaupallinen myynti pidetään erillään aatteellisesta toiminnasta.',
+				body: 'Palvelemme koko aluetta. Kaupallinen myynti pysyy erillään yhdistyksen toiminnasta.',
 			},
 			{
-				title: 'Näytämme itse',
-				body: 'Jaamme jäsenille ratkaisuja, joita käytämme omassa arjessamme, myös hallinnon rutiineissa.',
+				title: 'Teemme, mitä opetamme',
+				body: 'Käytämme tekoälyä omassa työssämme, myös hallinnon rutiineissa, ja jaamme ratkaisut jäsenille.',
 			},
 		],
 		activityTitle: 'Mitä teemme',
 		activityLead:
-			'Verkostoituminen on tärkein. Osaaminen, kokeilut ja sääntely ovat suuntia, jotka muotoutuvat jäsenistön kanssa.',
+			'Verkosto tulee ensin. Osaaminen, kokeilut ja sääntely ovat suuntia, jotka muotoutuvat jäsenten kanssa.',
 		activities: [
 			{
 				title: 'Verkosto',
@@ -188,26 +201,32 @@ export const ui: Record<Locale, SiteCopy> = {
 			},
 			{
 				title: 'Kokeilut',
-				body: 'Tekoälyn viemistä kokeiluista käyttöön.',
+				body: 'Tekoäly kokeilusta käyttöön.',
 			},
 			{
 				title: 'Sääntely',
-				body: 'Keskustelua tekoälyasetuksesta, tekijänoikeuksista ja datasuvereniteetista.',
+				body: 'Keskustelua tekoälyasetuksesta (AI Act), tekijänoikeuksista ja datasuvereniteetista.',
 			},
 		],
-		activityNote:
-			'Verkostoa kootaan Pohjois-Suomessa. Tekoäly kytkeytyy alueen vahvuuksiin: terveysteknologiaan, älykkääseen teollisuuteen, arktiseen logistiikkaan, matkailuun sekä puolustus- ja kaksikäyttöteknologiaan.',
+		sectorsLead: 'Tekoäly kytkeytyy pohjoisen vahvuuksiin.',
+		sectors: [
+			'Terveysteknologia',
+			'Älykäs teollisuus',
+			'Arktinen logistiikka',
+			'Matkailu',
+			'Puolustus- ja kaksikäyttöteknologia',
+		],
 		audienceTitle: 'Kenelle',
 		audienceLead:
-			'Pääpaino on organisaatioissa, koska suurin vaikutus syntyy työn ja liiketoiminnan kautta. Mukaan ovat tervetulleita kaikki tekoälystä kiinnostuneet.',
+			'Pääpaino on organisaatioissa, koska suurin vaikutus syntyy työn ja liiketoiminnan kautta. Kaikki tekoälystä kiinnostuneet ovat tervetulleita.',
 		audiences: [
 			{
 				title: 'Yritykset',
-				body: 'Koulutusta, sääntelytukea, rahoitusneuvontaa ja oppia muiden kokemuksista.',
+				body: 'Koulutusta, sääntelytukea, rahoitusneuvontaa ja muiden yritysten opit.',
 			},
 			{
 				title: 'Startupit',
-				body: 'Näkyvyyttä, verkostoja ja tilaisuuksia esitellä omia ratkaisuja.',
+				body: 'Näkyvyyttä, kontakteja ja tilaisuuksia esitellä omia ratkaisuja.',
 			},
 			{
 				title: 'Tekoälyammattilaiset ja kehittäjät',
@@ -219,17 +238,17 @@ export const ui: Record<Locale, SiteCopy> = {
 			},
 			{
 				title: 'Julkinen sektori',
-				body: 'Neutraali asiantuntijakumppani elinkeinoelämän ja julkisten tekoälyratkaisujen tueksi.',
+				body: 'Neutraali asiantuntijakumppani tekoälyratkaisujen tueksi.',
 			},
 			{
-				title: 'Työntekijät ja muut yksityishenkilöt',
+				title: 'Työntekijät ja yksityishenkilöt',
 				body: 'Osaamista ja keinoja käyttää tekoälyä omassa työssä.',
 			},
 		],
 		membershipTitle: 'Jäsenyys',
 		membershipLead:
-			'Jäseneksi voi liittyä henkilö tai yhteisö, joka hyväksyy yhdistyksen tarkoituksen ja säännöt. Hallitus hyväksyy varsinaiset jäsenet ja kannattajajäsenet hakemuksesta.',
-		membershipCta: 'Hae jäsenyyttä',
+			'Jäseneksi voi hakea henkilö tai yhteisö, joka hyväksyy yhdistyksen tarkoituksen ja säännöt. Hallitus hyväksyy varsinaiset jäsenet ja kannattajajäsenet hakemuksesta.',
+		membershipCta: ['Hae', 'jäsenyyttä'],
 		membershipFormUrl: 'https://forms.gle/5Ns3Y9PgondNUw9v8',
 		opensInNewTab: '(avautuu uuteen välilehteen)',
 		feesCaption: 'Jäsenmaksut kaudelle 14.10.2026–31.12.2027',
@@ -250,24 +269,23 @@ export const ui: Record<Locale, SiteCopy> = {
 		],
 		membershipNote:
 			'Kannattajajäsenellä on kokouksissa läsnäolo- ja puheoikeus. Varsinaisella jäsenellä on myös äänioikeus.',
-		discordTitle: 'Tule mukaan Discordiin',
-		discordLead: 'Kaikki tekoälystä aiheena kiinnostuneet ovat tervetulleita yhdistyksen Discordiin.',
+		rulesCta: 'Lue säännöt',
+		discordTitle: 'Discord ja WhatsApp',
+		discordLead: 'Yhdistyksen Discord ja WhatsApp ovat auki kaikille tekoälystä kiinnostuneille.',
 		discordCta: 'Liity Discordiin',
+		whatsappCta: 'Liity WhatsApp-yhteisöön',
 		discordPoints: [
 			{
-				icon: 'lucide:messages-square',
-				title: 'Keskustele tekoälystä',
+				title: 'Tuo oma kysymys',
 				body: 'Kysy, kerro omista kokeiluistasi ja kuule, mitä muut tekevät.',
 			},
 			{
-				icon: 'lucide:sprout',
 				title: 'Kokemusta ei tarvita',
-				body: 'Aloittelijat ja alan ammattilaiset ovat yhtä lailla tervetulleita.',
+				body: 'Aloittelijat ja ammattilaiset ovat yhtä tervetulleita.',
 			},
 			{
-				icon: 'lucide:user-check',
-				title: 'Avoin kaikille',
-				body: 'Voit liittyä Discordiin, vaikka vasta harkitsisit jäsenyyttä.',
+				title: 'Jäseneksi, kun olet valmis',
+				body: 'Tule mukaan heti ja hae jäsenyyttä, kun haluat.',
 			},
 		],
 		businessId: 'Y-tunnus 3663885-8',
@@ -275,117 +293,145 @@ export const ui: Record<Locale, SiteCopy> = {
 		founded: 'Perustettu 14.10.2026',
 		board:
 			'Hallitus: Elina Heikkinen (puheenjohtaja), Janne Ikola, Kari Vierimaa, Teuvo Virsu, Pekka Salo ja Satu Nikula. Varajäsen Petteri Heikkinen.',
-		contact: 'Yhteys: elina.heikkinen@logean.com',
-		rulesLabel: 'Yhdistyksen säännöt',
+		contactLabel: 'Yhteys',
+		rulesLabel: 'Säännöt',
 		privacyLabel: 'Tietosuoja',
 		blogLabel: 'Blogi',
-		blogTitle: 'Blogi',
-		blogLead: 'Yhdistyksen omia kirjoituksia ja yhteistyökumppaneiden tekstejä.',
+		blogTitle: ['Blogi'],
+		blogLead: 'Yhdistyksen omia kirjoituksia ja kumppaneiden tekstejä.',
 		publishedLabel: 'Julkaistu',
 		blogOwnHeading: 'Yhdistyksen kirjoitukset',
-		blogPartnerHeading: 'Yhteistyökumppaneiden kirjoitukset',
+		blogPartnerHeading: 'Kumppaneiden kirjoitukset',
 		blogOwnLabel: 'Yhdistys',
 		blogPartnerLabel: 'Kumppani',
 		directoryNav: 'Palvelut',
-		directoryTitle: 'Palveluluettelo',
+		directoryTitle: ['Palvelut'],
+		directoryPageTitle: 'Palveluluettelo',
 		directoryLead:
-			'Jäsenyritysten, muiden yleishyödyllisten toimijoiden ja yhteistyökumppaneiden lyhyet esittelyt ja linkit.',
+			'Palveluluettelo esittelee yhdistyksen yritys- ja yhteisöjäsenet, kumppanit sekä heidän palvelunsa.',
 		directoryDescription:
-			'Arctic AI Association ry:n palveluluettelo: jäsenyritysten, muiden yleishyödyllisten toimijoiden ja yhteistyökumppaneiden lyhyet esittelyt.',
+			'Arctic AI Association ry:n palveluluettelo: yhdistyksen yritys- ja yhteisöjäsenet, kumppanit sekä heidän palvelunsa.',
 		directoryCompanies: 'Yritykset',
-		directoryPublic: 'Muu yleishyödyllinen toimija',
+		directoryPublic: 'Muut yleishyödylliset toimijat',
 		directoryPartners: 'Yhteistyökumppanit',
 		directoryVisit: 'Sivusto',
-		directoryEmpty: 'Luettelossa ei ole vielä esittelyjä.',
-		directoryHowTitle: 'Miten pääsee mukaan',
+		directoryEmpty: 'Tulossa pian!',
+		directoryHowTitle: 'Näin pääset luetteloon',
 		directoryHow:
-			'Luettelo on jäsenyrityksille, muille yleishyödyllisille toimijoille ja yhteistyökumppaneille. Lähetä toimijan nimi, linkki ja enintään 280 merkin esittely osoitteeseen',
-		directoryHowAfter: 'Hallitus lisää kortin sivulle.',
-		socialLabel: 'Kanavat',
-		volunteerNav: 'Vapaaehtoiseksi',
+			'Tiedot kysyttiin jäsenhakemuslomakkeella. Jos haluat lisätä tietosi myöhemmin, ota yhteyttä hallitukseen.',
+		volunteerNav: 'Vapaaehtoiset',
 		volunteerBrief: 'Etsimme vapaaehtoisia tapahtumiin, tapaamisiin ja viestintään.',
-		volunteerTitle: 'Tule tekemään tätä kanssamme',
+		volunteerLink: 'Tule vapaaehtoiseksi',
+		volunteerTitle: ['Mukaan', 'rakentamaan'],
 		volunteerDescription:
 			'Arctic AI Association ry etsii vapaaehtoisia tapahtumiin, tapaamisiin ja viestintään.',
 		volunteerLead:
-			'Etsimme vapaaehtoisia mukaan yhdistyksen toimintaan. Työtä on tapahtumissa, tapaamisissa ja viestinnässä. Kokemusta tekoälystä ei tarvita, eikä jäsenyyttäkään.',
+			'Etsimme vapaaehtoisia tapahtumiin, tapaamisiin ja viestintään. Tekoälykokemusta ei tarvita. Voit aloittaa heti ja hakea jäsenyyttä halutessasi.',
+		volunteerRolesTitle: 'Etsimme',
+		volunteerRoles: [
+			'Jäsenkoordinaattori',
+			'Tiimien vetäjät',
+			'Yhteisön rakentajat',
+			'Opiskelijalähettiläät',
+		],
+		volunteerRolesExtra: 'Tekijöitä moneen muuhunkin tehtävään',
+		volunteerRolesMore: 'Tule muovaamaan tekoälyn tulevaisuutta',
+		volunteerTasksTitle: 'Missä työtä on',
+		volunteerOffersTitle: 'Mitä saat',
+		volunteerOffers: [
+			'Tittelin ansioluetteloon',
+			'Tekoälyprojekteja',
+			'Pohjoisen verkoston',
+			'Koulutuksia ja tapahtumia',
+			'Kunnianhimoisen tiimin',
+		],
+		volunteerFacts: [
+			'Sopii aloittelijalle.',
+			'Onnistuu myös englanniksi.',
+			'Ikäraja on 15 vuotta.',
+			'Hakemus vie kolme minuuttia. Vastaamme kahdessa viikossa.',
+		],
 		volunteerTasks: [
 			{
-				icon: 'lucide:calendar-days',
 				title: 'Tapahtumat',
-				body: 'Ovet, ilmoittautumiset, tilan laitto. Sellainen työ, jota ilman ilta ei käynnisty.',
+				body: 'Ovet, ilmoittautumiset ja tilan järjestely. Työ, jota ilman ilta ei käynnisty.',
 			},
 			{
-				icon: 'lucide:presentation',
 				title: 'Tapaamiset',
-				body: 'Voit vetää työpajan tai olla mukana niin, että muut pääsevät alkuun.',
+				body: 'Vedä työpaja tai auta muita pääsemään alkuun.',
 			},
 			{
-				icon: 'lucide:megaphone',
 				title: 'Viestintä',
-				body: 'Julkaisut, sivujen tekstit tai Discord. Kerrot, mitä yhdistyksessä tapahtuu.',
+				body: 'Julkaisut, sivujen tekstit ja Discord. Kerrot, mitä yhdistyksessä tapahtuu.',
 			},
 			{
-				icon: 'lucide:users',
 				title: 'Verkosto',
-				body: 'Tunnet ihmisiä Pohjois-Suomessa ja tuot heidät samaan pöytään.',
+				body: 'Tunnet ihmisiä Pohjois-Suomessa ja tuot heidät saman pöydän ääreen.',
 			},
 		],
-		volunteerHowTitle: 'Miten tämä toimii',
+		volunteerHowTitle: 'Näin se toimii',
 		volunteerHow:
-			'Kerro lomakkeella, mistä olet kiinnostunut. Otamme yhteyttä, kun on jotain tehtävää. Yksi ilta tai yksi tapahtuma riittää alkuun. Jatkosta sovitaan sen mukaan, mitä ehdit.',
-		volunteerCtaTitle: 'Ilmoittaudu',
-		volunteerCtaLead: 'Kerro, missä haluat olla mukana.',
-		volunteerCta: 'Ilmoittaudu vapaaehtoiseksi',
+			'Kerro lomakkeella, mikä kiinnostaa. Otamme yhteyttä, kun on tekemistä. Yksi ilta tai yksi tapahtuma riittää alkuun. Jatkosta sovitaan sen mukaan, mitä ehdit.',
+		volunteerCta: 'Ilmoittaudu',
 		volunteerFormUrl: 'https://forms.gle/JU4RqHHPPaeEb6ay6',
+		siteMapLabel: 'Sivukartta',
+		siteMapTitle: ['Sivukartta'],
+		siteMapLead: 'Kaikki sivuston sivut ja etusivun osiot yhdessä paikassa.',
+		siteMapGroups: {
+			about: 'Yhdistys',
+			join: 'Tule mukaan',
+			content: 'Sisällöt',
+			info: 'Tiedot',
+		},
 	},
 	en: {
 		locale: 'en',
 		htmlLang: 'en',
 		ogLocale: 'en_GB',
 		description:
-			'Arctic AI Association ry is an association based in Oulu that takes AI from talk into production in Northern Finland.',
+			'Arctic AI Association ry is an association based in Oulu that is building the AI network of Northern Finland and takes AI from talk into production.',
 		skip: 'Skip to content',
-		navLabel: 'On this page',
+		navLabel: 'Main menu',
+		menuLabel: 'Menu',
 		languageLabel: 'Language',
-		nav: [
-			{ id: 'purpose', label: 'Purpose' },
-			{ id: 'work', label: 'What we do' },
-			{ id: 'audience', label: 'Who it’s for' },
-			{ id: 'membership', label: 'Membership' },
-			{ id: 'services', label: 'Services', path: 'palvelut' },
-			{ id: 'blog', label: 'Blog', path: 'blogi' },
-		],
+		homeLabel: 'Home',
+		sections: {
+			purpose: { id: 'purpose', label: 'Purpose' },
+			activity: { id: 'work', label: 'What we do' },
+			audience: { id: 'audience', label: 'Who it’s for' },
+			membership: { id: 'membership', label: 'Membership' },
+			discord: { id: 'discord', label: 'Discord' },
+		},
 		heroEyebrow: 'Registered association · Oulu',
 		heroTitle: 'We take AI from talk into production.',
 		heroLead:
-			'Arctic AI Association ry is an independent community. We bring together the companies, practitioners, research and public sector of Northern Finland to put artificial intelligence to practical use.',
+			'Arctic AI Association ry is an independent association. We bring the companies, practitioners, researchers and public sector of Northern Finland to the same table, so that AI moves from talk into use.',
 		tagline: 'Northern intelligence – in everyday life and in the world.',
-		ctaMembership: 'Membership',
+		ctaPrimary: 'Join the network',
 		ctaActivity: 'What we do',
 		logoAlt: 'Arctic AI',
 		visionLabel: 'Vision.',
 		vision: 'Oulu as the AI centre of the North.',
-		purposeTitle: 'Why the association exists',
+		purposeTitle: 'Why we exist',
 		purposeBody:
-			'The association advances knowledge, research and skills in artificial intelligence and intelligent systems, and their responsible, safe and ethically sound use. It is a network for specialists, researchers, students, companies, schools and public bodies, especially in Northern Finland.',
+			'Northern Finland has plenty of AI expertise and even more questions about how to use AI at work. We bring the two together. We advance knowledge, research and skills in AI, and its responsible, safe and ethically sound use.',
 		pillars: [
 			{
 				title: 'Doing comes first',
-				body: 'Pilots, prototypes and deployments. The aim is solutions that make it into use.',
+				body: 'Pilots, prototypes and deployments. The aim is a solution that ends up in use.',
 			},
 			{
-				title: 'A neutral platform',
-				body: 'The association serves the interests of the whole region. Commercial sales stay separate from its nonprofit work.',
+				title: 'Neutral ground',
+				body: 'We serve the whole region. Commercial sales stay separate from the association’s work.',
 			},
 			{
-				title: 'We show our own work',
-				body: 'We share with members the solutions we use in our own day-to-day work, including administrative routines.',
+				title: 'We do what we teach',
+				body: 'We use AI in our own work, including administrative routines, and share the solutions with members.',
 			},
 		],
 		activityTitle: 'What we do',
 		activityLead:
-			'Networking comes first. Skills, experiments and regulation are directions that take shape with the membership.',
+			'The network comes first. Skills, experiments and regulation are directions that take shape with the members.',
 		activities: [
 			{
 				title: 'Network',
@@ -393,52 +439,58 @@ export const ui: Record<Locale, SiteCopy> = {
 			},
 			{
 				title: 'Skills',
-				body: 'Training and workshops, including support for AI literacy.',
+				body: 'Training and workshops, including AI literacy.',
 			},
 			{
 				title: 'Experiments',
-				body: 'Taking AI from experiments into use.',
+				body: 'AI from trial into use.',
 			},
 			{
 				title: 'Regulation',
-				body: 'Discussion of the AI Act, copyright and data sovereignty.',
+				body: 'Discussion of the EU AI Act, copyright and data sovereignty.',
 			},
 		],
-		activityNote:
-			'A network is being built in Northern Finland. AI connects with the strengths of the region: health technology, intelligent industry, Arctic logistics, tourism, and defence and dual-use technology.',
+		sectorsLead: 'AI meets the strengths of the North.',
+		sectors: [
+			'Health technology',
+			'Intelligent industry',
+			'Arctic logistics',
+			'Tourism',
+			'Defence and dual-use technology',
+		],
 		audienceTitle: 'Who it’s for',
 		audienceLead:
 			'The main focus is organisations, because the greatest impact comes through work and business. Everyone interested in AI is welcome.',
 		audiences: [
 			{
 				title: 'Companies',
-				body: 'Training, regulatory support, funding advice and lessons from the experience of others.',
+				body: 'Training, regulatory support, funding advice, and what other companies have learned.',
 			},
 			{
 				title: 'Startups',
-				body: 'Visibility, networks and opportunities to present their own solutions.',
+				body: 'Visibility, contacts, and chances to show their own solutions.',
 			},
 			{
 				title: 'AI professionals and developers',
 				body: 'Workshops, peer support and a professional network.',
 			},
 			{
-				title: 'Researchers, students and educational institutions',
-				body: 'Hackathons, thesis and internship connections, and a path to companies.',
+				title: 'Researchers, students and schools',
+				body: 'Hackathons, thesis and internship contacts, and a way to companies.',
 			},
 			{
 				title: 'Public sector',
-				body: 'A neutral expert partner for business and public-sector AI solutions.',
+				body: 'A neutral expert partner for AI solutions.',
 			},
 			{
-				title: 'Employees and other individuals',
-				body: 'Skills and ways to use AI in their own work.',
+				title: 'Employees and individuals',
+				body: 'Skills, and ways to use AI in their own work.',
 			},
 		],
 		membershipTitle: 'Membership',
 		membershipLead:
-			'A person or an organisation that accepts the association’s purpose and rules may join. The board accepts full members and supporting members on application.',
-		membershipCta: 'Apply for membership',
+			'Any person or organisation that accepts the association’s purpose and rules can apply. The board accepts full members and supporting members on application.',
+		membershipCta: ['Apply for', 'membership'],
 		membershipFormUrl: 'https://forms.gle/F3dEfpvxGnT6xL6h6',
 		opensInNewTab: '(opens in a new tab)',
 		feesCaption: 'Membership fees for 14 October 2026–31 December 2027',
@@ -459,25 +511,25 @@ export const ui: Record<Locale, SiteCopy> = {
 		],
 		membershipNote:
 			'A supporting member may attend meetings and speak. A full member also has the right to vote.',
-		discordTitle: 'Join us on Discord',
-		discordLead: 'Everyone interested in AI as a topic is welcome on the association’s Discord.',
+		rulesCta: 'Read the rules',
+		discordTitle: 'Discord and WhatsApp',
+		discordLead: 'The association’s Discord and WhatsApp are open to everyone interested in AI.',
 		discordCta: 'Join the Discord',
-		discordLanguageNote: 'A fair warning: people on our Discord speak Finnish. Everyone is welcome all the same.',
+		whatsappCta: 'Join the WhatsApp community',
+		discordLanguageNote:
+			'A fair warning: people on our Discord and WhatsApp speak Finnish. Everyone is welcome all the same.',
 		discordPoints: [
 			{
-				icon: 'lucide:messages-square',
-				title: 'Talk about AI',
-				body: 'Ask questions, share what you are trying and hear what others are doing.',
+				title: 'Bring your question',
+				body: 'Ask, share what you are trying and hear what others are doing.',
 			},
 			{
-				icon: 'lucide:sprout',
 				title: 'No experience needed',
 				body: 'Beginners and professionals are equally welcome.',
 			},
 			{
-				icon: 'lucide:user-check',
-				title: 'Open to everyone',
-				body: 'You can join the Discord even if you’re only considering membership.',
+				title: 'Become a member when you are ready',
+				body: 'Join right away, and apply for membership whenever you like.',
 			},
 		],
 		businessId: 'Business ID 3663885-8',
@@ -485,68 +537,95 @@ export const ui: Record<Locale, SiteCopy> = {
 		founded: 'Founded 14 October 2026',
 		board:
 			'Board: Elina Heikkinen (chair), Janne Ikola, Kari Vierimaa, Teuvo Virsu, Pekka Salo and Satu Nikula. Deputy member Petteri Heikkinen.',
-		contact: 'Contact: elina.heikkinen@logean.com',
-		rulesLabel: 'Rules of the association',
+		contactLabel: 'Contact',
+		rulesLabel: 'Rules',
 		privacyLabel: 'Privacy',
 		blogLabel: 'Blog',
-		blogTitle: 'Blog',
-		blogLead: 'Writing from the association and from its partners.',
+		blogTitle: ['Blog'],
+		blogLead: 'Writing from the association and its partners.',
 		publishedLabel: 'Published',
 		blogOwnHeading: 'From the association',
 		blogPartnerHeading: 'From partners',
 		blogOwnLabel: 'Association',
 		blogPartnerLabel: 'Partner',
 		directoryNav: 'Services',
-		directoryTitle: 'Service directory',
+		directoryTitle: ['Services'],
+		directoryPageTitle: 'Service directory',
 		directoryLead:
-			'Short introductions and links from member companies, other nonprofit organisations and partners.',
+			'The service directory introduces the association’s corporate and organisational members, its partners, and their services.',
 		directoryDescription:
-			'Service directory of Arctic AI Association ry: short introductions from member companies, other nonprofit organisations and partners.',
+			'Service directory of Arctic AI Association ry: the association’s corporate and organisational members, its partners, and their services.',
 		directoryCompanies: 'Companies',
-		directoryPublic: 'Other nonprofit organisation',
+		directoryPublic: 'Other nonprofit organisations',
 		directoryPartners: 'Partners',
 		directoryVisit: 'Website',
-		directoryEmpty: 'There are no introductions in the directory yet.',
+		directoryEmpty: 'Coming soon!',
 		directoryHowTitle: 'How to be listed',
 		directoryHow:
-			'The directory is for member companies, other nonprofit organisations and partners. Send the name, a link and an introduction of at most 280 characters to',
-		directoryHowAfter: 'The board adds the card to the site.',
-		socialLabel: 'Channels',
+			'This information was collected on the membership form. If you would like to add yours later, please contact the board.',
 		volunteerNav: 'Volunteer',
 		volunteerBrief: 'We are looking for volunteers for events, meetups and communication.',
-		volunteerTitle: 'Come and do this with us',
+		volunteerLink: 'Become a volunteer',
+		volunteerTitle: ['Build', 'with us'],
 		volunteerDescription:
 			'Arctic AI Association ry is looking for volunteers for events, meetups and communication.',
 		volunteerLead:
-			'We are looking for volunteers to help run the association. There is work at events, at meetups and in communication. You do not need experience with AI, and you do not need to be a member.',
+			'We are looking for volunteers for events, meetups and communication. You do not need AI experience. You can start right away and apply for membership if you wish.',
+		volunteerRolesTitle: 'We are looking for',
+		volunteerRoles: [
+			'Member coordinator',
+			'Team leads',
+			'Community builders',
+			'Student ambassadors',
+		],
+		volunteerRolesExtra: 'Many more roles and tasks',
+		volunteerRolesMore: 'Help shape the future of AI',
+		volunteerTasksTitle: 'Where the work is',
+		volunteerOffersTitle: 'What you get',
+		volunteerOffers: [
+			'A title for your CV',
+			'AI-related projects',
+			'A northern network',
+			'Training and events',
+			'An ambitious team',
+		],
+		volunteerFacts: [
+			'No AI skills needed.',
+			'English is fine.',
+			'From age 15.',
+			'The form takes three minutes. We reply within two weeks.',
+		],
 		volunteerTasks: [
 			{
-				icon: 'lucide:calendar-days',
 				title: 'Events',
-				body: 'Doors, registrations, setting up the room. The practical work that gets an evening started.',
+				body: 'Doors, registrations and setting up the room. The work an evening cannot start without.',
 			},
 			{
-				icon: 'lucide:presentation',
 				title: 'Meetups',
-				body: 'You can run a workshop, or simply be there so others can get started.',
+				body: 'Run a workshop, or help others get started.',
 			},
 			{
-				icon: 'lucide:megaphone',
 				title: 'Communication',
-				body: 'Posts, text on the site, or Discord. You tell people what the association is doing.',
+				body: 'Posts, text on the site and Discord. You tell people what the association is doing.',
 			},
 			{
-				icon: 'lucide:users',
 				title: 'Network',
-				body: 'You know people in Northern Finland and you bring them to the same table.',
+				body: 'You know people in Northern Finland and bring them to the same table.',
 			},
 		],
-		volunteerHowTitle: 'How this works',
+		volunteerHowTitle: 'How it works',
 		volunteerHow:
-			'Tell us on the form what you are interested in. We will be in touch when there is something to do. One evening or one event is enough to start. What happens after that depends on the time you have.',
-		volunteerCtaTitle: 'Sign up',
-		volunteerCtaLead: 'Tell us where you want to take part.',
-		volunteerCta: 'Sign up as a volunteer',
+			'Tell us on the form what interests you. We will be in touch when there is something to do. One evening or one event is enough to start. The rest depends on the time you have.',
+		volunteerCta: 'Sign up',
 		volunteerFormUrl: 'https://forms.gle/kr27kcyjYyND9RxT6',
+		siteMapLabel: 'Site map',
+		siteMapTitle: ['Site map'],
+		siteMapLead: 'Every page of the site and every section of the front page in one place.',
+		siteMapGroups: {
+			about: 'Association',
+			join: 'Get involved',
+			content: 'Content',
+			info: 'Information',
+		},
 	},
 };

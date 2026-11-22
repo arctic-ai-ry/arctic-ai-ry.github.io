@@ -14,23 +14,16 @@ const partnerName = partner ? post.data.partner : '';
 const partnerUrl = partner ? post.data.partnerUrl : undefined;
 ---
 
-<span class="inline-flex flex-wrap items-center gap-x-2 gap-y-1">
-	<span
-		class:list={[
-			'inline-block px-2 py-0.5 text-xs font-semibold tracking-wide uppercase',
-			partner ? 'bg-aurora/20 text-ink' : 'bg-fjord/10 text-fjord',
-		]}
-	>
-		{partner ? copy.blogPartnerLabel : copy.blogOwnLabel}
-	</span>
+<span class="inline-flex flex-wrap items-center gap-x-2 gap-y-1 font-semibold">
+	<span class="text-navy">{partner ? copy.blogPartnerLabel : copy.blogOwnLabel}</span>
 	{
 		partner &&
 			(linked && partnerUrl ? (
-				<a class="font-semibold text-ink hover:text-fjord" href={partnerUrl}>
+				<a class="link link--inline" href={partnerUrl}>
 					{partnerName}
 				</a>
 			) : (
-				<span class="font-semibold text-ink">{partnerName}</span>
+				<span class="text-blue">{partnerName}</span>
 			))
 	}
 </span>

@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 30" width="64" height="30" role="img" aria-label="Arrow">
+  <!-- Arctic AI arrow (navy). Sits after a call to action, .8em high, baseline-aligned. -->
+  <path d="M0 10.5H40V1L64 15L40 29V19.5H0Z" fill="#013047"/>
+</svg>

@@ -1,139 +1,110 @@
 ---
-import { getRelativeLocaleUrl } from 'astro:i18n';
-import { pagePath } from '../i18n/pages';
-import { Icon } from 'astro-icon/components';
+import Button from './Button.astro';
+import CtaBand from './CtaBand.astro';
+import TickBand from './TickBand.astro';
 import Layout from '../layouts/Layout.astro';
-import { discordInviteUrl, socials, type SiteCopy } from '../i18n/ui';
+import { discordInviteUrl, whatsappInviteUrl, type SiteCopy } from '../i18n/ui';
+import { pageUrl } from '../lib/sitemap';
 
 interface Props {
 	copy: SiteCopy;
 }
 
 const { copy } = Astro.props;
-const purpose = copy.nav[0];
-const activity = copy.nav[1];
-const audience = copy.nav[2];
-const membership = copy.nav[3];
+const { purpose, activity, audience, membership, discord } = copy.sections;
+const [network, ...otherActivities] = copy.activities;
 ---
 
 <Layout copy={copy}>
 	<section>
 		<div
-			class="mx-auto grid max-w-6xl items-center gap-10 px-4 pt-14 pb-16 sm:px-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(16rem,0.85fr)] lg:pt-20 lg:pb-24"
+			class="wrap grid items-center gap-10 pt-14 pb-16 lg:grid-cols-[minmax(0,1.15fr)_minmax(16rem,0.85fr)] lg:pt-20 lg:pb-24"
 		>
 			<div>
-				<p class="text-sm font-semibold text-fjord">{copy.heroEyebrow}</p>
+				<p class="text-sm font-semibold text-blue">{copy.heroEyebrow}</p>
 				<h1
 					class="mt-4 max-w-3xl text-balance text-[clamp(2.6rem,6vw,4.6rem)] leading-[1.05] font-semibold tracking-tight"
 				>
 					{copy.heroTitle}
 				</h1>
-				<p class="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">{copy.heroLead}</p>
-				<p class="mt-5 max-w-xl border-l-2 border-aurora pl-4 text-lg font-medium">{copy.tagline}</p>
+				<p class="mt-6 max-w-xl text-lg leading-relaxed text-navy/80">{copy.heroLead}</p>
+				<p class="mt-5 max-w-xl border-l-2 border-teal pl-4 text-lg font-medium">{copy.tagline}</p>
 				<div class="mt-8 flex flex-wrap gap-3">
-					<a
-						href={`#${membership.id}`}
-						class="inline-flex min-h-11 items-center bg-ink px-5 text-sm font-semibold text-snow hover:bg-fjord"
-					>
-						{copy.ctaMembership}
-					</a>
-					<a
-						href={`#${activity.id}`}
-						class="inline-flex min-h-11 items-center border border-ink/20 px-5 text-sm font-semibold hover:border-ink"
-					>
-						{copy.ctaActivity}
-					</a>
+					<Button href={`#${membership.id}`}>{copy.ctaPrimary}</Button>
+					<Button href={`#${activity.id}`} quiet>{copy.ctaActivity}</Button>
 				</div>
-				<nav class="mt-6" aria-label={copy.socialLabel}>
-					<ul class="flex gap-2">
-						{
-							socials.map((item) => (
-								<li>
-									<a
-										href={item.href}
-										aria-label={item.label}
-										class="inline-flex h-11 w-11 items-center justify-center border border-ink/20 text-ink hover:border-fjord hover:text-fjord"
-									>
-										<Icon name={item.icon} class="h-5 w-5" aria-hidden="true" />
-									</a>
-								</li>
-							))
-						}
-					</ul>
-				</nav>
 			</div>
 			<img
-				src="/logo.png"
+				src="/brand/arctic-ai-logo.svg"
 				alt={copy.logoAlt}
-				width="800"
-				height="800"
+				width="1381"
+				height="830"
 				class="mx-auto w-full max-w-md lg:max-w-none"
 			/>
 		</div>
-		<p class="mx-auto max-w-6xl border-y border-ink/10 px-4 py-4 text-lg font-medium sm:px-6">
-			<span class="text-fjord">{copy.visionLabel}</span>{' '}
-			{copy.vision}
-		</p>
-	</section>
-
-	<section id={purpose.id} class="bg-mist/70">
-		<div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
-			<p class="text-sm font-semibold text-fjord">01</p>
-			<h2 class="mt-2 max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl">{copy.purposeTitle}</h2>
-			<p class="mt-6 max-w-3xl text-lg leading-relaxed text-ink-soft">{copy.purposeBody}</p>
-			<ul class="mt-12 grid gap-10 sm:grid-cols-3">
-				{
-					copy.pillars.map((item) => (
-						<li>
-							<h3 class="text-lg font-semibold">{item.title}</h3>
-							<p class="mt-2 leading-relaxed text-ink-soft">{item.body}</p>
-						</li>
-					))
-				}
-			</ul>
+		<div class="wrap">
+			<p class="border-y border-navy/12 py-4 text-lg font-medium">
+				<span class="text-blue">{copy.visionLabel}</span>{' '}
+				{copy.vision}
+			</p>
 		</div>
 	</section>
 
-	<section id={activity.id}>
-		<div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
-			<p class="text-sm font-semibold text-fjord">02</p>
-			<h2 class="mt-2 max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl">{copy.activityTitle}</h2>
-			<p class="mt-6 max-w-3xl text-lg leading-relaxed text-ink-soft">{copy.activityLead}</p>
-			<ol class="mt-12 divide-y divide-ink/10 border-y border-ink/10">
-				{
-					copy.activities.map((item) => (
-						<li class="grid gap-2 py-6 sm:grid-cols-[8rem_1fr] sm:gap-8">
-							<p class="font-semibold text-fjord">{item.title}</p>
-							<p class="leading-relaxed text-ink-soft">{item.body}</p>
-						</li>
-					))
-				}
-			</ol>
-			<p class="mt-8 max-w-3xl leading-relaxed text-ink-soft">{copy.activityNote}</p>
-			<div class="mt-8 max-w-xl border-l-2 border-aurora pl-4">
-				<p class="leading-relaxed">{copy.volunteerBrief}</p>
-				<a
-					class="mt-3 inline-flex min-h-11 items-center gap-2 font-semibold text-fjord hover:text-ink"
-					href={getRelativeLocaleUrl(copy.locale, pagePath(copy.locale, 'vapaaehtoiset'))}
-				>
-					{copy.volunteerNav}
-					<Icon name="lucide:arrow-right" class="size-4" aria-hidden="true" />
-				</a>
+	<section id={purpose.id} class="pt-20 lg:pt-28">
+		<div class="wrap rail pb-14 lg:pb-20">
+			<h2 class="h2">{copy.purposeTitle}</h2>
+			<p class="lead max-w-3xl">{copy.purposeBody}</p>
+		</div>
+		<TickBand rows={copy.pillars} />
+	</section>
+
+	<section id={activity.id} class="py-20 lg:py-28">
+		<div class="wrap rail">
+			<h2 class="h2">{copy.activityTitle}</h2>
+			<div>
+				<p class="lead max-w-3xl">{copy.activityLead}</p>
+				<ul class="mt-10 grid gap-x-10 sm:grid-cols-3">
+					<li class="border-t-2 border-navy pt-5 pb-10 sm:col-span-3">
+						<h3 class="text-[clamp(2rem,4.4vw,3.25rem)] leading-none font-semibold tracking-tight text-blue">
+							{network.title}
+						</h3>
+						<p class="lead mt-4 max-w-2xl">{network.body}</p>
+					</li>
+					{
+						otherActivities.map((item) => (
+							<li class="border-t border-navy/25 pt-5 pb-8">
+								<h3 class="text-2xl font-semibold tracking-tight text-blue">{item.title}</h3>
+								<p class="mt-2 text-navy/80">{item.body}</p>
+							</li>
+						))
+					}
+				</ul>
+				<div class="mt-6 border-t border-navy/25 pt-8">
+					<p class="text-lg font-medium">{copy.sectorsLead}</p>
+					<ul class="checks mt-5 grid gap-x-10 gap-y-3 text-xl font-semibold tracking-tight sm:grid-cols-2">
+						{copy.sectors.map((sector) => <li>{sector}</li>)}
+					</ul>
+				</div>
+				<div class="mt-12 flex flex-wrap items-center justify-between gap-x-10 gap-y-5 border-t border-navy/25 pt-8">
+					<p class="max-w-md text-lg font-medium">{copy.volunteerBrief}</p>
+					<Button href={pageUrl(copy, 'vapaaehtoiset')} quiet>{copy.volunteerLink}</Button>
+				</div>
 			</div>
 		</div>
 	</section>
 
-	<section id={audience.id} class="bg-mist/70">
-		<div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
-			<p class="text-sm font-semibold text-fjord">03</p>
-			<h2 class="mt-2 max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl">{copy.audienceTitle}</h2>
-			<p class="mt-6 max-w-3xl text-lg leading-relaxed text-ink-soft">{copy.audienceLead}</p>
-			<ul class="mt-12 grid gap-x-12 sm:grid-cols-2">
+	<section id={audience.id} class="border-t border-navy/12 py-20 lg:py-28">
+		<div class="wrap rail">
+			<div>
+				<h2 class="h2">{copy.audienceTitle}</h2>
+				<p class="mt-6 max-w-md text-navy/80">{copy.audienceLead}</p>
+			</div>
+			<ul class="checks grid gap-x-10 gap-y-8 self-start sm:grid-cols-2">
 				{
 					copy.audiences.map((item) => (
-						<li class="border-t border-ink/15 py-5">
-							<h3 class="font-semibold">{item.title}</h3>
-							<p class="mt-1 leading-relaxed text-ink-soft">{item.body}</p>
+						<li>
+							<h3 class="text-xl leading-snug font-semibold tracking-tight">{item.title}</h3>
+							<p class="mt-1.5 text-navy/80">{item.body}</p>
 						</li>
 					))
 				}
@@ -141,49 +112,35 @@ const membership = copy.nav[3];
 		</div>
 	</section>
 
-	<section id={membership.id} class="bg-ink/80 text-snow">
-		<div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
-			<p class="text-sm font-semibold text-aurora">04</p>
-			<h2 class="mt-2 max-w-2xl text-3xl font-semibold tracking-tight text-snow sm:text-4xl">
-				{copy.membershipTitle}
-			</h2>
-			<p class="mt-6 max-w-3xl text-lg leading-relaxed text-snow/80">{copy.membershipLead}</p>
-			<p class="mt-6">
-				<a
-					class="font-semibold text-aurora hover:text-snow"
-					href={getRelativeLocaleUrl(copy.locale, pagePath(copy.locale, 'saannot'))}
-				>
-					{copy.rulesLabel}
-				</a>
-			</p>
-			<a
-				href={copy.membershipFormUrl}
-				target="_blank"
-				rel="noopener"
-				class="mt-10 inline-flex min-h-16 items-center gap-3 bg-aurora px-10 text-xl font-semibold text-ink hover:bg-flare focus-visible:outline-snow"
-			>
-				{copy.membershipCta}
-				<Icon name="lucide:arrow-up-right" class="size-6 shrink-0" aria-hidden="true" />
-				<span class="sr-only">{copy.opensInNewTab}</span>
-			</a>
-			<div class="mt-12 overflow-x-auto">
-				<table class="w-full min-w-[28rem] text-left text-sm">
-					<caption class="mb-4 text-left text-base font-semibold text-snow">{copy.feesCaption}</caption>
+	<section id={membership.id} class="border-t border-navy/12 pt-20 lg:pt-28">
+		<div class="wrap rail pb-14 lg:pb-20">
+			<div>
+				<h2 class="h2">{copy.membershipTitle}</h2>
+				<p class="mt-6 max-w-md text-navy/80">{copy.membershipLead}</p>
+				<div class="mt-8">
+					<Button href={pageUrl(copy, 'saannot')} quiet>{copy.rulesCta}</Button>
+				</div>
+			</div>
+			<div>
+				<table class="w-full text-left">
+					<caption class="mb-5 text-left text-xl font-semibold tracking-tight">{copy.feesCaption}</caption>
 					<thead>
-						<tr class="border-b border-snow/20 text-snow/70">
+						<tr class="border-b-2 border-navy text-[0.9375rem] text-navy/72">
 							<th scope="col" class="py-2 pr-4 font-medium">{copy.feeClass}</th>
 							<th scope="col" class="py-2 text-right font-medium">{copy.feeAmount}</th>
 						</tr>
 					</thead>
 					<tbody>
 						{
-							copy.fees.map((fee, index) => (
-								<tr class:list={[{ 'border-b border-snow/15': index < copy.fees.length - 1 }]}>
-									<th scope="row" class="py-3 pr-4 font-medium">
+							copy.fees.map((fee) => (
+								<tr class="border-b border-navy/12">
+									<th scope="row" class="py-3.5 pr-4 font-medium">
 										{fee.label}
-										{fee.note && <span class="mt-1 block font-normal text-snow/70">{fee.note}</span>}
+										{fee.note && (
+											<span class="mt-0.5 block text-[0.9375rem] font-normal text-navy/72">{fee.note}</span>
+										)}
 									</th>
-									<td class:list={['py-3 text-right tabular-nums', { 'align-top': fee.note }]}>
+									<td class="py-3.5 text-right align-top text-xl font-semibold whitespace-nowrap tabular-nums">
 										{fee.amount}
 									</td>
 								</tr>
@@ -191,49 +148,33 @@ const membership = copy.nav[3];
 						}
 					</tbody>
 				</table>
+				<p class="mt-5 max-w-2xl text-[0.9375rem] text-navy/72">{copy.membershipNote}</p>
 			</div>
-			<p class="mt-6 max-w-3xl text-sm leading-relaxed text-snow/70">{copy.membershipNote}</p>
 		</div>
+		<CtaBand href={copy.membershipFormUrl} lines={copy.membershipCta} newTabLabel={copy.opensInNewTab} />
 	</section>
 
-	<section id="discord" class="bg-mist/70">
-		<div
-			class="mx-auto grid max-w-6xl gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-20 lg:py-24"
-		>
+	<section id={discord.id} class="py-20 lg:py-28">
+		<div class="wrap rail">
 			<div>
-				<p class="text-sm font-semibold text-fjord">05</p>
-				<h2 class="mt-2 max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl">{copy.discordTitle}</h2>
-				<p class="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">{copy.discordLead}</p>
+				<h2 class="h2">{copy.discordTitle}</h2>
+				<p class="mt-6 max-w-md text-navy/80">{copy.discordLead}</p>
 				{
 					copy.discordLanguageNote && (
-						<p class="mt-5 flex max-w-xl gap-3 border-l-2 border-aurora pl-4 font-medium">
-							<Icon name="lucide:languages" class="mt-0.5 size-5 shrink-0 text-fjord" aria-hidden="true" />
-							<span>{copy.discordLanguageNote}</span>
-						</p>
+						<p class="mt-5 max-w-md border-l-2 border-teal pl-4 font-medium">{copy.discordLanguageNote}</p>
 					)
 				}
-				<a
-					href={discordInviteUrl}
-					target="_blank"
-					rel="noopener"
-					class="mt-8 inline-flex min-h-11 items-center gap-2 bg-ink px-5 text-sm font-semibold text-snow hover:bg-fjord"
-				>
-					{copy.discordCta}
-					<Icon name="lucide:arrow-up-right" class="size-4 shrink-0" aria-hidden="true" />
-					<span class="sr-only">{copy.opensInNewTab}</span>
-				</a>
+				<div class="mt-8 grid max-w-[19rem] gap-3">
+					<Button href={discordInviteUrl} arrow newTabLabel={copy.opensInNewTab}>{copy.discordCta}</Button>
+					<Button href={whatsappInviteUrl} quiet arrow newTabLabel={copy.opensInNewTab}>{copy.whatsappCta}</Button>
+				</div>
 			</div>
-			<ul class="divide-y divide-ink/15 border-y border-ink/15 self-start">
+			<ul class="checks grid gap-y-8 self-start">
 				{
 					copy.discordPoints.map((point) => (
-						<li class="flex gap-4 py-5">
-							<span class="grid size-10 shrink-0 place-items-center bg-aurora/15 text-fjord">
-								<Icon name={point.icon} class="size-5" aria-hidden="true" />
-							</span>
-							<div>
-								<h3 class="font-semibold">{point.title}</h3>
-								<p class="mt-1 leading-relaxed text-ink-soft">{point.body}</p>
-							</div>
+						<li>
+							<h3 class="text-xl leading-snug font-semibold tracking-tight">{point.title}</h3>
+							<p class="mt-1.5 text-navy/80">{point.body}</p>
 						</li>
 					))
 				}

@@ -1,8 +1,10 @@
 ---
 import { getAbsoluteLocaleUrl, getRelativeLocaleUrl } from 'astro:i18n';
 import AuroraBackground from '../components/AuroraBackground.astro';
-import { pagePath, translatePath } from '../i18n/pages';
-import { locales, socials, type SiteCopy } from '../i18n/ui';
+import Button from '../components/Button.astro';
+import { translatePath } from '../i18n/pages';
+import { contactEmail, githubUrl, locales, type SiteCopy } from '../i18n/ui';
+import { mainMenu, sectionUrl, siteGroups } from '../lib/sitemap';
 import '../styles/global.css';
 
 interface Props {
@@ -18,6 +20,11 @@ const description = pageDescription ?? copy.description;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const home = getRelativeLocaleUrl(copy.locale);
 const routePath = Astro.url.pathname.replace(/^\/(fi|en)/, '').replace(/\/$/, '').replace(/^\//, '');
+/* The page the visitor is on, by its Finnish name. Empty on the front page. */
+const currentPage = translatePath(routePath, 'fi').split('/')[0];
+const menu = mainMenu(copy);
+const groups = siteGroups(copy);
+const joinUrl = sectionUrl(copy, 'membership');
 ---
 
 <!doctype html>
@@ -28,15 +35,24 @@ const routePath = Astro.url.pathname.replace(/^\/(fi|en)/, '').replace(/\/$/, ''
 		<meta name="color-scheme" content="light" />
 		<meta name="theme-color" content="#fefefe" />
 		<link rel="icon" href="/favicon.ico" sizes="48x48" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" type="image/png" href="/favicon.png" />
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 		<link rel="canonical" href={canonical} />
 		{
 			locales.map((locale) => (
-				<link rel="alternate" hreflang={locale} href={getAbsoluteLocaleUrl(locale, translatePath(routePath, locale) || undefined)} />
+				<link
+					rel="alternate"
+					hreflang={locale}
+					href={getAbsoluteLocaleUrl(locale, translatePath(routePath, locale) || undefined)}
+				/>
 			))
 		}
-		<link rel="alternate" hreflang="x-default" href={getAbsoluteLocaleUrl('fi', translatePath(routePath, 'fi') || undefined)} />
+		<link
+			rel="alternate"
+			hreflang="x-default"
+			href={getAbsoluteLocaleUrl('fi', translatePath(routePath, 'fi') || undefined)}
+		/>
 		<meta name="generator" content={Astro.generator} />
 		<meta name="description" content={description} />
 		<meta property="og:type" content="website" />
@@ -51,6 +67,9 @@ const routePath = Astro.url.pathname.replace(/^\/(fi|en)/, '').replace(/\/$/, ''
 		<meta property="og:description" content={description} />
 		<meta property="og:url" content={canonical} />
 		<title>{pageTitle}</title>
+		<script is:inline>
+			document.documentElement.classList.add('js');
+		</script>
 		<script
 			type="application/ld+json"
 			set:html={JSON.stringify({
@@ -59,6 +78,7 @@ const routePath = Astro.url.pathname.replace(/^\/(fi|en)/, '').replace(/\/$/, ''
 				name: siteName,
 				legalName: siteName,
 				url: 'https://arcai.fi',
+				logo: 'https://arcai.fi/brand/arctic-ai-logo.svg',
 				identifier: '3663885-8',
 				description,
 				inLanguage: copy.htmlLang,
@@ -67,7 +87,7 @@ const routePath = Astro.url.pathname.replace(/^\/(fi|en)/, '').replace(/\/$/, ''
 					addressLocality: 'Oulu',
 					addressCountry: 'FI',
 				},
-				sameAs: socials.map((item) => item.href),
+				sameAs: [githubUrl],
 			})}
 		/>
 	</head>
@@ -75,46 +95,43 @@ const routePath = Astro.url.pathname.replace(/^\/(fi|en)/, '').replace(/\/$/, ''
 		<AuroraBackground />
 		<a class="skip-link" href="#sisalto">{copy.skip}</a>
 		<div class="relative z-10 flex min-h-screen flex-col">
-			<div class="h-1 bg-linear-to-r from-fjord via-aurora to-flare" aria-hidden="true"></div>
-			<header class="sticky top-0 z-20 border-b border-ink/10 bg-snow/90 backdrop-blur-md">
-				<div
-					class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-3 px-4 py-3 sm:px-6"
-				>
-					<a href={home} class="flex items-center gap-3 text-ink">
-						<img src="/mark.png" alt="" width="512" height="512" class="size-14" />
-						<span class="text-sm font-semibold tracking-tight sm:text-base">{siteName}</span>
+			<header class="sticky top-0 z-30 bg-white/95">
+				<div class="arcai-gradient-line" aria-hidden="true"></div>
+				<div class="wrap flex items-center justify-between gap-x-8 py-3">
+					<a href={home} class="flex shrink-0 items-center gap-3 text-navy" aria-label={`${siteName}: ${copy.homeLabel}`}>
+						<img src="/brand/arctic-ai-logo.svg" alt="" width="1381" height="830" class="h-12 w-auto" />
+						<span class="font-semibold tracking-tight max-md:hidden">{siteName}</span>
 					</a>
-					<div class="flex flex-wrap items-center gap-x-6 gap-y-2">
-						<nav aria-label={copy.navLabel}>
-							<ul class="flex flex-wrap gap-x-5 gap-y-1 text-sm font-medium text-ink-soft">
-								{
-									copy.nav.map((item) => (
-										<li>
-											<a
-												class="hover:text-ink"
-												href={item.path ? getRelativeLocaleUrl(copy.locale, pagePath(copy.locale, item.path)) : `${home}#${item.id}`}
-											>
-												{item.label}
-											</a>
-										</li>
-									))
-								}
-							</ul>
-						</nav>
+					<nav class="max-lg:hidden" aria-label={copy.navLabel}>
+						<ul class="flex gap-x-7 font-medium">
+							{
+								menu.map((item) => (
+									<li>
+										<a
+											class="menu-link"
+											href={item.href}
+											aria-current={item.page && item.page === currentPage ? 'page' : undefined}
+										>
+											{item.label}
+										</a>
+									</li>
+								))
+							}
+						</ul>
+					</nav>
+					<div class="flex items-center gap-x-5">
+						<Button href={joinUrl} class="max-sm:hidden">{copy.ctaPrimary}</Button>
 						<nav aria-label={copy.languageLabel}>
-							<ul class="flex gap-3 text-sm">
+							<ul class="flex gap-3 font-medium">
 								{
 									locales.map((locale) => (
 										<li>
 											<a
+												class="menu-link"
 												href={getRelativeLocaleUrl(locale, translatePath(routePath, locale) || undefined)}
 												hreflang={locale}
 												lang={locale}
-												aria-current={locale === copy.locale ? 'page' : undefined}
-												class:list={[
-													'hover:text-ink',
-													locale === copy.locale ? 'font-semibold text-ink' : 'text-ink-soft',
-												]}
+												aria-current={locale === copy.locale ? 'true' : undefined}
 											>
 												{locale.toUpperCase()}
 											</a>
@@ -123,41 +140,144 @@ const routePath = Astro.url.pathname.replace(/^\/(fi|en)/, '').replace(/\/$/, ''
 								}
 							</ul>
 						</nav>
+						<details class="site-menu lg:hidden">
+							<summary>
+								<span class="site-menu__icon" aria-hidden="true"></span>
+								{copy.menuLabel}
+							</summary>
+							<nav class="site-menu__panel" aria-label={copy.navLabel}>
+								<ul class="wrap">
+									{
+										menu.map((item) => (
+											<li>
+												<a
+													href={item.href}
+													aria-current={item.page && item.page === currentPage ? 'page' : undefined}
+												>
+													{item.label}
+												</a>
+											</li>
+										))
+									}
+								</ul>
+								<div class="wrap grid pt-5 sm:hidden">
+									<Button href={joinUrl}>{copy.ctaPrimary}</Button>
+								</div>
+							</nav>
+						</details>
 					</div>
 				</div>
+				<div class="h-px bg-navy/12" aria-hidden="true"></div>
 			</header>
 			<main id="sisalto" class="flex-1">
 				<slot />
 			</main>
-			<footer class="border-t border-ink/10">
-				<div class="mx-auto max-w-6xl px-4 py-10 text-sm text-ink-soft sm:px-6">
-					<p class="font-semibold text-ink">{siteName}</p>
-					<p class="mt-2">
-						{copy.businessId}
-						<span aria-hidden="true"> · </span>
-						{copy.domicile}
-						<span aria-hidden="true"> · </span>
-						{copy.founded}
-					</p>
-					<p class="mt-4 max-w-3xl">{copy.board}</p>
-					<p class="mt-4 max-w-3xl">{copy.contact}</p>
-					<p class="mt-4 flex flex-wrap gap-x-5 gap-y-2">
-						<a class="font-medium text-ink hover:text-fjord" href={getRelativeLocaleUrl(copy.locale, pagePath(copy.locale, 'saannot'))}>
-							{copy.rulesLabel}
-						</a>
-						<a class="font-medium text-ink hover:text-fjord" href={getRelativeLocaleUrl(copy.locale, pagePath(copy.locale, 'tietosuoja'))}>
-							{copy.privacyLabel}
-						</a>
-						<a class="font-medium text-ink hover:text-fjord" href={getRelativeLocaleUrl(copy.locale, pagePath(copy.locale, 'palvelut'))}>
-							{copy.directoryNav}
-						</a>
-						<a class="font-medium text-ink hover:text-fjord" href={getRelativeLocaleUrl(copy.locale, pagePath(copy.locale, 'blogi'))}>
-							{copy.blogLabel}
-						</a>
-					</p>
-					<p class="mt-6">© {new Date().getFullYear()} {siteName}</p>
+			<footer class="relative overflow-hidden border-t border-navy/12 bg-white">
+				<div class="wrap relative z-10 pt-14 pb-10 lg:pt-20">
+					<div class="rail">
+						<div>
+							<a href={home} class="inline-block">
+								<img
+									src="/brand/arctic-ai-logo.svg"
+									alt={copy.logoAlt}
+									width="1381"
+									height="830"
+									class="h-auto w-44"
+									loading="lazy"
+								/>
+							</a>
+							<p class="mt-6 max-w-xs font-medium">{copy.tagline}</p>
+						</div>
+						<nav class="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4" aria-label={copy.siteMapLabel}>
+							{
+								groups.map((group) => (
+									<div>
+										<h2 class="font-semibold text-blue">{group.heading}</h2>
+										<ul class="mt-3 grid gap-2">
+											{group.links.map((link) => (
+												<li>
+													<a
+														class="footer-link"
+														href={link.href}
+														target={link.external ? '_blank' : undefined}
+														rel={link.external ? 'noopener' : undefined}
+													>
+														{link.label}
+														{link.external && <span class="sr-only"> {copy.opensInNewTab}</span>}
+													</a>
+												</li>
+											))}
+										</ul>
+									</div>
+								))
+							}
+						</nav>
+					</div>
+					<div class="mt-14 grid gap-3 border-t border-navy/12 pt-8 text-[0.9375rem] text-navy/72 lg:max-w-[46rem]">
+						<p class="font-semibold text-navy">{siteName}</p>
+						<ul class="flex flex-wrap gap-x-6 gap-y-1">
+							<li>{copy.businessId}</li>
+							<li>{copy.domicile}</li>
+							<li>{copy.founded}</li>
+						</ul>
+						<p>{copy.board}</p>
+						<ul class="flex flex-wrap gap-x-6 gap-y-1">
+							<li>
+								{copy.contactLabel}:{' '}
+								<a class="link link--inline" href={`mailto:${contactEmail}`}>{contactEmail}</a>
+							</li>
+							<li>
+								<a class="link link--inline" href={githubUrl}>GitHub</a>
+							</li>
+						</ul>
+						<p class="mt-4">© {new Date().getFullYear()} {siteName}</p>
+					</div>
 				</div>
+				<img
+					class="facets right-0 bottom-0 w-[26rem] max-xl:w-[20rem] max-lg:hidden"
+					src="/brand/facets-bottom-right.svg"
+					alt=""
+					width="1360"
+					height="1030"
+					loading="lazy"
+				/>
 			</footer>
 		</div>
+		<script>
+			/* Bands and other marked pieces arrive once, when they scroll into view. */
+			const marked = document.querySelectorAll('[data-inview]');
+			if ('IntersectionObserver' in window) {
+				const observer = new IntersectionObserver(
+					(entries) => {
+						for (const entry of entries) {
+							if (!entry.isIntersecting) continue;
+							entry.target.classList.add('is-in');
+							observer.unobserve(entry.target);
+						}
+					},
+					{ threshold: 0.25 },
+				);
+				marked.forEach((item) => observer.observe(item));
+			} else {
+				marked.forEach((item) => item.classList.add('is-in'));
+			}
+
+			/* The small-screen menu closes after a choice, on Escape, and on a click outside it. */
+			const menu = document.querySelector<HTMLDetailsElement>('.site-menu');
+			if (menu) {
+				menu.addEventListener('click', (event) => {
+					if (event.target instanceof Element && event.target.closest('a')) menu.open = false;
+				});
+				document.addEventListener('keydown', (event) => {
+					if (event.key === 'Escape' && menu.open) {
+						menu.open = false;
+						menu.querySelector('summary')?.focus();
+					}
+				});
+				document.addEventListener('click', (event) => {
+					if (menu.open && event.target instanceof Node && !menu.contains(event.target)) menu.open = false;
+				});
+			}
+		</script>
 	</body>
 </html>

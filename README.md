@@ -2,7 +2,7 @@
 
 [Arctic AI Association ry](https://arcai.fi) – yhdistyksen verkkosivut ([arcai.fi](https://arcai.fi), julkaisu GitHub Pagesissa).
 
-Staattinen Astro-sivusto: yhdistyksen landing page, yhteinen layout ja läpinäkyvä revontulitausta (`AuroraBackground`).
+Staattinen Astro-sivusto: etusivu, vapaaehtoiset, palveluluettelo, blogi, säännöt, tietosuoja ja sivukartta suomeksi ja englanniksi.
 
 ## Teknologia
 
@@ -40,18 +40,35 @@ Konfiguroitu `astro.config.mjs` → `integrations`:
 
 ```
 src/
-  components/     AuroraBackground.astro
-  layouts/        Layout.astro
-  i18n/           ui.ts (fi, en), pages.ts (sivujen osoitteet: fi/vapaaehtoiset ↔ en/volunteers)
+  components/     Landing, Volunteers, Palveluluettelo, BlogIndex, BlogPost, Rules, SiteMap
+                  Button (brändin painike), PageTitle (Archivo-otsikko ja väkänen),
+                  TickBand (tumma nauha ja rastitetut ruudut), CtaBand (vihreä toimintanauha),
+                  AuroraBackground (revontulitausta)
+  layouts/        Layout.astro (ylävalikko, alatunniste, sivukartta)
+  i18n/           ui.ts (tekstit fi, en), pages.ts (sivujen osoitteet: fi/vapaaehtoiset ↔ en/volunteers)
+  lib/            sitemap.ts (ylävalikko ja sivukartta yhdestä paikasta), blog.ts, palvelut.ts
   content/        blogi/, palvelut/ (palveluluettelon kortit, ohje OHJE.md)
-  pages/          index.astro → /fi/, fi/index.astro, en/index.astro
-  styles/         global.css
+  pages/          index.astro → /fi/, fi/*.astro, en/*.astro
+  styles/         global.css, arcai/ (design systemin tokens.css ja buttons.css muuttamattomina)
 public/
-  logo.png        tunnus ja sanamerkki
-  mark.png        tunnus ilman sanamerkkiä
-  favicon.png
+  brand/          logot, väkäset, nuoli ja fasetit SVG-tiedostoina (design systemistä)
+  favicon.svg     logo (tunnus ja sanamerkki) neliönä
+  logo.png, mark.png   vanhat rasterilogot, eivät enää käytössä sivuilla
 .github/workflows/deploy.yml
 ```
+
+## Ilme
+
+Ulkoasu noudattaa Arctic AI design systemiä (v1.1, [arcai-ai-design-system](https://github.com/arctic-ai-ry/arcai-ai-design-system)):
+viisi väriä, Archivo 900 / 125 % sivuotsikoissa, Familjen Grotesk muussa tekstissä, terävät kulmat.
+
+- Logot ja graafiset elementit ovat design systemin tiedostoja kansiossa `public/brand/`. Niitä ei piirretä uudelleen.
+- Tunnusta ei näytetä ilman sanamerkkiä: ylävalikossa, alatunnisteessa ja faviconissa on koko logo.
+- Painike on design systemin `buttons.css` sellaisenaan (`src/components/Button.astro`).
+- Sivulla on enintään yksi tumma rastinauha ja yksi vihreä toimintanauha.
+- Verkossa vihreä nauha on linkki. Tämä poikkeaa painotuotteista, joissa nauha vain osoittaa osoitteeseen.
+- Alatunnisteessa on fasettikulma, vaikka sivulla on myös revontulitausta. Design system erottaa nämä toisistaan; tässä ne ovat sivun eri päissä.
+- Fontit tulevat npm-paketeista (`@fontsource-variable/*`), ei Google Fontsista, jotta sivu ei tee pyyntöjä kolmansille osapuolille.
 
 ## Palveluluettelo
 

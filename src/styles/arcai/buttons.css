@@ -1,0 +1,130 @@
+/* Arctic AI Association ry — the button ("Rise", chosen 22 November 2026).
+   The gradient line sits under the button. On hover the line rises and floods the button green,
+   and the label flips to navy. Requires ../tokens/tokens.css and Familjen Grotesk.
+
+   Buttons are only for things that can be clicked: web pages, email, apps.
+   Never draw a button in print, in a social image or in a video.
+
+   Markup:
+     <button class="arcai-btn">
+       <span class="arcai-btn__label">Liity verkostoon</span>
+       <span class="arcai-btn__icon" aria-hidden="true">
+         <svg class="arcai-btn__arrow" viewBox="0 0 64 30"><path d="M0 10.5H40V1L64 15L40 29V19.5H0Z"/></svg>
+         <svg class="arcai-btn__check" viewBox="11 6 129 138"><path d="M13 93L33 72L58 101L50 140Z" opacity=".72"/><path d="M58 101L136 10L50 140Z"/></svg>
+       </span>
+     </button>
+
+   Variants   .arcai-btn--quiet            secondary: white with a hairline
+              .arcai-on-navy (ancestor)    buttons on a navy surface (also automatic inside .arcai-band)
+   States     :hover :focus-visible :active :disabled / [aria-disabled="true"]
+              .is-done                     the arrow becomes the check-mark (after a successful action)
+   Forced     .is-hover .is-focus .is-active   to show a state in documentation or a screenshot
+   The icon is optional; the check-mark svg is only needed on buttons that use .is-done. */
+
+.arcai-btn {
+  --btn-base: var(--arcai-navy);
+  --btn-ink: var(--arcai-white);
+  --btn-hair: transparent;
+  --btn-line: 4px;                                  /* height of the gradient line */
+  --btn-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7em;
+  min-height: 3rem;                                 /* 48 px: above the 44 px touch minimum */
+  margin: 0;
+  padding: 0 1.5rem 2px;
+  border: 0;
+  border-radius: 0;
+  background: var(--btn-base);
+  color: var(--btn-ink);
+  box-shadow: inset 0 0 0 1.5px var(--btn-hair);
+  font: 600 1.0625rem/1 var(--arcai-font-text);
+  letter-spacing: 0.005em;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.18s var(--btn-ease), color 0.28s var(--btn-ease);
+}
+.arcai-btn::before,
+.arcai-btn::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+
+/* the green flood, waiting below the bottom edge */
+.arcai-btn::before {
+  background: linear-gradient(90deg, var(--arcai-teal), var(--arcai-flare));
+  transform: scaleY(0);
+  transform-origin: 50% 100%;
+  transition: transform 0.34s var(--btn-ease);
+}
+/* the gradient line along the bottom edge */
+.arcai-btn::after {
+  inset: auto 0 0 0;
+  height: var(--btn-line);
+  background: linear-gradient(90deg, var(--arcai-blue), var(--arcai-teal), var(--arcai-flare));
+}
+
+/* hover: the line rises, the label turns navy */
+.arcai-btn:hover, .arcai-btn.is-hover { color: var(--arcai-navy); }
+.arcai-btn:hover::before, .arcai-btn.is-hover::before { transform: scaleY(1); }
+
+/* pressed */
+.arcai-btn:active, .arcai-btn.is-active { transform: translateY(1px) scale(0.985); }
+.arcai-btn:active::before, .arcai-btn.is-active::before { background: linear-gradient(90deg, var(--arcai-teal) -40%, var(--arcai-flare) 60%); }
+
+/* keyboard focus */
+.arcai-btn:focus { outline: none; }
+.arcai-btn:focus-visible, .arcai-btn.is-focus { outline: 3px solid var(--arcai-blue); outline-offset: 3px; }
+
+/* secondary */
+.arcai-btn--quiet { --btn-base: var(--arcai-white); --btn-ink: var(--arcai-navy); --btn-hair: rgb(1 48 71 / 0.22); }
+
+/* on navy */
+.arcai-on-navy .arcai-btn, .arcai-band .arcai-btn { --btn-base: var(--arcai-white); --btn-ink: var(--arcai-navy); }
+.arcai-on-navy .arcai-btn--quiet, .arcai-band .arcai-btn--quiet { --btn-base: transparent; --btn-ink: var(--arcai-white); --btn-hair: rgb(254 254 254 / 0.45); }
+.arcai-on-navy .arcai-btn:focus-visible, .arcai-on-navy .arcai-btn.is-focus,
+.arcai-band .arcai-btn:focus-visible, .arcai-band .arcai-btn.is-focus { outline-color: var(--arcai-flare); }
+
+/* disabled */
+.arcai-btn:disabled, .arcai-btn[aria-disabled="true"] {
+  --btn-base: rgb(1 48 71 / 0.12);
+  --btn-hair: transparent;
+  color: rgb(1 48 71 / 0.45);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.arcai-btn:disabled::after, .arcai-btn[aria-disabled="true"]::after { background: rgb(1 48 71 / 0.25); }
+.arcai-btn--quiet:disabled, .arcai-btn--quiet[aria-disabled="true"] { --btn-base: var(--arcai-white); --btn-hair: rgb(1 48 71 / 0.22); }
+.arcai-on-navy .arcai-btn:disabled, .arcai-band .arcai-btn:disabled { --btn-base: rgb(254 254 254 / 0.16); color: rgb(254 254 254 / 0.5); }
+.arcai-on-navy .arcai-btn--quiet:disabled, .arcai-band .arcai-btn--quiet:disabled { --btn-base: transparent; --btn-hair: rgb(254 254 254 / 0.3); }
+.arcai-on-navy .arcai-btn:disabled::after, .arcai-band .arcai-btn:disabled::after { background: rgb(254 254 254 / 0.35); }
+
+/* icon slot: arrow at rest, check-mark when .is-done */
+.arcai-btn__icon { position: relative; display: inline-block; flex: none; width: 1.3em; height: 1em; }
+.arcai-btn__icon svg { position: absolute; display: block; overflow: visible; fill: currentColor; }
+.arcai-btn__arrow {
+  left: 0; top: 50%; width: 1.3em; height: 0.61em; margin-top: -0.305em;
+  transition: transform 0.3s var(--btn-ease), opacity 0.18s;
+}
+.arcai-btn__check {
+  left: 0.06em; bottom: -0.08em; width: 1.16em; height: 1.24em;
+  opacity: 0; clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.45s var(--btn-ease) 0.06s, opacity 0.01s 0.06s;
+}
+.arcai-btn:hover .arcai-btn__arrow, .arcai-btn.is-hover .arcai-btn__arrow { transform: translateX(0.22em); }
+.arcai-btn.is-done .arcai-btn__arrow { opacity: 0; transform: translateX(0.7em); }
+.arcai-btn.is-done .arcai-btn__check { opacity: 1; clip-path: inset(0 0 0 0); }
+.arcai-btn:disabled .arcai-btn__icon { opacity: 0.55; }
+
+/* reduced motion: every state still shows, nothing travels */
+@media (prefers-reduced-motion: reduce) {
+  .arcai-btn, .arcai-btn::before, .arcai-btn::after, .arcai-btn__icon svg {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+  }
+  .arcai-btn:hover .arcai-btn__arrow, .arcai-btn.is-hover .arcai-btn__arrow { transform: none; }
+}

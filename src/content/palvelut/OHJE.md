@@ -1,8 +1,8 @@
 # Palveluluettelon kortit
 
-Sivu on osoitteessa `/fi/palvelut` ja `/en/palvelut`. Kortit luetaan tämän kansion markdown-tiedostoista. `OHJE.md` ei ole kortti, eikä sitä näytetä sivulla.
+Sivu on osoitteessa `/fi/palvelut` ja `/en/services`. Kortit luetaan tämän kansion markdown-tiedostoista. `OHJE.md` ei ole kortti, eikä sitä näytetä sivulla.
 
-Luettelo on jäsenyrityksille, muille yleishyödyllisille toimijoille ja yhteistyökumppaneille. Jäsen lähettää nimen, linkin ja esittelyn osoitteeseen elina.heikkinen@logean.com. Kortin lisää se, joka ylläpitää sivustoa: uusi tiedosto tähän kansioon, sitten julkaisu `main`-haaraan.
+Luettelo esittelee yhdistyksen yritys- ja yhteisöjäsenet, kumppanit sekä heidän palvelunsa. Tiedot kysytään jäsenhakemuslomakkeella. Myöhemmin ne voi toimittaa hallitukselle. Kortin lisää se, joka ylläpitää sivustoa: uusi tiedosto tähän kansioon, sitten julkaisu `main`-haaraan.
 
 ## Uusi kortti
 
@@ -29,4 +29,4 @@ summary:
 
 Sivu jakaa kortit kahteen ryhmään ja järjestää nimet suomen aakkosjärjestykseen. Erillistä järjestyskenttää ei ole.
 
-Kun kansiossa ei ole yhtään korttia, sivu kertoo, että luettelo on tyhjä, ja näyttää ohjeen mukaan pääsemisestä.
+Kun kansiossa ei ole yhtään korttia, sivu kertoo, että luettelo on tulossa, ja näyttää ohjeen mukaan pääsemisestä.

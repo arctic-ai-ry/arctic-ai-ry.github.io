@@ -1,0 +1,32 @@
+---
+/**
+ * The page title: Archivo 900 at width 125%, uppercase, ending in the check-mark.
+ * Lines are broken by meaning, so the caller gives them one by one. The size follows
+ * the longest line, so a long Finnish word never wraps or overflows.
+ */
+interface Props {
+	lines: string[];
+	/** Largest size the title may reach. */
+	max?: string;
+	class?: string;
+}
+
+const { lines, max = '6rem', class: className } = Astro.props;
+/* The check-mark takes about one letter's width on the last line. */
+const chars = Math.max(...lines.map((line, index) => line.length + (index === lines.length - 1 ? 1.1 : 0)), 6);
+---
+
+<div class:list={['title-box', className]}>
+	<h1 class="arcai-title title-fit" style={`--chars:${chars};--title-max:${max};--lines:${lines.length}`}>
+		{
+			lines.map((line, index) => (
+				<span style={`--line:${index}`}>
+					{line}
+					{index === lines.length - 1 && (
+						<img class="arcai-tick" src="/brand/check-mark.svg" alt="" width="129" height="138" />
+					)}
+				</span>
+			))
+		}
+	</h1>
+</div>

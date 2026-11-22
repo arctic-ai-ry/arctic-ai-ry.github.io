@@ -1,5 +1,6 @@
 ---
 import { getRelativeLocaleUrl } from 'astro:i18n';
+import PageTitle from './PageTitle.astro';
 import Layout from '../layouts/Layout.astro';
 import type { PageName } from '../i18n/pages';
 import type { SiteCopy } from '../i18n/ui';
@@ -24,17 +25,17 @@ function entry(item: RulesItem) {
 ---
 
 <Layout copy={copy} title={rules.title} description={rules.description}>
-	<article class="bg-snow">
-		<div class="mx-auto max-w-3xl px-4 py-14 sm:px-6 lg:py-20">
-			<p class="text-sm font-semibold text-fjord">{rules.eyebrow}</p>
-			<h1 class="mt-3 text-4xl font-semibold tracking-tight text-balance sm:text-5xl">{rules.title}</h1>
-			<p class="mt-6 max-w-2xl text-lg leading-relaxed text-pretty text-ink-soft">{rules.intro}</p>
+	<article>
+		<div class="wrap pt-14 pb-20 lg:pt-20 lg:pb-28">
+			<PageTitle lines={[rules.title]} />
+			<p class="mt-8 font-semibold text-blue">{rules.eyebrow}</p>
+			<p class="lead mt-3 max-w-2xl">{rules.intro}</p>
 			{
 				rules.notice && (
-					<p class="mt-6 max-w-2xl border-l-2 border-aurora pl-4 leading-relaxed text-pretty text-ink-soft">
+					<p class="mt-6 max-w-2xl border-l-2 border-teal pl-4 text-pretty">
 						{rules.notice}{' '}
 						<a
-							class="font-semibold text-fjord hover:text-ink"
+							class="link link--inline"
 							href={getRelativeLocaleUrl('fi', officialPath)}
 							hreflang="fi"
 							lang="fi"
@@ -44,72 +45,74 @@ function entry(item: RulesItem) {
 					</p>
 				)
 			}
-			<nav class="mt-12 max-w-2xl" aria-label={rules.contentsLabel}>
-				<h2 class="text-sm font-semibold text-fjord">{rules.contentsLabel}</h2>
-				<ol class="mt-3 border-y border-ink/10">
+			<div class="rail mt-16">
+				<nav class="self-start lg:sticky lg:top-28" aria-label={rules.contentsLabel}>
+					<h2 class="font-semibold text-blue">{rules.contentsLabel}</h2>
+					<ol class="mt-3 border-t-2 border-navy">
+						{
+							rules.sections.map((section, index) => {
+								const { number, name } = sectionParts(section.title);
+								return (
+									<li class="border-b border-navy/12">
+										<a
+											class="row-link grid grid-cols-[2rem_minmax(0,1fr)] items-baseline gap-2 py-2.5 text-[0.9375rem]"
+											href={`#s-${index + 1}`}
+										>
+											<span class="font-semibold text-blue tabular-nums">{number}</span>
+											<span class="row-link__title text-pretty">{name}</span>
+										</a>
+									</li>
+								);
+							})
+						}
+					</ol>
+				</nav>
+				<div class="max-w-2xl">
 					{
 						rules.sections.map((section, index) => {
 							const { number, name } = sectionParts(section.title);
 							return (
-								<li class="border-b border-ink/10 last:border-b-0">
-									<a
-										class="grid grid-cols-[2.25rem_minmax(0,1fr)] items-baseline gap-3 py-3 hover:text-fjord"
-										href={`#s-${index + 1}`}
-									>
-										<span class="font-semibold text-fjord tabular-nums">{number}</span>
+								<section id={`s-${index + 1}`} class="border-t border-navy/12 py-10 first:border-t-2 first:border-navy">
+									<h2 class="grid grid-cols-[2.25rem_minmax(0,1fr)] items-baseline gap-3 text-2xl font-semibold tracking-tight">
+										<span class="text-blue tabular-nums">{number}</span>
 										<span class="text-pretty">{name}</span>
-									</a>
-								</li>
+									</h2>
+									<div class="mt-5 space-y-4 pl-[calc(2.25rem+0.75rem)] leading-relaxed text-pretty text-navy/85">
+										{section.blocks.map((block) =>
+											block.type === 'p' ? (
+												<p>{block.text}</p>
+											) : (
+												<ul class="space-y-3">
+													{block.items.map((item) => {
+														const row = entry(item);
+														return (
+															<li class="grid grid-cols-[1rem_minmax(0,1fr)] gap-2">
+																<span class="text-blue" aria-hidden="true">
+																	–
+																</span>
+																<span>
+																	{row.text}
+																	{row.lines && (
+																		<span class="mt-2 grid gap-1">
+																			{row.lines.map((line) => (
+																				<span class="block">{line}</span>
+																			))}
+																		</span>
+																	)}
+																	{row.tail && <span class="mt-2 block">{row.tail}</span>}
+																</span>
+															</li>
+														);
+													})}
+												</ul>
+											),
+										)}
+									</div>
+								</section>
 							);
 						})
 					}
-				</ol>
-			</nav>
-			<div class="mt-4 max-w-2xl">
-				{
-					rules.sections.map((section, index) => {
-						const { number, name } = sectionParts(section.title);
-						return (
-							<section id={`s-${index + 1}`} class="scroll-mt-24 border-t border-ink/10 py-10">
-								<h2 class="grid grid-cols-[2.25rem_minmax(0,1fr)] items-baseline gap-3 text-2xl font-semibold tracking-tight">
-									<span class="text-fjord tabular-nums">{number}</span>
-									<span class="text-pretty">{name}</span>
-								</h2>
-								<div class="mt-5 space-y-4 pl-[calc(2.25rem+0.75rem)] leading-relaxed text-pretty text-ink-soft">
-									{section.blocks.map((block) =>
-										block.type === 'p' ? (
-											<p>{block.text}</p>
-										) : (
-											<ul class="space-y-3">
-												{block.items.map((item) => {
-													const row = entry(item);
-													return (
-														<li class="grid grid-cols-[1rem_minmax(0,1fr)] gap-2">
-															<span class="text-fjord" aria-hidden="true">
-																–
-															</span>
-															<span>
-																{row.text}
-																{row.lines && (
-																	<span class="mt-2 grid gap-1">
-																		{row.lines.map((line) => (
-																			<span class="block">{line}</span>
-																		))}
-																	</span>
-																)}
-																{row.tail && <span class="mt-2 block">{row.tail}</span>}
-															</span>
-														</li>
-													);
-												})}
-											</ul>
-										),
-									)}
-								</div>
-							</section>
-						);
-					})
-				}
+				</div>
 			</div>
 		</div>
 	</article>

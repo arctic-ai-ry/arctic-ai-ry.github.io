@@ -1,5 +1,8 @@
 ---
-import { Icon } from 'astro-icon/components';
+import Button from './Button.astro';
+import CtaBand from './CtaBand.astro';
+import PageTitle from './PageTitle.astro';
+import TickBand from './TickBand.astro';
 import Layout from '../layouts/Layout.astro';
 import type { SiteCopy } from '../i18n/ui';
 
@@ -12,63 +15,54 @@ const { copy } = Astro.props;
 
 <Layout copy={copy} title={copy.volunteerNav} description={copy.volunteerDescription}>
 	<section>
-		<div class="mx-auto max-w-6xl px-4 pt-14 pb-16 sm:px-6 lg:pt-20 lg:pb-24">
-			<p class="text-sm font-semibold text-fjord">{copy.heroEyebrow}</p>
-			<h1
-				class="mt-4 max-w-3xl text-balance text-[clamp(2.4rem,5vw,4.2rem)] leading-[1.05] font-semibold tracking-tight"
-			>
-				{copy.volunteerTitle}
-			</h1>
-			<p class="mt-6 max-w-2xl text-lg leading-relaxed text-ink-soft">{copy.volunteerLead}</p>
-			<a
-				href={copy.volunteerFormUrl}
-				target="_blank"
-				rel="noopener"
-				class="mt-8 inline-flex min-h-11 items-center gap-2 bg-ink px-5 text-sm font-semibold text-snow hover:bg-fjord"
-			>
-				{copy.volunteerCta}
-				<Icon name="lucide:arrow-up-right" class="size-4 shrink-0" aria-hidden="true" />
-				<span class="sr-only">{copy.opensInNewTab}</span>
-			</a>
+		<div class="wrap pt-14 pb-16 lg:pt-20 lg:pb-24">
+			<PageTitle lines={copy.volunteerTitle} max="7.5rem" />
+			<p class="lead mt-8 max-w-2xl">{copy.volunteerLead}</p>
+			<div class="mt-8">
+				<Button href={copy.volunteerFormUrl} arrow newTabLabel={copy.opensInNewTab}>{copy.volunteerCta}</Button>
+			</div>
 		</div>
+		<TickBand
+			heading={copy.volunteerRolesTitle}
+			rows={copy.volunteerRoles.map((title) => ({ title }))}
+			extra={copy.volunteerRolesExtra}
+			footnote={copy.volunteerRolesMore}
+		/>
 	</section>
 
-	<section class="bg-mist/70">
-		<div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
-			<ul class="grid gap-px bg-ink/15 sm:grid-cols-2">
+	<section class="py-20 lg:py-28">
+		<div class="wrap rail">
+			<h2 class="h2">{copy.volunteerTasksTitle}</h2>
+			<ul class="grid gap-x-10 sm:grid-cols-2">
 				{
 					copy.volunteerTasks.map((task) => (
-						<li class="bg-snow/80 p-6 sm:p-8">
-							<span class="grid size-10 place-items-center bg-aurora/15 text-fjord">
-								<Icon name={task.icon} class="size-5" aria-hidden="true" />
-							</span>
-							<h2 class="mt-4 text-xl font-semibold tracking-tight">{task.title}</h2>
-							<p class="mt-2 leading-relaxed text-ink-soft">{task.body}</p>
+						<li class="border-t border-navy/25 pt-5 pb-8">
+							<h3 class="text-2xl font-semibold tracking-tight text-blue">{task.title}</h3>
+							<p class="mt-2 text-navy/80">{task.body}</p>
 						</li>
 					))
 				}
 			</ul>
-			<div class="mt-12 max-w-2xl border-l-2 border-aurora pl-4">
-				<h2 class="text-xl font-semibold tracking-tight">{copy.volunteerHowTitle}</h2>
-				<p class="mt-3 leading-relaxed text-ink-soft">{copy.volunteerHow}</p>
-			</div>
 		</div>
 	</section>
 
-	<section id="ilmoittaudu" class="bg-ink/80 text-snow">
-		<div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
-			<h2 class="max-w-2xl text-3xl font-semibold tracking-tight text-snow sm:text-4xl">{copy.volunteerCtaTitle}</h2>
-			<p class="mt-6 max-w-2xl text-lg leading-relaxed text-snow/80">{copy.volunteerCtaLead}</p>
-			<a
-				href={copy.volunteerFormUrl}
-				target="_blank"
-				rel="noopener"
-				class="mt-10 inline-flex min-h-16 items-center gap-3 bg-aurora px-10 text-xl font-semibold text-ink hover:bg-flare focus-visible:outline-snow"
-			>
-				{copy.volunteerCta}
-				<Icon name="lucide:arrow-up-right" class="size-6 shrink-0" aria-hidden="true" />
-				<span class="sr-only">{copy.opensInNewTab}</span>
-			</a>
+	<section class="border-t border-navy/12 pt-20 lg:pt-28">
+		<div class="wrap rail pb-14 lg:pb-20">
+			<div>
+				<h2 class="h2">{copy.volunteerOffersTitle}</h2>
+				<ul class="checks mt-8 grid gap-y-3 text-xl font-semibold tracking-tight">
+					{copy.volunteerOffers.map((offer) => <li>{offer}</li>)}
+				</ul>
+			</div>
+			<div class="self-start lg:pt-2">
+				<h2 class="text-2xl font-semibold tracking-tight text-blue">{copy.volunteerHowTitle}</h2>
+				<p class="lead mt-4 max-w-2xl">{copy.volunteerHow}</p>
+				<ul class="mt-8 grid max-w-2xl gap-x-10 border-t border-navy/25 pt-6 font-medium sm:grid-cols-2">
+					{copy.volunteerFacts.map((fact) => <li class="py-1.5">{fact}</li>)}
+				</ul>
+			</div>
 		</div>
+		<CtaBand href={copy.volunteerFormUrl} lines={[copy.volunteerCta]} newTabLabel={copy.opensInNewTab} />
+		<div class="h-20 lg:h-28" aria-hidden="true"></div>
 	</section>
 </Layout>

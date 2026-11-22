@@ -1,0 +1,59 @@
+---
+/**
+ * The navy band with ticked boxes. It wipes in from the left and its boxes are ticked one by one.
+ * One per page. Each row is a large line; `body` adds a sentence beside it.
+ */
+interface Row {
+	title: string;
+	body?: string;
+}
+
+interface Props {
+	rows: Row[];
+	heading?: string;
+	/** A last line that is not one of the ticked rows: "and more". It gets a plus sign. */
+	extra?: string;
+	footnote?: string;
+}
+
+const { rows, heading, extra, footnote } = Astro.props;
+const withBody = rows.some((row) => row.body);
+---
+
+<div data-inview>
+	<div class="band">
+		<div class="wrap py-14 lg:py-20">
+			{heading && <h2 class="h2 mb-9 lg:mb-12">{heading}</h2>}
+			<ul class="grid gap-y-7 lg:gap-y-8">
+				{
+					rows.map((row, index) => (
+						<li
+							class:list={[
+								'tick-item grid gap-x-10 gap-y-2',
+								{ 'lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:items-center': withBody },
+							]}
+							style={`--i:${index}`}
+						>
+							<p class="tick-title flex items-start gap-[0.4em]">
+								<span class="tickbox -mt-[0.09em]" aria-hidden="true" />
+								<span class="min-w-0">{row.title}</span>
+							</p>
+							{row.body && <p class="max-w-md pl-[calc(1.1215em+0.7em)] text-white/85 lg:pl-0">{row.body}</p>}
+						</li>
+					))
+				}
+				{
+					extra && (
+						<li class="tick-item" style={`--i:${rows.length}`}>
+							<p class="tick-title flex items-start gap-[0.4em]">
+								<span class="plusbox -mt-[0.09em]" aria-hidden="true" />
+								<span class="min-w-0">{extra}</span>
+							</p>
+						</li>
+					)
+				}
+			</ul>
+			{footnote && <p class="band-close mt-10 border-t border-white/25 pt-8 lg:mt-14 lg:pt-10">{footnote}</p>}
+		</div>
+	</div>
+</div>

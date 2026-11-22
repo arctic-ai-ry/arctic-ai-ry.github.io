@@ -1,0 +1,35 @@
+---
+/**
+ * The Arctic AI button ("Rise"). The styles are the design system's buttons.css, unmodified.
+ * One primary button per view; `quiet` is the secondary variant.
+ */
+interface Props {
+	href: string;
+	quiet?: boolean;
+	arrow?: boolean;
+	/** Opens in a new tab. Pass the "(opens in a new tab)" text for screen readers. */
+	newTabLabel?: string;
+	class?: string;
+}
+
+const { href, quiet = false, arrow = false, newTabLabel, class: className } = Astro.props;
+---
+
+<a
+	class:list={['arcai-btn', { 'arcai-btn--quiet': quiet }, className]}
+	href={href}
+	target={newTabLabel ? '_blank' : undefined}
+	rel={newTabLabel ? 'noopener' : undefined}
+>
+	<span class="arcai-btn__label"><slot /></span>
+	{
+		arrow && (
+			<span class="arcai-btn__icon" aria-hidden="true">
+				<svg class="arcai-btn__arrow" viewBox="0 0 64 30">
+					<path d="M0 10.5H40V1L64 15L40 29V19.5H0Z" />
+				</svg>
+			</span>
+		)
+	}
+	{newTabLabel && <span class="sr-only">{newTabLabel}</span>}
+</a>

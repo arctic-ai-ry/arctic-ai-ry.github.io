@@ -11,6 +11,7 @@ export const englishPageNames = {
 	tietosuoja: 'privacy',
 	palvelut: 'services',
 	blogi: 'blog',
+	sivukartta: 'site-map',
 } as const;
 
 export type PageName = keyof typeof englishPageNames;

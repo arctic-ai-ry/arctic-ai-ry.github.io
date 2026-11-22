@@ -1,0 +1,40 @@
+---
+/**
+ * The green call-to-action band with the slanted end and the arrow. In print the band only
+ * points at an address; on the web the whole band is the link. One per page.
+ */
+interface Props {
+	href: string;
+	/** The call to action, one array item per line. */
+	lines: string[];
+	newTabLabel?: string;
+}
+
+const { href, lines, newTabLabel } = Astro.props;
+/* The arrow takes about two letters' width on the last line. */
+const chars = Math.max(...lines.map((line, index) => line.length + (index === lines.length - 1 ? 2.3 : 0)), 8);
+---
+
+<a
+	class="cta-band"
+	href={href}
+	target={newTabLabel ? '_blank' : undefined}
+	rel={newTabLabel ? 'noopener' : undefined}
+	data-inview
+>
+	<span class="cta-band__box">
+		<span class="arcai-title cta-band__label" style={`--chars:${chars}`}>
+			{
+				lines.map((line, index) => (
+					<span>
+						{line}
+						{index === lines.length - 1 && (
+							<img class="arcai-arrow" src="/brand/arrow.svg" alt="" width="64" height="30" />
+						)}
+					</span>
+				))
+			}
+		</span>
+	</span>
+	{newTabLabel && <span class="sr-only">{newTabLabel}</span>}
+</a>

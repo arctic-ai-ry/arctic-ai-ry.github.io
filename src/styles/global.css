@@ -1,34 +1,67 @@
 @import "tailwindcss";
-@plugin "@tailwindcss/typography";
 @import "@fontsource-variable/familjen-grotesk";
+@import "@fontsource-variable/archivo/wdth.css";
+/* Arctic AI design system v1.1: tokens and the button, copied unmodified from arcai-ai-design-system. */
+@import "./arcai/tokens.css";
+@import "./arcai/buttons.css" layer(components);
+@plugin "@tailwindcss/typography";
 
 @theme {
-	--color-ink: #013047;
-	--color-ink-soft: #1c4a62;
-	--color-fjord: #06547f;
-	--color-aurora: #17b588;
+	--color-navy: #013047;
+	--color-blue: #06547f;
+	--color-teal: #17b588;
 	--color-flare: #1efd6e;
-	--color-snow: #fefefe;
-	--color-mist: #f3f7f5;
-	--font-sans: "Familjen Grotesk Variable", "Familjen Grotesk", ui-sans-serif, system-ui, sans-serif;
+	--color-white: #fefefe;
+	--font-sans: "Familjen Grotesk Variable", "Familjen Grotesk", "Segoe UI", Arial, sans-serif;
+	--font-display: "Archivo Variable", "Archivo", "Arial Black", sans-serif;
+	--ease-snap: cubic-bezier(0.16, 1, 0.3, 1);
+	--ease-glide: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+:root {
+	/* The design-system files name the Google Fonts families; the site ships the same fonts itself. */
+	--arcai-font-text: var(--font-sans);
+	--arcai-font-display: var(--font-display);
+	--gutter: 1rem;
+	--page: 72rem;
+	/* Distance from the viewport edge to the content column. Full-width bands align their content with it. */
+	--edge: max(var(--gutter), calc((100vw - var(--page)) / 2 + var(--gutter)));
+}
+
+@media (min-width: 40rem) {
+	:root {
+		--gutter: 1.5rem;
+	}
+}
+
+@view-transition {
+	navigation: auto;
 }
 
 @layer base {
 	html {
 		scroll-behavior: smooth;
+		scrollbar-gutter: stable;
 	}
 
 	body {
-		@apply m-0 min-h-screen bg-snow font-sans text-ink antialiased;
+		@apply m-0 min-h-screen bg-white font-sans text-navy antialiased;
+		font-size: 1.0625rem;
+		line-height: 1.5;
 	}
 
 	:focus-visible {
-		outline: 2px solid var(--color-fjord);
+		outline: 2px solid var(--color-blue);
 		outline-offset: 3px;
 	}
 
-	section[id] {
-		scroll-margin-top: 5.5rem;
+	[id] {
+		scroll-margin-top: 6rem;
+	}
+
+	::selection {
+		background: var(--color-flare);
+		color: var(--color-navy);
 	}
 
 	@media (prefers-reduced-motion: reduce) {
@@ -38,41 +71,586 @@
 	}
 }
 
-.skip-link {
-	position: absolute;
-	left: 1rem;
-	top: 0;
-	z-index: 50;
-	transform: translateY(-120%);
-	background: var(--color-ink);
-	color: var(--color-snow);
-	padding: 0.6rem 0.9rem;
-	border-radius: 0.25rem;
+/* Everything below sits in the components layer, so a utility class on an element
+   (a margin, a breakpoint's "hidden") always wins over these building blocks. */
+@layer components {
+	/* ---------- layout ---------- */
+
+	.wrap {
+		width: 100%;
+		max-width: var(--page);
+		margin-inline: auto;
+		padding-inline: var(--gutter);
+	}
+
+	/* A section with its heading in a left rail and the content beside it. */
+	.rail {
+		display: grid;
+		gap: 1.5rem;
+	}
+
+	@media (min-width: 64rem) {
+		.rail {
+			grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+			gap: 3rem;
+		}
+	}
+
+	.skip-link {
+		position: absolute;
+		left: 1rem;
+		top: 0;
+		z-index: 50;
+		transform: translateY(-120%);
+		background: var(--color-navy);
+		color: var(--color-white);
+		padding: 0.6rem 0.9rem;
+	}
+
+	.skip-link:focus {
+		transform: translateY(0.75rem);
+	}
+
+	/* ---------- type ---------- */
+
+	/* The largest titles: Archivo 900 at width 125%, uppercase. */
+	.arcai-title {
+		font-family: var(--font-display);
+		font-weight: 900;
+		font-stretch: 125%;
+		text-transform: uppercase;
+		line-height: 0.9;
+		letter-spacing: -0.012em;
+	}
+
+	/* A title that scales so its longest line always fits. --chars is set by PageTitle.astro. */
+	.title-box {
+		container-type: inline-size;
+	}
+
+	.title-fit {
+		font-size: min(var(--title-max, 6rem), calc(100cqw / (var(--chars) * 0.94)));
+	}
+
+	.title-fit > span {
+		display: block;
+		white-space: nowrap;
+	}
+
+	/* The check-mark that ends a title: its lower tip sits on the baseline. */
+	.arcai-tick {
+		display: inline-block;
+		width: 0.86em;
+		height: 0.92em;
+		margin-left: 0.04em;
+		vertical-align: -0.027em;
+	}
+
+	.h2 {
+		font-size: clamp(1.9rem, 3.6vw, 2.75rem);
+		font-weight: 600;
+		line-height: 1.05;
+		letter-spacing: -0.02em;
+		text-wrap: balance;
+	}
+
+	.lead {
+		font-size: clamp(1.1875rem, 1.7vw, 1.4375rem);
+		line-height: 1.4;
+		text-wrap: pretty;
+	}
+
+	.link {
+		color: var(--color-blue);
+		font-weight: 600;
+		text-decoration: none;
+	}
+
+	.link:hover,
+	.link:focus-visible {
+		text-decoration: underline;
+		text-decoration-thickness: 2px;
+		text-underline-offset: 0.2em;
+	}
+
+	/* Links inside running text are always underlined. */
+	.link--inline {
+		text-decoration: underline;
+		text-decoration-thickness: 1.5px;
+		text-underline-offset: 0.18em;
+	}
+
+	/* ---------- gradient line: the top edge of the screen ---------- */
+
+	.arcai-gradient-line {
+		height: 4px;
+		background: linear-gradient(to right, var(--color-blue), var(--color-teal), var(--color-flare));
+		background: linear-gradient(to right in oklab, var(--color-blue), var(--color-teal), var(--color-flare));
+		transform-origin: 0 50%;
+	}
+
+	/* ---------- check-mark list on white ---------- */
+
+	.checks {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.checks > li {
+		position: relative;
+		padding-left: 2.1rem;
+	}
+
+	.checks > li::before {
+		content: "";
+		position: absolute;
+		left: 0;
+		top: 0.12em;
+		width: 1.31rem;
+		height: 1.4rem;
+		background: url("/brand/check-mark.svg") no-repeat center / contain;
+	}
+
+	/* ---------- navy band with ticked boxes ---------- */
+
+	.band {
+		background: linear-gradient(115deg, var(--color-navy) 55%, var(--color-blue) 135%);
+		color: var(--color-white);
+	}
+
+	.band ::selection {
+		background: var(--color-flare);
+		color: var(--color-navy);
+	}
+
+	.band :focus-visible {
+		outline-color: var(--color-flare);
+	}
+
+	/* The ticked box: a white outline, and the check-mark that shoots out of its top-right corner.
+	   Proportions are those of check-mark-boxed-on-navy.svg; the mark is the brand file itself. */
+	.tickbox {
+		position: relative;
+		display: block;
+		flex: none;
+		width: 1.1215em;
+		height: 1.17em;
+	}
+
+	.tickbox::before {
+		content: "";
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		width: 73.6%;
+		aspect-ratio: 1;
+		border: 0.08em solid var(--color-white);
+	}
+
+	.tickbox::after {
+		content: "";
+		position: absolute;
+		left: 7.86%;
+		top: 0;
+		width: 92.14%;
+		height: 94.5%;
+		background: url("/brand/check-mark-on-navy.svg") no-repeat center / contain;
+	}
+
+	/* "And more": a plus sign in the place of the ticked box, the same size as the box. */
+	.plusbox {
+		--side: 0.8254em;
+		--bar: 0.15em;
+		position: relative;
+		display: block;
+		flex: none;
+		width: 1.1215em;
+		height: 1.17em;
+	}
+
+	.plusbox::before,
+	.plusbox::after {
+		content: "";
+		position: absolute;
+		background: linear-gradient(45deg, var(--color-teal), var(--color-flare));
+	}
+
+	.plusbox::before {
+		left: 0;
+		bottom: calc((var(--side) - var(--bar)) / 2);
+		width: var(--side);
+		height: var(--bar);
+	}
+
+	.plusbox::after {
+		left: calc((var(--side) - var(--bar)) / 2);
+		bottom: 0;
+		width: var(--bar);
+		height: var(--side);
+	}
+
+	.tick-title {
+		font-size: clamp(1.7rem, 4.4vw, 3.25rem);
+		font-weight: 700;
+		line-height: 1.08;
+		letter-spacing: -0.015em;
+	}
+
+	/* The line that closes a band: one step below the ticked rows, never small print. */
+	.band-close {
+		font-size: clamp(1.5rem, 3.4vw, 2.5rem);
+		font-weight: 600;
+		line-height: 1.1;
+		letter-spacing: -0.015em;
+		text-wrap: balance;
+	}
+
+	/* ---------- green call-to-action band with the slanted end ---------- */
+
+	.cta-band {
+		--band-h: clamp(7.5rem, 17vw, 12.5rem);
+		position: relative;
+		isolation: isolate;
+		display: flex;
+		align-items: center;
+		width: min(96%, calc(var(--edge) + 60rem));
+		min-height: var(--band-h);
+		padding: 1.25rem calc(var(--band-h) * 0.425 + 1.25rem) 1.25rem var(--edge);
+		color: var(--color-navy);
+		text-decoration: none;
+	}
+
+	.cta-band::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		background: linear-gradient(90deg, var(--color-flare) 35%, var(--color-teal) 125%);
+		clip-path: polygon(0 0, 100% 0, calc(100% - var(--band-h) * 0.425) 100%, 0 100%);
+		transition: transform 700ms var(--ease-snap);
+	}
+
+	.cta-band:focus-visible {
+		outline: 3px solid var(--color-blue);
+		outline-offset: 4px;
+	}
+
+	.cta-band__box {
+		container-type: inline-size;
+		flex: 1;
+		min-width: 0;
+	}
+
+	.cta-band__label {
+		display: block;
+		font-size: min(4.6rem, calc(100cqw / (var(--chars) * 0.95)));
+		line-height: 0.92;
+	}
+
+	.cta-band__label > span {
+		display: block;
+		white-space: nowrap;
+	}
+
+	.arcai-arrow {
+		display: inline-block;
+		width: 1.7em;
+		height: 0.8em;
+		margin-left: 0.3em;
+		vertical-align: -0.06em;
+		animation: arcai-nudge 1.6s var(--ease-glide) infinite;
+	}
+
+	.cta-band:hover .arcai-arrow,
+	.cta-band:focus-visible .arcai-arrow {
+		animation-duration: 0.8s;
+	}
+
+	@keyframes arcai-nudge {
+		0%,
+		100% {
+			transform: translateX(0);
+		}
+		50% {
+			transform: translateX(0.16em);
+		}
+	}
+
+	/* ---------- menus and link rows ---------- */
+
+	.menu-link {
+		display: inline-block;
+		padding-block: 0.4rem;
+		color: var(--color-navy);
+		text-decoration: none;
+		background: linear-gradient(var(--color-navy), var(--color-navy)) no-repeat 0 100% / 0 2px;
+		transition: background-size 200ms var(--ease-snap);
+	}
+
+	.menu-link:hover,
+	.menu-link:focus-visible,
+	.menu-link[aria-current] {
+		background-size: 100% 2px;
+	}
+
+	.menu-link[aria-current] {
+		font-weight: 600;
+	}
+
+	.footer-link {
+		color: var(--color-navy);
+		text-decoration: none;
+	}
+
+	.footer-link:hover,
+	.footer-link:focus-visible {
+		color: var(--color-blue);
+		text-decoration: underline;
+		text-decoration-thickness: 2px;
+		text-underline-offset: 0.2em;
+	}
+
+	/* A whole row that is one link: the title answers the pointer. */
+	.row-link {
+		color: var(--color-navy);
+		text-decoration: none;
+	}
+
+	.row-link:hover .row-link__title,
+	.row-link:focus-visible .row-link__title {
+		color: var(--color-blue);
+		text-decoration: underline;
+		text-decoration-thickness: 2px;
+		text-underline-offset: 0.16em;
+	}
+
+	/* The small-screen menu: a details element, so it also opens without JavaScript. */
+	.site-menu > summary {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.6rem;
+		min-height: 2.75rem;
+		font-weight: 600;
+		list-style: none;
+		cursor: pointer;
+		user-select: none;
+	}
+
+	.site-menu > summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.site-menu__icon {
+		width: 1.375rem;
+		height: 0.625rem;
+		border-block: 2px solid var(--color-navy);
+		transition: height 200ms var(--ease-snap);
+	}
+
+	.site-menu[open] .site-menu__icon {
+		height: 0;
+		border-bottom-width: 0;
+	}
+
+	.site-menu__panel {
+		position: absolute;
+		inset: 100% 0 auto 0;
+		background: var(--color-white);
+		border-bottom: 2px solid var(--color-navy);
+		padding-bottom: 1rem;
+	}
+
+	.site-menu__panel ul a {
+		display: block;
+		padding-block: 0.9rem;
+		border-top: 1px solid rgb(1 48 71 / 0.12);
+		color: var(--color-navy);
+		font-size: 1.5rem;
+		font-weight: 600;
+		letter-spacing: -0.01em;
+		text-decoration: none;
+	}
+
+	.site-menu__panel ul a[aria-current] {
+		color: var(--color-blue);
+	}
+
+	/* ---------- facets: the approved cluster, pinned to its corner ---------- */
+
+	.facets {
+		position: absolute;
+		display: block;
+		height: auto;
+		pointer-events: none;
+		user-select: none;
+	}
+
+	/* ---------- motion: drift and snap ----------
+	   Sharp things arrive once and hold. Only the bands, the title's check-mark and the gradient line move;
+	   everything else is simply there. Without JavaScript nothing is hidden. */
+
+	@keyframes arcai-line-wipe {
+		from {
+			transform: scaleX(0);
+		}
+	}
+
+	@keyframes arcai-strike {
+		from {
+			clip-path: inset(0 100% 0 0);
+		}
+		to {
+			clip-path: inset(0 0 0 0);
+		}
+	}
+
+	@keyframes arcai-rise {
+		from {
+			transform: translateY(0.35em);
+			opacity: 0;
+		}
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.arcai-gradient-line {
+			animation: arcai-line-wipe 900ms var(--ease-glide) both;
+		}
+
+		.title-fit > span {
+			animation: arcai-rise 700ms var(--ease-snap) both;
+			animation-delay: calc(var(--line, 0) * 80ms + 80ms);
+		}
+
+		.title-fit .arcai-tick {
+			animation: arcai-strike 400ms var(--ease-snap) both;
+			animation-delay: calc(var(--lines, 1) * 80ms + 500ms);
+		}
+
+		/* Navy band: wipes in from the left, then its boxes are ticked one by one. */
+		.js [data-inview] > .band {
+			clip-path: inset(0 100% 0 0);
+			transition: clip-path 700ms var(--ease-snap);
+		}
+
+		.js [data-inview].is-in > .band {
+			clip-path: inset(0 0 0 0);
+		}
+
+		.js [data-inview] > .band .tick-item {
+			opacity: 0;
+			transform: translateY(0.4em);
+			transition:
+				opacity 400ms var(--ease-snap),
+				transform 400ms var(--ease-snap);
+			transition-delay: calc(var(--i, 0) * 250ms + 350ms);
+		}
+
+		.js [data-inview].is-in > .band .tick-item {
+			opacity: 1;
+			transform: none;
+		}
+
+		.js [data-inview] > .band .tickbox::after {
+			clip-path: inset(0 100% 0 0);
+			transition: clip-path 400ms var(--ease-snap);
+			transition-delay: calc(var(--i, 0) * 250ms + 600ms);
+		}
+
+		.js [data-inview].is-in > .band .tickbox::after {
+			clip-path: inset(0 0 0 0);
+		}
+
+		/* Green band: slides in from the left, slanted end leading. */
+		.js .cta-band[data-inview]::before {
+			transform: translateX(-101%);
+		}
+
+		.js .cta-band[data-inview].is-in::before {
+			transform: none;
+		}
+
+		.js .cta-band[data-inview] .cta-band__box {
+			opacity: 0;
+			transition: opacity 400ms var(--ease-snap) 350ms;
+		}
+
+		.js .cta-band[data-inview].is-in .cta-band__box {
+			opacity: 1;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.arcai-arrow {
+			animation: none;
+		}
+
+		::view-transition-group(*),
+		::view-transition-old(*),
+		::view-transition-new(*) {
+			animation: none !important;
+		}
+	}
+
+	/* ---------- aurora veils: transparent, behind the top of the page ---------- */
+
+	#aurora-root {
+		position: fixed;
+		inset: 0;
+		z-index: 0;
+		pointer-events: none;
+		background: transparent;
+	}
+
+	#aurora-veils {
+		position: absolute;
+		top: -6%;
+		left: -2%;
+		width: 104%;
+		height: 118%;
+		display: block;
+		background: transparent;
+		transform-origin: 50% 22%;
+		filter: blur(10px);
+		will-change: transform;
+	}
 }
 
-.skip-link:focus {
-	transform: translateY(0.75rem);
+/* ---------- long-form text ----------
+   Outside the layer on purpose: these set the typography plugin's own variables and must win over it. */
+
+.prose-arcai {
+	--tw-prose-body: rgb(1 48 71 / 0.86);
+	--tw-prose-headings: var(--color-navy);
+	--tw-prose-lead: var(--color-navy);
+	--tw-prose-links: var(--color-blue);
+	--tw-prose-bold: var(--color-navy);
+	--tw-prose-counters: var(--color-blue);
+	--tw-prose-bullets: var(--color-blue);
+	--tw-prose-hr: rgb(1 48 71 / 0.12);
+	--tw-prose-quotes: var(--color-navy);
+	--tw-prose-quote-borders: var(--color-teal);
+	--tw-prose-captions: rgb(1 48 71 / 0.72);
+	--tw-prose-code: var(--color-navy);
+	--tw-prose-pre-code: var(--color-white);
+	--tw-prose-pre-bg: var(--color-navy);
+	--tw-prose-th-borders: var(--color-navy);
+	--tw-prose-td-borders: rgb(1 48 71 / 0.12);
+	font-size: 1.125rem;
+	line-height: 1.6;
 }
 
-/* Revontulitausta on läpinäkyvä ja jää sivun värin päälle. */
-#aurora-root {
-	position: fixed;
-	inset: 0;
-	z-index: 0;
-	pointer-events: none;
-	background: transparent;
+.prose-arcai :where(h2, h3) {
+	font-weight: 600;
+	letter-spacing: -0.015em;
+	scroll-margin-top: 6rem;
 }
 
-#aurora-veils {
-	position: absolute;
-	top: -6%;
-	left: -2%;
-	width: 104%;
-	height: 118%;
-	display: block;
-	background: transparent;
-	transform-origin: 50% 22%;
-	filter: blur(10px);
-	will-change: transform;
+.prose-arcai :where(a) {
+	font-weight: 600;
+	text-underline-offset: 0.18em;
 }
 
+.prose-arcai :where(pre, code, img) {
+	border-radius: 0;
+}

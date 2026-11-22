@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="11 6 129 138" width="129" height="138" role="img" aria-label="Arctic AI check-mark">
+  <!-- Arctic AI check-mark: short arm blue -> teal, long arm teal -> neon. For light backgrounds. -->
+  <defs>
+    <linearGradient id="ck-short" gradientUnits="userSpaceOnUse" x1="13" y1="93" x2="58" y2="120">
+      <stop offset="0" stop-color="#06547f"/>
+      <stop offset="1" stop-color="#17b588"/>
+    </linearGradient>
+    <linearGradient id="ck-long" gradientUnits="userSpaceOnUse" x1="50" y1="140" x2="136" y2="10">
+      <stop offset="0" stop-color="#17b588"/>
+      <stop offset=".8" stop-color="#1efd6e"/>
+    </linearGradient>
+  </defs>
+  <path d="M13 93L33 72L58 101L50 140Z" fill="url(#ck-short)"/>
+  <path d="M58 101L136 10L50 140Z" fill="url(#ck-long)"/>
+</svg>

@@ -132,6 +132,8 @@
 		const depth = reducedMotion ? 0 : Math.min(scrollY, 1200);
 		const veilY = -depth * 0.06;
 		canvas.style.transform = `translate3d(0, ${veilY.toFixed(1)}px, 0) scale(1, ${veilScaleY})`;
+		/* Full strength behind the top of the page, quieter once the reader is in the text. */
+		canvas.style.opacity = (1 - Math.min(scrollY / 900, 1) * 0.45).toFixed(2);
 	}
 
 	function schedule() {

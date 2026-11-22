@@ -1,0 +1,44 @@
+/* Arctic AI Association ry — design tokens as CSS custom properties.
+   Mirror of tokens.json. Load the fonts with:
+   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Familjen+Grotesk:wght@400..700&display=swap" rel="stylesheet"> */
+:root {
+  /* colour */
+  --arcai-navy: #013047;
+  --arcai-blue: #06547f;
+  --arcai-teal: #17b588;
+  --arcai-flare: #1efd6e;
+  --arcai-white: #fefefe;
+
+  /* colour roles */
+  --arcai-ground: var(--arcai-white);
+  --arcai-text: var(--arcai-navy);
+  --arcai-text-accent: var(--arcai-blue);   /* sub-headings, links, URLs */
+  --arcai-text-on-navy: var(--arcai-white);
+  --arcai-focus: var(--arcai-blue);
+  --arcai-rule: rgb(1 48 71 / 0.12);          /* hairlines: navy at 12% */
+  --arcai-text-quiet: rgb(1 48 71 / 0.72);    /* secondary text: navy at 72% (7:1 on white) */
+
+  /* gradients */
+  --arcai-gradient-line: linear-gradient(90deg, #06547f, #17b588, #1efd6e);
+  --arcai-gradient-cta: linear-gradient(90deg, #1efd6e 35%, #17b588 125%);
+  --arcai-gradient-navy: linear-gradient(115deg, #013047 55%, #06547f 135%);
+
+  /* type */
+  --arcai-font-display: 'Archivo', 'Arial Black', sans-serif;                    /* largest titles only */
+  --arcai-font-text: 'Familjen Grotesk', 'Segoe UI', Arial, sans-serif;          /* everything else */
+
+  /* shape */
+  --arcai-radius: 0px;
+  --arcai-flow-angle: -40deg;                 /* lower-left to upper-right */
+
+  /* motion */
+  --arcai-dur-press: 120ms;
+  --arcai-dur-hover: 200ms;
+  --arcai-dur-enter: 400ms;
+  --arcai-dur-title: 700ms;
+  --arcai-dur-line: 900ms;
+  --arcai-stagger: 80ms;
+  --arcai-ease-snap: cubic-bezier(0.16, 1, 0.3, 1);
+  --arcai-ease-glide: cubic-bezier(0.65, 0, 0.35, 1);
+  --arcai-ease-drift: linear;
+}
