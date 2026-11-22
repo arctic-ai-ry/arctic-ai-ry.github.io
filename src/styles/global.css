@@ -40,6 +40,8 @@
 
 @layer base {
 	html {
+		/* The brand is drawn on white. "only light" opts out of browsers' forced dark mode where they allow it. */
+		color-scheme: only light;
 		scroll-behavior: smooth;
 		scrollbar-gutter: stable;
 	}
