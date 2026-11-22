@@ -19,8 +19,6 @@ export interface FeeRow {
 	amount: string;
 }
 
-export const discordInviteUrl = 'https://discord.gg/yBsyDP3S3H';
-
 export const whatsappInviteUrl = 'https://chat.whatsapp.com/FynC9sIxryT2vi4iuSSSca';
 
 export const githubUrl = 'https://github.com/arctic-ai-ry';
@@ -79,6 +77,8 @@ export interface SiteCopy {
 	discordTitle: string;
 	discordLead: string;
 	discordCta: string;
+	/** Each language has its own Discord invitation. */
+	discordInviteUrl: string;
 	whatsappCta: string;
 	discordLanguageNote?: string;
 	discordPoints: NamedText[];
@@ -273,6 +273,7 @@ export const ui: Record<Locale, SiteCopy> = {
 		discordTitle: 'Discord ja WhatsApp',
 		discordLead: 'Yhdistyksen Discord ja WhatsApp ovat auki kaikille tekoälystä kiinnostuneille.',
 		discordCta: 'Liity Discordiin',
+		discordInviteUrl: 'https://discord.gg/yBsyDP3S3H',
 		whatsappCta: 'Liity WhatsApp-yhteisöön',
 		discordPoints: [
 			{
@@ -515,6 +516,7 @@ export const ui: Record<Locale, SiteCopy> = {
 		discordTitle: 'Discord and WhatsApp',
 		discordLead: 'The association’s Discord and WhatsApp are open to everyone interested in AI.',
 		discordCta: 'Join the Discord',
+		discordInviteUrl: 'https://discord.gg/xYBnPXeptD',
 		whatsappCta: 'Join the WhatsApp community',
 		discordLanguageNote:
 			'A fair warning: people on our Discord and WhatsApp speak Finnish. Everyone is welcome all the same.',

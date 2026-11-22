@@ -1,6 +1,6 @@
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import { pagePath, type PageName } from '../i18n/pages';
-import { discordInviteUrl, whatsappInviteUrl, type SiteCopy } from '../i18n/ui';
+import { whatsappInviteUrl, type SiteCopy } from '../i18n/ui';
 
 export interface SiteLink {
 	label: string;
@@ -50,7 +50,7 @@ export function siteGroups(copy: SiteCopy): SiteGroup[] {
 			links: [
 				{ label: copy.sections.membership.label, href: sectionUrl(copy, 'membership') },
 				{ label: copy.volunteerNav, href: pageUrl(copy, 'vapaaehtoiset'), page: 'vapaaehtoiset' },
-				{ label: copy.sections.discord.label, href: discordInviteUrl, external: true },
+				{ label: copy.sections.discord.label, href: copy.discordInviteUrl, external: true },
 				{ label: 'WhatsApp', href: whatsappInviteUrl, external: true },
 			],
 		},

@@ -3,7 +3,7 @@ import Button from './Button.astro';
 import CtaBand from './CtaBand.astro';
 import TickBand from './TickBand.astro';
 import Layout from '../layouts/Layout.astro';
-import { discordInviteUrl, whatsappInviteUrl, type SiteCopy } from '../i18n/ui';
+import { whatsappInviteUrl, type SiteCopy } from '../i18n/ui';
 import { pageUrl } from '../lib/sitemap';
 
 interface Props {
@@ -165,7 +165,7 @@ const [network, ...otherActivities] = copy.activities;
 					)
 				}
 				<div class="mt-8 grid max-w-[19rem] gap-3">
-					<Button href={discordInviteUrl} arrow newTabLabel={copy.opensInNewTab}>{copy.discordCta}</Button>
+					<Button href={copy.discordInviteUrl} arrow newTabLabel={copy.opensInNewTab}>{copy.discordCta}</Button>
 					<Button href={whatsappInviteUrl} quiet arrow newTabLabel={copy.opensInNewTab}>{copy.whatsappCta}</Button>
 				</div>
 			</div>
