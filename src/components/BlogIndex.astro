@@ -1,5 +1,6 @@
 ---
 import { getRelativeLocaleUrl } from 'astro:i18n';
+import { pagePath } from '../i18n/pages';
 import Layout from '../layouts/Layout.astro';
 import PostKind from './PostKind.astro';
 import type { SiteCopy } from '../i18n/ui';
@@ -33,7 +34,7 @@ const groups = [
 										'block border-l-4 py-8 pl-5 hover:text-fjord',
 										post.data.kind === 'partner' ? 'border-aurora' : 'border-fjord',
 									]}
-									href={getRelativeLocaleUrl(copy.locale, `blogi/${postSlug(post)}`)}
+									href={getRelativeLocaleUrl(copy.locale, pagePath(copy.locale, 'blogi', postSlug(post)))}
 								>
 									<p class="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm">
 										<PostKind copy={copy} post={post} linked={false} />

@@ -1,6 +1,7 @@
 ---
 import { getAbsoluteLocaleUrl, getRelativeLocaleUrl } from 'astro:i18n';
 import AuroraBackground from '../components/AuroraBackground.astro';
+import { pagePath, translatePath } from '../i18n/pages';
 import { locales, socials, type SiteCopy } from '../i18n/ui';
 import '../styles/global.css';
 
@@ -32,10 +33,10 @@ const routePath = Astro.url.pathname.replace(/^\/(fi|en)/, '').replace(/\/$/, ''
 		<link rel="canonical" href={canonical} />
 		{
 			locales.map((locale) => (
-				<link rel="alternate" hreflang={locale} href={getAbsoluteLocaleUrl(locale, routePath || undefined)} />
+				<link rel="alternate" hreflang={locale} href={getAbsoluteLocaleUrl(locale, translatePath(routePath, locale) || undefined)} />
 			))
 		}
-		<link rel="alternate" hreflang="x-default" href={getAbsoluteLocaleUrl('fi', routePath || undefined)} />
+		<link rel="alternate" hreflang="x-default" href={getAbsoluteLocaleUrl('fi', translatePath(routePath, 'fi') || undefined)} />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="description" content={description} />
 		<meta property="og:type" content="website" />
@@ -91,7 +92,7 @@ const routePath = Astro.url.pathname.replace(/^\/(fi|en)/, '').replace(/\/$/, ''
 										<li>
 											<a
 												class="hover:text-ink"
-												href={item.path ? getRelativeLocaleUrl(copy.locale, item.path) : `${home}#${item.id}`}
+												href={item.path ? getRelativeLocaleUrl(copy.locale, pagePath(copy.locale, item.path)) : `${home}#${item.id}`}
 											>
 												{item.label}
 											</a>
@@ -106,7 +107,7 @@ const routePath = Astro.url.pathname.replace(/^\/(fi|en)/, '').replace(/\/$/, ''
 									locales.map((locale) => (
 										<li>
 											<a
-												href={getRelativeLocaleUrl(locale, routePath || undefined)}
+												href={getRelativeLocaleUrl(locale, translatePath(routePath, locale) || undefined)}
 												hreflang={locale}
 												lang={locale}
 												aria-current={locale === copy.locale ? 'page' : undefined}
@@ -141,16 +142,16 @@ const routePath = Astro.url.pathname.replace(/^\/(fi|en)/, '').replace(/\/$/, ''
 					<p class="mt-4 max-w-3xl">{copy.board}</p>
 					<p class="mt-4 max-w-3xl">{copy.contact}</p>
 					<p class="mt-4 flex flex-wrap gap-x-5 gap-y-2">
-						<a class="font-medium text-ink hover:text-fjord" href={getRelativeLocaleUrl(copy.locale, 'saannot')}>
+						<a class="font-medium text-ink hover:text-fjord" href={getRelativeLocaleUrl(copy.locale, pagePath(copy.locale, 'saannot'))}>
 							{copy.rulesLabel}
 						</a>
-						<a class="font-medium text-ink hover:text-fjord" href={getRelativeLocaleUrl(copy.locale, 'tietosuoja')}>
+						<a class="font-medium text-ink hover:text-fjord" href={getRelativeLocaleUrl(copy.locale, pagePath(copy.locale, 'tietosuoja'))}>
 							{copy.privacyLabel}
 						</a>
-						<a class="font-medium text-ink hover:text-fjord" href={getRelativeLocaleUrl(copy.locale, 'palvelut')}>
+						<a class="font-medium text-ink hover:text-fjord" href={getRelativeLocaleUrl(copy.locale, pagePath(copy.locale, 'palvelut'))}>
 							{copy.directoryNav}
 						</a>
-						<a class="font-medium text-ink hover:text-fjord" href={getRelativeLocaleUrl(copy.locale, 'blogi')}>
+						<a class="font-medium text-ink hover:text-fjord" href={getRelativeLocaleUrl(copy.locale, pagePath(copy.locale, 'blogi'))}>
 							{copy.blogLabel}
 						</a>
 					</p>

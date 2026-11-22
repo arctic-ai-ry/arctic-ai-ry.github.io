@@ -1,5 +1,6 @@
 ---
 import { getRelativeLocaleUrl } from 'astro:i18n';
+import { pagePath } from '../i18n/pages';
 import { Icon } from 'astro-icon/components';
 import Layout from '../layouts/Layout.astro';
 import { discordInviteUrl, socials, type SiteCopy } from '../i18n/ui';
@@ -113,7 +114,7 @@ const membership = copy.nav[3];
 				<p class="leading-relaxed">{copy.volunteerBrief}</p>
 				<a
 					class="mt-3 inline-flex min-h-11 items-center gap-2 font-semibold text-fjord hover:text-ink"
-					href={getRelativeLocaleUrl(copy.locale, 'vapaaehtoiset')}
+					href={getRelativeLocaleUrl(copy.locale, pagePath(copy.locale, 'vapaaehtoiset'))}
 				>
 					{copy.volunteerNav}
 					<Icon name="lucide:arrow-right" class="size-4" aria-hidden="true" />
@@ -150,7 +151,7 @@ const membership = copy.nav[3];
 			<p class="mt-6">
 				<a
 					class="font-semibold text-aurora hover:text-snow"
-					href={getRelativeLocaleUrl(copy.locale, 'saannot')}
+					href={getRelativeLocaleUrl(copy.locale, pagePath(copy.locale, 'saannot'))}
 				>
 					{copy.rulesLabel}
 				</a>

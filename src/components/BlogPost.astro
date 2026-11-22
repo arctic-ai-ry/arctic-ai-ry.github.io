@@ -3,6 +3,7 @@ import { render, type CollectionEntry } from 'astro:content';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import Layout from '../layouts/Layout.astro';
 import PostKind from './PostKind.astro';
+import { pagePath } from '../i18n/pages';
 import type { SiteCopy } from '../i18n/ui';
 import { formatPostDate } from '../lib/blog';
 
@@ -14,7 +15,7 @@ interface Props {
 const { copy, post } = Astro.props;
 const { Content } = await render(post);
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
-const blogHref = getRelativeLocaleUrl(copy.locale, 'blogi');
+const blogHref = getRelativeLocaleUrl(copy.locale, pagePath(copy.locale, 'blogi'));
 const partner = post.data.kind === 'partner' ? post.data : null;
 const author = partner
 	? {

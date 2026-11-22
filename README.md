@@ -42,7 +42,7 @@ Konfiguroitu `astro.config.mjs` → `integrations`:
 src/
   components/     AuroraBackground.astro
   layouts/        Layout.astro
-  i18n/           ui.ts (fi, en)
+  i18n/           ui.ts (fi, en), pages.ts (sivujen osoitteet: fi/vapaaehtoiset ↔ en/volunteers)
   content/        blogi/, palvelut/ (palveluluettelon kortit, ohje OHJE.md)
   pages/          index.astro → /fi/, fi/index.astro, en/index.astro
   styles/         global.css

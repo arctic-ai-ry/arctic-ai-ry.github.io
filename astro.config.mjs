@@ -12,6 +12,15 @@ export default defineConfig({
     plugins: [tailwindcss()]
   },
   site: 'https://arcai.fi',
+  // English pages used to have Finnish names. Old links keep working through these.
+  redirects: {
+    '/en/vapaaehtoiset': '/en/volunteers',
+    '/en/saannot': '/en/rules',
+    '/en/tietosuoja': '/en/privacy',
+    '/en/palvelut': '/en/services',
+    '/en/blogi': '/en/blog',
+    '/en/blogi/[slug]': '/en/blog/[slug]',
+  },
   i18n: {
     defaultLocale: 'fi',
     locales: ['fi', 'en'],

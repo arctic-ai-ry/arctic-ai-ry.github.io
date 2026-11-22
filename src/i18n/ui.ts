@@ -1,3 +1,5 @@
+import type { PageName } from './pages';
+
 export const locales = ['fi', 'en'] as const;
 
 export type Locale = (typeof locales)[number];
@@ -5,7 +7,7 @@ export type Locale = (typeof locales)[number];
 export interface NavItem {
 	id: string;
 	label: string;
-	path?: string;
+	path?: PageName;
 }
 
 export interface NamedText {

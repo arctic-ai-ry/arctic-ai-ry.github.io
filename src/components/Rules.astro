@@ -1,13 +1,14 @@
 ---
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import Layout from '../layouts/Layout.astro';
+import type { PageName } from '../i18n/pages';
 import type { SiteCopy } from '../i18n/ui';
 import type { RulesDocument, RulesItem } from '../i18n/rules';
 
 interface Props {
 	copy: SiteCopy;
 	rules: RulesDocument;
-	officialPath?: string;
+	officialPath?: PageName;
 }
 
 const { copy, rules, officialPath = 'saannot' } = Astro.props;
