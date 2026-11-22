@@ -1,14 +1,13 @@
 ---
 import { Icon } from 'astro-icon/components';
 import Layout from '../layouts/Layout.astro';
-import { contactEmail, volunteerFormUrl, type SiteCopy } from '../i18n/ui';
+import type { SiteCopy } from '../i18n/ui';
 
 interface Props {
 	copy: SiteCopy;
 }
 
 const { copy } = Astro.props;
-const formReady = volunteerFormUrl.length > 0;
 ---
 
 <Layout copy={copy} title={copy.volunteerNav} description={copy.volunteerDescription}>
@@ -22,20 +21,14 @@ const formReady = volunteerFormUrl.length > 0;
 			</h1>
 			<p class="mt-6 max-w-2xl text-lg leading-relaxed text-ink-soft">{copy.volunteerLead}</p>
 			<a
-				href={formReady ? volunteerFormUrl : '#ilmoittaudu'}
-				target={formReady ? '_blank' : undefined}
-				rel={formReady ? 'noopener' : undefined}
+				href={copy.volunteerFormUrl}
+				target="_blank"
+				rel="noopener"
 				class="mt-8 inline-flex min-h-11 items-center gap-2 bg-ink px-5 text-sm font-semibold text-snow hover:bg-fjord"
 			>
 				{copy.volunteerCta}
-				{
-					formReady && (
-						<>
-							<Icon name="lucide:arrow-up-right" class="size-4 shrink-0" aria-hidden="true" />
-							<span class="sr-only">{copy.opensInNewTab}</span>
-						</>
-					)
-				}
+				<Icon name="lucide:arrow-up-right" class="size-4 shrink-0" aria-hidden="true" />
+				<span class="sr-only">{copy.opensInNewTab}</span>
 			</a>
 		</div>
 	</section>
@@ -66,28 +59,16 @@ const formReady = volunteerFormUrl.length > 0;
 		<div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
 			<h2 class="max-w-2xl text-3xl font-semibold tracking-tight text-snow sm:text-4xl">{copy.volunteerCtaTitle}</h2>
 			<p class="mt-6 max-w-2xl text-lg leading-relaxed text-snow/80">{copy.volunteerCtaLead}</p>
-			{
-				formReady ? (
-					<a
-						href={volunteerFormUrl}
-						target="_blank"
-						rel="noopener"
-						class="mt-10 inline-flex min-h-16 items-center gap-3 bg-aurora px-10 text-xl font-semibold text-ink hover:bg-flare focus-visible:outline-snow"
-					>
-						{copy.volunteerCta}
-						<Icon name="lucide:arrow-up-right" class="size-6 shrink-0" aria-hidden="true" />
-						<span class="sr-only">{copy.opensInNewTab}</span>
-					</a>
-				) : (
-					<p class="mt-8 max-w-2xl text-sm leading-relaxed text-snow/70">
-						{copy.volunteerFormPending} {copy.volunteerEmailLabel}{' '}
-						<a class="font-semibold text-aurora hover:text-snow" href={`mailto:${contactEmail}`}>
-							{contactEmail}
-						</a>
-						.
-					</p>
-				)
-			}
+			<a
+				href={copy.volunteerFormUrl}
+				target="_blank"
+				rel="noopener"
+				class="mt-10 inline-flex min-h-16 items-center gap-3 bg-aurora px-10 text-xl font-semibold text-ink hover:bg-flare focus-visible:outline-snow"
+			>
+				{copy.volunteerCta}
+				<Icon name="lucide:arrow-up-right" class="size-6 shrink-0" aria-hidden="true" />
+				<span class="sr-only">{copy.opensInNewTab}</span>
+			</a>
 		</div>
 	</section>
 </Layout>

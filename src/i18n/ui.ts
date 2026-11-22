@@ -25,12 +25,6 @@ export interface IconText extends NamedText {
 
 export const discordInviteUrl = 'https://discord.gg/yBsyDP3S3H';
 
-/**
- * Volunteer signup form. Both language versions use this address.
- * Leave empty until the form exists.
- */
-export const volunteerFormUrl = '';
-
 export const contactEmail = 'elina.heikkinen@logean.com';
 
 export interface SocialLink {
@@ -130,8 +124,7 @@ export interface SiteCopy {
 	volunteerCtaTitle: string;
 	volunteerCtaLead: string;
 	volunteerCta: string;
-	volunteerFormPending: string;
-	volunteerEmailLabel: string;
+	volunteerFormUrl: string;
 }
 
 export const ui: Record<Locale, SiteCopy> = {
@@ -342,9 +335,7 @@ export const ui: Record<Locale, SiteCopy> = {
 		volunteerCtaTitle: 'Ilmoittaudu',
 		volunteerCtaLead: 'Kerro, missä haluat olla mukana.',
 		volunteerCta: 'Ilmoittaudu vapaaehtoiseksi',
-		volunteerFormPending:
-			'Ilmoittautumislomake ei ole vielä auki. Linkki julkaistaan tällä sivulla heti, kun lomake on valmis.',
-		volunteerEmailLabel: 'Sillä välin voit laittaa viestiä',
+		volunteerFormUrl: 'https://forms.gle/JU4RqHHPPaeEb6ay6',
 	},
 	en: {
 		locale: 'en',
@@ -554,8 +545,6 @@ export const ui: Record<Locale, SiteCopy> = {
 		volunteerCtaTitle: 'Sign up',
 		volunteerCtaLead: 'Tell us where you want to take part.',
 		volunteerCta: 'Sign up as a volunteer',
-		volunteerFormPending:
-			'The signup form is not open yet. The link will be published on this page as soon as the form is ready.',
-		volunteerEmailLabel: 'Until then, you can write to',
+		volunteerFormUrl: 'https://forms.gle/kr27kcyjYyND9RxT6',
 	},
 };
