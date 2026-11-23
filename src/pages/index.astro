@@ -1,3 +1,24 @@
 ---
-// The site root redirects to /fi/ through i18n.routing.redirectToDefaultLocale.
+// Static hosting cannot answer / with an HTTP redirect. This page sends the
+// browser to /fi/ before anything is painted. Astro's own i18n redirect waits
+// 2 seconds and shows a "Redirecting" link, so it stays switched off.
+const target = '/fi/';
+const canonical = new URL(target, Astro.site);
 ---
+
+<!doctype html>
+<html lang="fi">
+  <head>
+    <meta charset="utf-8" />
+    <title>Siirrytään</title>
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={canonical} />
+    <meta http-equiv="refresh" content={`0;url=${target}`} />
+    <script is:inline define:vars={{ target }}>
+      location.replace(target);
+    </script>
+  </head>
+  <body>
+    <a href={target}>Suomenkielinen etusivu</a>
+  </body>
+</html>

@@ -26,7 +26,9 @@ export default defineConfig({
     locales: ['fi', 'en'],
     routing: {
       prefixDefaultLocale: true,
-      redirectToDefaultLocale: true,
+      // Astro's built-in root redirect is a meta refresh with a 2 second wait.
+      // src/pages/index.astro sends / to /fi/ immediately instead.
+      redirectToDefaultLocale: false,
     },
   },
   integrations: [mdx(), icon(), sitemap()]
