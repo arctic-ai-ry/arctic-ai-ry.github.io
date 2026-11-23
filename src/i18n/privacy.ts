@@ -20,7 +20,7 @@ const fiSections: RulesSection[] = [
 		blocks: [
 			{
 				type: 'p',
-				text: 'Arctic AI Association ry:n jäsen-, tapahtuma- ja sidosryhmärekisteri.',
+				text: 'Arctic AI Association ry:n jäsen-, tapahtuma-, sidosryhmä- ja vapaaehtoisrekisteri.',
 			},
 		],
 	},
@@ -34,6 +34,7 @@ const fiSections: RulesSection[] = [
 					'Lakisääteinen velvoite (tietosuoja-asetuksen 6 artiklan 1 kohdan c alakohta): Yhdistyslain 11 § velvoittaa yhdistyksen pitämään luetteloa jäsenistään. Lisäksi kirjanpitolaki velvoittaa säilyttämään jäsenmaksuihin liittyvät tositteet.',
 					'Jäsensuhde ja oikeutettu etu (tietosuoja-asetuksen 6 artiklan 1 kohdan b ja f alakohta): Jäsenhakemusten käsittely, jäsenmaksujen laskutus, jäsenviestintä sekä koulutusten, työpajojen ja tapahtumien järjestäminen.',
 					'Suostumus (tietosuoja-asetuksen 6 artiklan 1 kohdan a alakohta): Uutiskirjeiden lähettäminen muille kuin jäsenille sekä mahdollinen valokuvien tai osallistujalistojen julkaiseminen tapahtumien yhteydessä.',
+					'Vapaaehtoistoiminta (suostumus, EU:n yleisen tietosuoja-asetuksen 6 artiklan 1 kohdan a alakohta): Vapaaehtoiseksi ilmoittautuneen tietoja käsitellään vapaaehtoistehtävistä ja tapahtumavuoroista viestimiseen, tehtävien sopimiseen, vapaaehtoispoolin ylläpitoon sekä pyynnöstä vapaaehtoistodistuksen laatimiseen. Suostumuksen voi perua milloin tahansa. Vapaaehtoistoiminnan alaikäraja on 15 vuotta. 15–17-vuotiaalta vapaaehtoiselta pyydetään huoltajan hyväksyntä ennen ensimmäistä tehtävää.',
 				],
 			},
 		],
@@ -49,6 +50,20 @@ const fiSections: RulesSection[] = [
 					'Yritys- ja yhteisöjäsenen perustiedot: yhteisön virallinen nimi, kotipaikka ja Y-tunnus (yhdistyslain vaatimat tiedot) sekä yhteyshenkilön nimi ja tehtävänimike.',
 					'Yhteystiedot: sähköpostiosoite, puhelinnumero ja laskutus- tai postiosoite.',
 					'Jäsenyyteen ja toimintaan liittyvät tiedot: jäsenluokka, jäsenyyden alkamis- ja päättymispäivä, jäsenmaksujen suoritustiedot sekä osallistumiset yhdistyksen tapahtumiin.',
+					{
+						text: 'Vapaaehtoiset:',
+						lines: [
+							'nimi ja sähköpostiosoite',
+							'toivottu osallistumistapa (aloitus heti ja/tai vapaaehtoispooli)',
+							'toivottu tehtävätyyppi ja kiinnostuksen kohteet',
+							'kielitaito',
+							'vapaamuotoinen kuvaus osaamisesta',
+							'tieto siitä, mistä henkilö kuuli yhdistyksestä',
+							'alle 18-vuotiaan ikä ja tieto huoltajan hyväksynnästä',
+							'uutiskirjeen tilaus',
+							'vapaaehtoistoimintaa koskevat merkinnät, kuten sovitut tehtävät ja vuorot sekä yhteydenottojen ajankohdat',
+						],
+					},
 				],
 			},
 		],
@@ -58,7 +73,7 @@ const fiSections: RulesSection[] = [
 		blocks: [
 			{
 				type: 'p',
-				text: 'Tiedot saadaan rekisteröidyltä itseltään tai yhteisöjäsenen edustajalta sähköisen jäsenhakemuslomakkeen kautta, sähköpostitse tai tapahtuma- ja työpajailmoittautumisten yhteydessä.',
+				text: 'Tiedot saadaan rekisteröidyltä itseltään tai yhteisöjäsenen edustajalta sähköisen jäsenhakemuslomakkeen kautta, sähköpostitse tai tapahtuma- ja työpajailmoittautumisten yhteydessä. Vapaaehtoisten tiedot saadaan henkilöltä itseltään yhdistyksen vapaaehtoislomakkeella, sähköpostitse tai tapahtumissa. Alle 18-vuotiaan vapaaehtoisen osalta huoltajan hyväksyntä saadaan huoltajalta.',
 			},
 		],
 	},
@@ -73,6 +88,10 @@ const fiSections: RulesSection[] = [
 				type: 'p',
 				text: 'Yhdistys käyttää hallinnossaan pilvipalveluita, kuten Google Workspace -ympäristöä, sekä taloushallinnon työkaluja. Palveluntarjoajat voivat käsitellä tietoja myös EU- tai ETA-alueen ulkopuolella, esimerkiksi Yhdysvalloissa. Tällöin tietojen siirrossa noudatetaan Euroopan komission hyväksymiä vakiosopimuslausekkeita (SCC) tai EU–US Data Privacy Framework -järjestelyä riittävän tietosuojan tason varmistamiseksi.',
 			},
+			{
+				type: 'p',
+				text: 'Vapaaehtoislomakkeen vastaukset tallennetaan Google Workspaceen (Google Forms ja Google Sheets). Yhdistyksen WhatsApp-yhteisöön ja Discord-palvelimelle liittyminen on vapaaehtoista ja tapahtuu henkilön omasta aloitteesta yhdistyksen jakaman linkin kautta. WhatsApp-yhteisössä jäsenten puhelinnumerot näkyvät muille jäsenille. Näissä palveluissa tietoja käsittelevät palveluntarjoajat (WhatsApp / Meta ja Discord) omien ehtojensa mukaisesti. Yhdistys ei siirrä tietoja näistä palveluista vapaaehtoisrekisteriin.',
+			},
 		],
 	},
 	{
@@ -84,6 +103,7 @@ const fiSections: RulesSection[] = [
 					'Jäsentiedot säilytetään jäsenyyden keston ajan. Jäsenyyden päätyttyä tiedot poistetaan jäsenrekisteristä viimeistään yhden (1) vuoden kuluessa.',
 					'Mikäli hallitus ei hyväksy jäsenhakemusta, hakijan tiedot poistetaan välittömästi päätöksenteon jälkeen.',
 					'Jäsenmaksuihin liittyviä laskutustietoja säilytetään kirjanpitolain mukaisesti kuusi (6) vuotta sen kalenterivuoden päättymisestä, jonka aikana tilikausi on päättynyt.',
+					'Vapaaehtoisten tiedot: Tarkistamme vuosittain, haluaako henkilö edelleen olla vapaaehtoispoolissa. Tiedot poistetaan, kun henkilö pyytää sitä tai peruu suostumuksensa, ja viimeistään 24 kuukauden kuluttua viimeisestä yhteydenpidosta. Vapaaehtoistodistusta varten tarvittavat tiedot (nimi, tehtävät ja ajanjakso) voidaan henkilön pyynnöstä säilyttää pidempään.',
 				],
 			},
 		],
@@ -93,7 +113,7 @@ const fiSections: RulesSection[] = [
 		blocks: [
 			{
 				type: 'p',
-				text: 'Rekisteriä käsitellään luottamuksellisesti. Sähköiset järjestelmät on suojattu henkilökohtaisin käyttäjätunnuksin, vahvoin salasanoin ja kaksivaiheisella tunnistautumisella. Pääsy tietoihin on rajattu ainoastaan niille yhdistyksen hallituksen jäsenille tai toimihenkilöille, joiden tehtävien hoitaminen, kuten jäsenhakemusten käsittely ja laskutus, sitä edellyttää.',
+				text: 'Rekisteriä käsitellään luottamuksellisesti. Sähköiset järjestelmät on suojattu henkilökohtaisin käyttäjätunnuksin, vahvoin salasanoin ja kaksivaiheisella tunnistautumisella. Pääsy tietoihin on rajattu ainoastaan niille yhdistyksen hallituksen jäsenille tai toimihenkilöille, joiden tehtävien hoitaminen, kuten jäsenhakemusten käsittely ja laskutus, sitä edellyttää. Vapaaehtoisrekisteriin on pääsy vain yhdistyksen hallituksella ja nimetyllä vapaaehtoiskoordinaattorilla.',
 			},
 		],
 	},
@@ -116,7 +136,7 @@ const fiSections: RulesSection[] = [
 					'Tarkastaa itseään koskevat henkilötiedot.',
 					'Vaatia virheellisen, puutteellisen tai vanhentuneen tiedon oikaisua tai poistamista.',
 					'Rajoittaa tai vastustaa tietojensa käsittelyä.',
-					'Peruuttaa antamansa suostumus milloin tahansa, esimerkiksi uutiskirjeen tilaus.',
+					'Peruuttaa antamansa suostumus milloin tahansa, esimerkiksi uutiskirjeen tilauksesta tai vapaaehtoispooliin kuulumisesta.',
 					'Tehdä valitus valvontaviranomaiselle, Tietosuojavaltuutetun toimistoon (tietosuoja.fi), mikäli hän katsoo, että henkilötietojen käsittelyssä rikotaan tietosuojalainsäädäntöä.',
 				],
 			},
@@ -160,7 +180,7 @@ const enSections: RulesSection[] = [
 		blocks: [
 			{
 				type: 'p',
-				text: 'The member, event and stakeholder register of Arctic AI Association ry.',
+				text: "Arctic AI Association ry's member, event, stakeholder and volunteer register.",
 			},
 		],
 	},
@@ -174,6 +194,7 @@ const enSections: RulesSection[] = [
 					'Legal obligation (Article 6(1)(c) of the GDPR): section 11 of the Finnish Associations Act requires the association to keep a list of its members. The Accounting Act also requires the association to retain vouchers relating to membership fees.',
 					'Membership relationship and legitimate interest (Article 6(1)(b) and (f) of the GDPR): processing membership applications, invoicing membership fees, communicating with members, and organising training, workshops and events.',
 					'Consent (Article 6(1)(a) of the GDPR): sending newsletters to people other than members, and any publication of photographs or lists of participants in connection with events.',
+					"Volunteering (consent, Article 6(1)(a) GDPR): The data of a person who signs up as a volunteer is processed to communicate about volunteer tasks and event shifts, to agree on tasks, to maintain the volunteer pool and, on request, to write a volunteer certificate. Consent can be withdrawn at any time. The minimum age for volunteering is 15. Volunteers aged 15–17 are asked for a guardian's approval before their first task.",
 				],
 			},
 		],
@@ -189,6 +210,20 @@ const enSections: RulesSection[] = [
 					'Basic data of a company or other organisational member: the organisation’s official name, domicile and business ID (the data required by the Associations Act), and the name and title of the contact person.',
 					'Contact details: email address, telephone number and invoicing or postal address.',
 					'Data relating to membership and activities: member class, the start and end dates of membership, records of membership-fee payments, and attendance at the association’s events.',
+					{
+						text: 'Volunteers:',
+						lines: [
+							'name and email address',
+							'preferred way of taking part (start now and/or the volunteer pool)',
+							'preferred type of task and areas of interest',
+							'language skills',
+							'a free-form description of skills',
+							'where the person heard about the association',
+							'for under-18s, their age and whether a guardian has approved',
+							'newsletter subscription',
+							'notes on volunteering, such as agreed tasks and shifts and the dates of contacts',
+						],
+					},
 				],
 			},
 		],
@@ -198,7 +233,7 @@ const enSections: RulesSection[] = [
 		blocks: [
 			{
 				type: 'p',
-				text: 'The data is obtained from the data subject or from a representative of an organisational member through the online membership form, by email, or when the person registers for an event or a workshop.',
+				text: "The data is obtained from the data subject or from a representative of an organisational member through the online membership form, by email, or when the person registers for an event or a workshop. Volunteers' data is obtained from the person themselves through the association's volunteer form, by email or at events. For volunteers under 18, the guardian's approval is obtained from the guardian.",
 			},
 		],
 	},
@@ -213,6 +248,10 @@ const enSections: RulesSection[] = [
 				type: 'p',
 				text: 'The association uses cloud services in its administration, such as Google Workspace, and tools for financial administration. Service providers may also process data outside the EU or the EEA, for example in the United States. Such transfers rely on the standard contractual clauses approved by the European Commission or on the EU–US Data Privacy Framework, so that an adequate level of protection is ensured.',
 			},
+			{
+				type: 'p',
+				text: "Volunteer form responses are stored in Google Workspace (Google Forms and Google Sheets). Joining the association's WhatsApp community and Discord server is voluntary, and people join on their own initiative through a link shared by the association. In the WhatsApp community, members' phone numbers are visible to other members. In these services, data is processed by the service providers (WhatsApp / Meta and Discord) under their own terms. The association does not transfer data from these services into the volunteer register.",
+			},
 		],
 	},
 	{
@@ -224,6 +263,7 @@ const enSections: RulesSection[] = [
 					'Member data is kept for the duration of membership. After membership ends, the data is removed from the member register within one (1) year at the latest.',
 					'If the board does not accept a membership application, the applicant’s data is deleted immediately after the decision.',
 					'Invoicing data relating to membership fees is retained for six (6) years from the end of the calendar year in which the financial year ended, as required by the Accounting Act.',
+					"Volunteers' data: We check yearly whether the person still wants to be in the volunteer pool. The data is deleted when the person asks for it or withdraws consent, and at the latest 24 months after the last contact. At the person's request, the data needed for a volunteer certificate (name, tasks and period) may be kept longer.",
 				],
 			},
 		],
@@ -233,7 +273,7 @@ const enSections: RulesSection[] = [
 		blocks: [
 			{
 				type: 'p',
-				text: 'The register is handled confidentially. The electronic systems are protected by personal user accounts, strong passwords and two-factor authentication. Access is limited to those members of the board and officers whose duties, such as processing membership applications and invoicing, require it.',
+				text: "The register is handled confidentially. The electronic systems are protected by personal user accounts, strong passwords and two-factor authentication. Access is limited to those members of the board and officers whose duties, such as processing membership applications and invoicing, require it. Only the association's board and a designated volunteer coordinator have access to the volunteer register.",
 			},
 		],
 	},
@@ -256,7 +296,7 @@ const enSections: RulesSection[] = [
 					'Access the personal data concerning them.',
 					'Request rectification or erasure of data that is inaccurate, incomplete or outdated.',
 					'Restrict or object to the processing of their data.',
-					'Withdraw consent at any time, for example a newsletter subscription.',
+					'Withdraw consent at any time, for example a newsletter subscription or membership of the volunteer pool.',
 					'Lodge a complaint with the supervisory authority, the Office of the Data Protection Ombudsman (tietosuoja.fi), if they consider that the processing of personal data infringes data protection law.',
 				],
 			},
@@ -286,8 +326,8 @@ export const privacy: Record<Locale, RulesDocument> = {
 		locale: 'fi',
 		title: 'Tietosuoja',
 		description:
-			'Arctic AI Association ry:n tietosuoja- ja rekisteriseloste. Laadittu 2.11.2026. Rekisterinpitäjä Arctic AI Association ry, Oulu.',
-		eyebrow: 'Laadittu 2.11.2026',
+			'Arctic AI Association ry:n tietosuoja- ja rekisteriseloste. Laadittu 2.11.2026, päivitetty 23.11.2026. Rekisterinpitäjä Arctic AI Association ry, Oulu.',
+		eyebrow: 'Laadittu 2.11.2026, päivitetty 23.11.2026',
 		intro:
 			'Tietosuoja- ja rekisteriseloste. Seloste on laadittu EU:n yleisen tietosuoja-asetuksen ja yhdistyslain (503/1989) mukaisesti.',
 		contentsLabel: 'Sisällys',
@@ -297,11 +337,11 @@ export const privacy: Record<Locale, RulesDocument> = {
 		locale: 'en',
 		title: 'Privacy',
 		description:
-			'Privacy and register notice of Arctic AI Association ry. Unofficial English translation. The Finnish notice dated 2 November 2026 is the original.',
-		eyebrow: 'Drawn up on 2 November 2026',
+			'Privacy and register notice of Arctic AI Association ry. Unofficial English translation. The Finnish notice, drawn up on 2 November 2026 and updated on 23 November 2026, is the original.',
+		eyebrow: 'Drawn up on 2 November 2026, updated on 23 November 2026',
 		intro: 'Privacy and register notice of Arctic AI Association ry.',
 		notice:
-			'This is an unofficial English translation. The original notice is the Finnish text drawn up under the EU General Data Protection Regulation and the Finnish Associations Act (503/1989).',
+			'This is an unofficial English translation. The original notice is the Finnish text drawn up on 2 November 2026 and updated on 23 November 2026 under the EU General Data Protection Regulation and the Finnish Associations Act (503/1989).',
 		officialLabel: 'Tietosuojaseloste suomeksi',
 		contentsLabel: 'Contents',
 		sections: enSections,

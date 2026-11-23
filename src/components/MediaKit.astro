@@ -1,0 +1,115 @@
+---
+import PageTitle from './PageTitle.astro';
+import Layout from '../layouts/Layout.astro';
+import type { MediaDocument, LogoGround } from '../i18n/media';
+import type { SiteCopy } from '../i18n/ui';
+
+interface Props {
+	copy: SiteCopy;
+	media: MediaDocument;
+}
+
+const { copy, media } = Astro.props;
+
+const groundClass: Record<LogoGround, string> = {
+	white: 'bg-white',
+	navy: 'bg-navy',
+	blue: 'bg-blue',
+};
+---
+
+<Layout copy={copy} title={media.title.join(' ')} description={media.description}>
+	<article>
+		<div class="wrap pt-14 pb-20 lg:pt-20 lg:pb-28">
+			<PageTitle lines={media.title} />
+			<p class="lead mt-8 max-w-3xl">{media.intro}</p>
+
+			<section class="mt-16 max-w-3xl border-t-2 border-navy pt-8">
+				<h2 class="h2">{media.factsTitle}</h2>
+				<table class="mt-8 w-full text-left">
+					<caption class="mb-5 text-left text-xl font-semibold tracking-tight">{media.factsCaption}</caption>
+					<thead>
+						<tr class="border-b-2 border-navy text-[0.9375rem] text-navy/72">
+							<th scope="col" class="py-2 pr-4 font-medium">{media.factLabel}</th>
+							<th scope="col" class="py-2 font-medium">{media.factValue}</th>
+						</tr>
+					</thead>
+					<tbody>
+						{
+							media.facts.map((fact) => (
+								<tr class="border-b border-navy/12">
+									<th scope="row" class="py-3.5 pr-4 align-top font-medium">
+										{fact.label}
+									</th>
+									<td class="py-3.5 text-navy/80">
+										{fact.value}
+										{fact.link && (
+											<>
+												{fact.value ? ' ' : null}
+												<a
+													class="link link--inline"
+													href={fact.link.href}
+													target={fact.link.href.startsWith('http') ? '_blank' : undefined}
+													rel={fact.link.href.startsWith('http') ? 'noopener' : undefined}
+												>
+													{fact.link.label}
+													{fact.link.href.startsWith('http') && (
+														<span class="sr-only"> {copy.opensInNewTab}</span>
+													)}
+												</a>
+											</>
+										)}
+									</td>
+								</tr>
+							))
+						}
+					</tbody>
+				</table>
+			</section>
+
+			<section class="mt-16 border-t-2 border-navy pt-8">
+				<h2 class="h2">{media.logosTitle}</h2>
+				<p class="mt-6 max-w-2xl text-navy/80">{media.logosLead}</p>
+				<ul class="mt-10 grid gap-x-10 gap-y-14 sm:grid-cols-2">
+					{
+						media.logos.map((logo) => (
+							<li>
+								<div class={groundClass[logo.ground]} style="padding: 8.9%">
+									<img
+										src={logo.svg}
+										alt={logo.alt}
+										width="1381"
+										height="830"
+										class="h-auto w-full min-w-[7.5rem]"
+									/>
+								</div>
+								<h3 class="mt-5 text-xl font-semibold tracking-tight text-blue">{logo.name}</h3>
+								<p class="mt-1.5 text-navy/72">{logo.use}</p>
+								<p class="mt-4 flex gap-6">
+									<a class="link" href={logo.svg} download>
+										{media.downloadSvg}
+										<span class="sr-only">, {logo.name}</span>
+									</a>
+									<a class="link" href={logo.png} download>
+										{media.downloadPng}
+										<span class="sr-only">, {logo.name}</span>
+									</a>
+								</p>
+							</li>
+						))
+					}
+				</ul>
+			</section>
+
+			<section class="mt-16 max-w-3xl border-t-2 border-navy pt-8">
+				<h2 class="h2">{media.contactTitle}</h2>
+				<p class="mt-6 max-w-2xl text-navy/80">{media.contactLead}</p>
+				<p class="mt-6 text-xl font-semibold tracking-tight">{media.contactName}</p>
+				<p class="mt-1 text-navy/72">{media.contactRole}</p>
+				<p class="mt-4">
+					<a class="link link--inline" href={`mailto:${media.contactEmail}`}>{media.contactEmail}</a>
+				</p>
+			</section>
+		</div>
+	</article>
+</Layout>

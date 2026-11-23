@@ -66,6 +66,7 @@ export function siteGroups(copy: SiteCopy): SiteGroup[] {
 			links: [
 				{ label: copy.rulesLabel, href: pageUrl(copy, 'saannot'), page: 'saannot' },
 				{ label: copy.privacyLabel, href: pageUrl(copy, 'tietosuoja'), page: 'tietosuoja' },
+				{ label: copy.mediaLabel, href: pageUrl(copy, 'medialle'), page: 'medialle' },
 				{ label: copy.siteMapLabel, href: pageUrl(copy, 'sivukartta'), page: 'sivukartta' },
 			],
 		},

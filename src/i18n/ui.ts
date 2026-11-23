@@ -81,7 +81,7 @@ export interface SiteCopy {
 	discordTitle: string;
 	discordLead: string;
 	discordCta: string;
-	/** Each language has its own Discord invitation. */
+	/** The same Discord invitation in both languages. */
 	discordInviteUrl: string;
 	whatsappCta: string;
 	discordLanguageNote?: string;
@@ -89,9 +89,11 @@ export interface SiteCopy {
 	businessId: string;
 	domicile: string;
 	founded: string;
+	registered: string;
 	board: string;
 	contactLabel: string;
 	rulesLabel: string;
+	mediaLabel: string;
 	privacyLabel: string;
 	blogLabel: string;
 	/** Page titles set in the display face are given one array item per line. */
@@ -275,7 +277,8 @@ export const ui: Record<Locale, SiteCopy> = {
 			'Kannattajajäsenellä on kokouksissa läsnäolo- ja puheoikeus. Varsinaisella jäsenellä on myös äänioikeus.',
 		rulesCta: 'Lue säännöt',
 		discordTitle: 'Discord ja WhatsApp',
-		discordLead: 'Yhdistyksen Discord ja WhatsApp ovat auki kaikille tekoälystä kiinnostuneille.',
+		discordLead:
+			'Yhdistyksen Discord ja WhatsApp ovat auki kaikille tekoälystä kiinnostuneille. Liity Discordiin ilman jäsenyyttä, tai hae jäsenyyttä erikseen.',
 		discordCta: 'Liity Discordiin',
 		discordInviteUrl: 'https://discord.gg/yBsyDP3S3H',
 		whatsappCta: 'Liity WhatsApp-yhteisöön',
@@ -296,11 +299,13 @@ export const ui: Record<Locale, SiteCopy> = {
 		businessId: 'Y-tunnus 3663885-8',
 		domicile: 'Kotipaikka Oulu',
 		founded: 'Perustettu 14.10.2026',
+		registered: 'Rekisteröity 20.10.2026',
 		board:
 			'Hallitus: Elina Heikkinen (puheenjohtaja), Janne Ikola, Kari Vierimaa, Teuvo Virsu, Pekka Salo ja Satu Nikula. Varajäsen Petteri Heikkinen.',
 		contactLabel: 'Yhteys',
 		rulesLabel: 'Säännöt',
 		privacyLabel: 'Tietosuoja',
+		mediaLabel: 'Medialle',
 		blogLabel: 'Blogi',
 		blogTitle: ['Blogi'],
 		blogLead: 'Yhdistyksen omia kirjoituksia ja kumppaneiden tekstejä.',
@@ -518,12 +523,12 @@ export const ui: Record<Locale, SiteCopy> = {
 			'A supporting member may attend meetings and speak. A full member also has the right to vote.',
 		rulesCta: 'Read the rules',
 		discordTitle: 'Discord and WhatsApp',
-		discordLead: 'The association’s Discord and WhatsApp are open to everyone interested in AI.',
+		discordLead:
+			'The association’s Discord and WhatsApp are open to everyone interested in AI. Join the Discord with no membership, or apply for membership separately.',
 		discordCta: 'Join the Discord',
-		discordInviteUrl: 'https://discord.gg/xYBnPXeptD',
+		discordInviteUrl: 'https://discord.gg/yBsyDP3S3H',
 		whatsappCta: 'Join the WhatsApp community',
-		discordLanguageNote:
-			'A fair warning: people on our Discord and WhatsApp speak Finnish. Everyone is welcome all the same.',
+		discordLanguageNote: 'Discord has separate channels in Finnish and in English.',
 		discordPoints: [
 			{
 				title: 'Bring your question',
@@ -541,11 +546,13 @@ export const ui: Record<Locale, SiteCopy> = {
 		businessId: 'Business ID 3663885-8',
 		domicile: 'Domicile Oulu',
 		founded: 'Founded 14 October 2026',
+		registered: 'Registered 20 October 2026',
 		board:
 			'Board: Elina Heikkinen (chair), Janne Ikola, Kari Vierimaa, Teuvo Virsu, Pekka Salo and Satu Nikula. Deputy member Petteri Heikkinen.',
 		contactLabel: 'Contact',
 		rulesLabel: 'Rules',
 		privacyLabel: 'Privacy',
+		mediaLabel: 'Media',
 		blogLabel: 'Blog',
 		blogTitle: ['Blog'],
 		blogLead: 'Writing from the association and its partners.',

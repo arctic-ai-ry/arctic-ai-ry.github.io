@@ -12,6 +12,7 @@ export const englishPageNames = {
 	palvelut: 'services',
 	blogi: 'blog',
 	sivukartta: 'site-map',
+	medialle: 'media',
 } as const;
 
 export type PageName = keyof typeof englishPageNames;
