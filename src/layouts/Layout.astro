@@ -1,9 +1,10 @@
 ---
 import { getAbsoluteLocaleUrl, getRelativeLocaleUrl } from 'astro:i18n';
+import { Icon } from 'astro-icon/components';
 import AuroraBackground from '../components/AuroraBackground.astro';
 import Button from '../components/Button.astro';
 import { translatePath } from '../i18n/pages';
-import { contactEmail, githubUrl, locales, type SiteCopy } from '../i18n/ui';
+import { contactEmail, facebookUrl, githubUrl, linkedinUrl, locales, type SiteCopy } from '../i18n/ui';
 import { mainMenu, sectionUrl, siteGroups } from '../lib/sitemap';
 import '../styles/global.css';
 
@@ -88,7 +89,7 @@ const joinUrl = sectionUrl(copy, 'membership');
 					addressLocality: 'Oulu',
 					addressCountry: 'FI',
 				},
-				sameAs: [githubUrl],
+				sameAs: [githubUrl, linkedinUrl, facebookUrl],
 			})}
 		/>
 	</head>
@@ -228,7 +229,22 @@ const joinUrl = sectionUrl(copy, 'membership');
 								<a class="link link--inline" href={`mailto:${contactEmail}`}>{contactEmail}</a>
 							</li>
 							<li>
-								<a class="link link--inline" href={githubUrl}>GitHub</a>
+								<a class="link link--inline inline-flex items-center gap-1.5" href={githubUrl}>
+									<Icon name="lucide:github" class="size-4 shrink-0" aria-hidden="true" />
+									GitHub
+								</a>
+							</li>
+							<li>
+								<a class="link link--inline inline-flex items-center gap-1.5" href={linkedinUrl}>
+									<Icon name="lucide:linkedin" class="size-4 shrink-0" aria-hidden="true" />
+									LinkedIn
+								</a>
+							</li>
+							<li>
+								<a class="link link--inline inline-flex items-center gap-1.5" href={facebookUrl}>
+									<Icon name="lucide:facebook" class="size-4 shrink-0" aria-hidden="true" />
+									Facebook
+								</a>
 							</li>
 						</ul>
 						<p class="mt-4">© {new Date().getFullYear()} {siteName}</p>

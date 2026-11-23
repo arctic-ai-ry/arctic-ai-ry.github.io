@@ -23,6 +23,10 @@ export const whatsappInviteUrl = 'https://chat.whatsapp.com/FynC9sIxryT2vi4iuSSS
 
 export const githubUrl = 'https://github.com/arctic-ai-ry';
 
+export const linkedinUrl = 'https://www.linkedin.com/company/arctic-ai-association/';
+
+export const facebookUrl = 'https://www.facebook.com/arcticaiassociation';
+
 export const contactEmail = 'elina.heikkinen@logean.com';
 
 export interface SiteCopy {
