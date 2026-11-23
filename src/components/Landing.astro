@@ -99,7 +99,7 @@ const [network, ...otherActivities] = copy.activities;
 				<h2 class="h2">{copy.audienceTitle}</h2>
 				<p class="mt-6 max-w-md text-navy/80">{copy.audienceLead}</p>
 			</div>
-			<ul class="checks grid gap-x-10 gap-y-8 self-start sm:grid-cols-2">
+			<ul class="checks grid gap-x-10 gap-y-8 self-start sm:grid-cols-2 lg:mt-2.5">
 				{
 					copy.audiences.map((item) => (
 						<li>
@@ -169,7 +169,7 @@ const [network, ...otherActivities] = copy.activities;
 					<Button href={whatsappInviteUrl} quiet arrow newTabLabel={copy.opensInNewTab}>{copy.whatsappCta}</Button>
 				</div>
 			</div>
-			<ul class="checks grid gap-y-8 self-start">
+			<ul class="checks grid gap-y-8 self-start lg:mt-2.5">
 				{
 					copy.discordPoints.map((point) => (
 						<li>
