@@ -245,9 +245,15 @@ const joinUrl = sectionUrl(copy, 'membership');
 			</footer>
 		</div>
 		<script>
-			/* Bands and other marked pieces arrive once, when they scroll into view. */
-			const marked = document.querySelectorAll('[data-inview]');
-			if ('IntersectionObserver' in window) {
+			/* Bands and other marked pieces arrive once, when they scroll into view.
+			   A band arrives as soon as its edge shows, so a band below the fold still hints at more page.
+			   Its rows wait until they are well inside the screen, so their ticking is seen. */
+			const arriveOnce = (selector: string, rootMargin: string) => {
+				const marked = document.querySelectorAll(selector);
+				if (!('IntersectionObserver' in window)) {
+					marked.forEach((item) => item.classList.add('is-in'));
+					return;
+				}
 				const observer = new IntersectionObserver(
 					(entries) => {
 						for (const entry of entries) {
@@ -256,12 +262,12 @@ const joinUrl = sectionUrl(copy, 'membership');
 							observer.unobserve(entry.target);
 						}
 					},
-					{ threshold: 0.25 },
+					{ rootMargin },
 				);
 				marked.forEach((item) => observer.observe(item));
-			} else {
-				marked.forEach((item) => item.classList.add('is-in'));
-			}
+			};
+			arriveOnce('[data-inview]', '0px');
+			arriveOnce('[data-inview-rows]', '0px 0px -15% 0px');
 
 			/* The small-screen menu closes after a choice, on Escape, and on a click outside it. */
 			const menu = document.querySelector<HTMLDetailsElement>('.site-menu');

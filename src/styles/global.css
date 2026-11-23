@@ -529,7 +529,7 @@
 			animation-delay: calc(var(--lines, 1) * 80ms + 500ms);
 		}
 
-		/* Navy band: wipes in from the left, then its boxes are ticked one by one. */
+		/* Navy band: wipes in from the left as soon as it shows; its boxes are ticked one by one once the rows are in view. */
 		.js [data-inview] > .band {
 			clip-path: inset(0 100% 0 0);
 			transition: clip-path 700ms var(--ease-snap);
@@ -539,7 +539,7 @@
 			clip-path: inset(0 0 0 0);
 		}
 
-		.js [data-inview] > .band .tick-item {
+		.js [data-inview-rows] .tick-item {
 			opacity: 0;
 			transform: translateY(0.4em);
 			transition:
@@ -548,18 +548,18 @@
 			transition-delay: calc(var(--i, 0) * 250ms + 350ms);
 		}
 
-		.js [data-inview].is-in > .band .tick-item {
+		.js [data-inview-rows].is-in .tick-item {
 			opacity: 1;
 			transform: none;
 		}
 
-		.js [data-inview] > .band .tickbox::after {
+		.js [data-inview-rows] .tickbox::after {
 			clip-path: inset(0 100% 0 0);
 			transition: clip-path 400ms var(--ease-snap);
 			transition-delay: calc(var(--i, 0) * 250ms + 600ms);
 		}
 
-		.js [data-inview].is-in > .band .tickbox::after {
+		.js [data-inview-rows].is-in .tickbox::after {
 			clip-path: inset(0 0 0 0);
 		}
 
